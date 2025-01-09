@@ -41,6 +41,7 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
+        
         // Tìm sản phẩm cần cập nhật
         $product = Product::findOrFail($id);
 

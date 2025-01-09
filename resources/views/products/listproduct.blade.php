@@ -30,9 +30,7 @@
                     <td>{{($product->provider ? $product->provider->name : '')}}</td>
                     <td>
                     <div>
-                        
-                        <button>Sửa</button>
-                    
+                    <button><a href="{{ route('product.edit', $product->id) }}">Sửa</a></button>
                         <button>Xóa</button>
                     </div>
                 </td>
@@ -42,4 +40,5 @@
     </table>
     </form>
 </body>
+
 </html>
