@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();  // Tạo cột id tự động tăng
             $table->string('name');
-            $table->decimal('price'); 
+            $table->integer('price'); 
             $table->string('image')->nullable();
             $table->text('description');
             $table->text('provider_id')->nullable();

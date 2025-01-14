@@ -29,6 +29,16 @@
             <label for="describe2">Mo Ta 2</label>
             <input type="text" name="description2"required>
         </label><br><br>
+         <select multiple name="category_id[]"required>
+    
+
+            @foreach ($category as $category)
+
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
+            
+                @endforeach
+
+        </select><br><br>
         <label for="Image">
             Ảnh:
             <input type="file" name="image" accept="image/*">
@@ -43,6 +53,7 @@
                 @endforeach
 
         </select><br><br>
+       
     
         <button type="submit">Tạo sản phẩm</button>
     </form>

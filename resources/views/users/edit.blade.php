@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>Create user</h2>
+    <h2>Chinh sua nguoi dung</h2>
     <form action="/users/update/{{ $user->id }}" method="post">
         @csrf
         <label for="Name">

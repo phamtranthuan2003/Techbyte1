@@ -9,6 +9,7 @@ class Product extends Model
     protected $table = 'products';
 
 
+    
     protected $fillable = [
         'name',
         'price',
@@ -19,6 +20,10 @@ class Product extends Model
     public function provider()
     {
         return $this->belongsTo(Provider::class,'provider_id','id');
+    }
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
     }
 }
    

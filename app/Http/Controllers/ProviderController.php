@@ -11,10 +11,34 @@ class ProviderController extends Controller
     {
         return view('providers.create');
     }
-    public function store(Request $request)
+    public function store(Request $request): void
     {
         $data = $request->all();
         Provider::create($data);
         echo "Thêm sản phẩm thành công";
+    }
+    public function edit($id)
+    {
+        // Tìm sản phẩm cần chỉnh sửa
+        $provider = Provider::findOrFail($id);
+        
+
+        // Điều hướng đến view 'product.edit' và truyền dữ liệu của sản phẩm
+        return view('providers.edit', compact('provider'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        
+        // Tìm sản phẩm cần cập nhật
+        $provider = Provider::findOrFail($id);
+
+        $validatedData = $request->all();
+
+        // Cập nhật dữ liệu sản phẩm
+        $provider->update($validatedData);
+
+        // Phản hồi thông báo thành công
+        echo "Cập nhật sản phẩm thành công";
     }
 }
