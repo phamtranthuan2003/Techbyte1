@@ -8,7 +8,7 @@
 </head>
 <body>
     <h2>Dang ki</h2>
-    <form action="/users/create" method="post">
+    <form action="{{ route('users.store') }}" method="post">
         @csrf
         <label for="Name">
             Ten:
@@ -20,7 +20,7 @@
         </label><br><br>
         <label for="Password">
             Mat Khau:
-            <input type="text" name="password">
+            <input type="password" name="password">
         </label><br><br>
         <button type="submit">Dang ki</button>
     </form>

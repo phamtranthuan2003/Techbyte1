@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-<form action="/categories/create" method="post">
+<form action="{{ route('category.store') }}" method="POST">
 @csrf
     <h1>Danh muc</h1>
     <label for="name"> Ten the loai

@@ -8,9 +8,9 @@
 </head>
 <body>
     <h1> sua san pham </h1>
-    <form action="/products/update/{{ $product->id }}" method="post">
+    <form action="{{ route('products.store', $product->id) }}" method="post">
     @csrf
-    @method('PUT')
+ 
         <label for="Name">
             Tên:
             <input type="text" name="name" required value="{{ $product->name }}">

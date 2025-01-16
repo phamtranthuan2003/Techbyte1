@@ -8,15 +8,11 @@
 </head>
 <body>
     <h1> Thêm sản phẩm </h1>
-    <form action="/products/create" method="post">
+    <form action="{{ route('products.store') }}" method="post">
     @csrf
-        <label for="lastname">
+        <label for="name">
             Tên:
-            <input type="text" name="lastname" required>
-        </label><br><br>
-        <label for="firstname">
-            Ho:
-            <input type="text" name="firstname" required>
+            <input type="text" name="name" required>
         </label><br><br>
         <label for="Price">
             Giá:

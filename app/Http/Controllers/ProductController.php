@@ -22,9 +22,6 @@ class ProductController extends Controller
     {   
         // Lấy toàn bộ dữ liệu từ request
         $data = $request->all();
-      
-
-        $data['name'] = $data['lastname'] . ' '. $data['firstname'];
 
         $data['description'] = $data['description1'] . ' '. $data['description2'];
         
@@ -47,7 +44,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $provider = Provider::get();
 
-        // Điều hướng đến view 'product.edit' và truyền dữ liệu của sản phẩm
+
         return view('products.edit', compact('product','provider'));
     }
 
@@ -67,7 +64,6 @@ class ProductController extends Controller
     }
     public function delete($id)
     {
-        // Tìm sản phẩm theo ID
         $product = Product::findOrFail($id);
         $product->delete();
         echo "Xoa sản phẩm thành công";
@@ -75,7 +71,7 @@ class ProductController extends Controller
     }
     public function listproduct(Request $request)
     {
-        $products = Product::with(['provider','categories'])->get();
-        return view('products.listproduct', compact('products'));
+        $product = Product::with(['provider','categories'])->get();
+        return view('products.listproduct', compact('product'));
     }
 }

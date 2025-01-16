@@ -8,7 +8,7 @@
 </head>
 <body>
     <h2>Chinh sua nguoi dung</h2>
-    <form action="/users/update/{{ $user->id }}" method="post">
+    <form action="{{ route('users.update', $user->id) }}" method="post">
         @csrf
         <label for="Name">
             Name:

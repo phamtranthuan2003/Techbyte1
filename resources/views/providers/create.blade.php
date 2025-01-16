@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-<form action="/providers/create" method="post">
+<form action="{{ route('providers.store') }}" method="post">
 @csrf
     <h1>Nha cung cap</h1>
     <label for="name">Ten nha cung cap
