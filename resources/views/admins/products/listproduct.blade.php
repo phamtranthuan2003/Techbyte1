@@ -8,7 +8,33 @@
 </head>
 
 <body>
-    <h1>Danh sách sản phẩm</h1>
+<div class="sidebar">
+        <div class="logo">
+            <h2>Admin Dashboard</h2>
+        </div>
+        <ul class="menu">
+            <li><a href="{{ route('admins.home') }}">Tổng quan</a></li>
+            <li><a href="{{ route('admins.user') }}">Quản lý người dùng</a></li>
+            <li><a href="{{ route('products.list') }}">Quản lý đơn hàng</a></li>
+            <!-- <li><a href="./admin_setting_management.html">Cài đặt</a></li> -->
+            <li><a href="{{ route('users.login') }}" onclick="logout()">Đăng xuất</a></li>
+        </ul>
+    </div>
+    
+    <div class="main-content">  
+        <header>
+            <h1>Quản lý sản phẩm</h1>
+            <!-- Thêm ô tìm kiếm vào đây -->
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." onkeyup="searchProduct()">
+            </div>
+        </header>
+        <section class="add-Product" >
+            <!-- Thay đổi button thành link để điều hướng -->
+            <a href="./admin_addproduct_management.html">
+                <button>Thêm sản phẩm</button>
+            </a>
+        </section>
 
     <table>
         <thead>
@@ -23,7 +49,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($product as $product)
+            @foreach ($products as $product)
                 <tr>
                     <td>{{ $product->id }}</td>
                     <td>{{ $product->name }}</td>

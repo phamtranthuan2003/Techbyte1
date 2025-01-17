@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Provider;
 
@@ -9,7 +10,7 @@ class ProviderController extends Controller
 {
     public function create()
     {
-        return view('providers.create');
+        return view('admins.providers.create');
     }
     public function store(Request $request): void
     {
@@ -24,7 +25,7 @@ class ProviderController extends Controller
         
 
         // Điều hướng đến view 'product.edit' và truyền dữ liệu của sản phẩm
-        return view('providers.edit', compact('provider'));
+        return view('admins.providers.edit', compact('provider'));
     }
 
     public function update(Request $request, $id)

@@ -8,20 +8,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Illuminate\Notifications\Notifiable;
 // Thêm thư viện để mã hóa password
-class User extends Model implements Authenticatable
+class Admin extends Model
 {
-    use \Illuminate\Auth\Authenticatable;
     protected $table = 'users';
 
 
     protected $fillable = [
-        'name',
-        'birthday',
-        'sex',
-        'address',
-        'email',
-        'password',
-        
+        //
 
     ];
     public function products()

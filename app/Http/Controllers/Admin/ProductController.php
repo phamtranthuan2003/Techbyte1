@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -15,7 +16,7 @@ class ProductController extends Controller
     {
         $category = Category::get();
         $provider = Provider::get();
-        return view('products.create', compact('provider','category'));
+        return view('admins.products.create', compact('provider','category'));
     }
 
     public function store(Request $request)
@@ -45,7 +46,7 @@ class ProductController extends Controller
         $provider = Provider::get();
 
 
-        return view('products.edit', compact('product','provider'));
+        return view('admins.products.edit', compact('product','provider'));
     }
 
     public function update(Request $request, $id)
@@ -71,7 +72,7 @@ class ProductController extends Controller
     }
     public function listproduct(Request $request)
     {
-        $product = Product::with(['provider','categories'])->get();
-        return view('products.listproduct', compact('product'));
+        $products = Product::with(['provider','categories'])->get();
+        return view('admins.products.listproduct', compact('products'));
     }
 }

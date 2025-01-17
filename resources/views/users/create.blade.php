@@ -1,28 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Đăng Ký</title>
+    
 </head>
+
 <body>
-    <h2>Dang ki</h2>
+
+<h2 class="signup-title">Đăng Ký</h2>
     <form action="{{ route('users.store') }}" method="post">
-        @csrf
-        <label for="Name">
-            Ten:
-            <input type="text" name="name">
-        </label><br><br>
-        <label for="Email">
-            Email:
-            <input type="text" name="email">
-        </label><br><br>
-        <label for="Password">
-            Mat Khau:
-            <input type="password" name="password">
-        </label><br><br>
-        <button type="submit">Dang ki</button>
-    </form>
+    @csrf
+            <label for="name">Họ tên</label>
+            <input type="text" name="name" placeholder="Nhập họ tên">
+
+            <label for="birthday">Ngày sinh</label>
+            <input type="date" name="birthday">
+
+            <label for="sex">Giới tính</label>
+            <div class="sex-options">
+                <div class="radio-group">
+                    <input type="radio" id="male" name="sex" value="Nam"> Nam
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="female" name="sex" value="Nữ"> Nữ
+                </div>
+            </div>
+
+            <label for="address">Địa chỉ</label>
+            <input type="text" name="address" placeholder="Nhập địa chỉ">
+
+            <label for="email">Email</label>
+            <input type="email" name="email" placeholder="Nhập email">
+
+            <label for="password">Mật khẩu</label>
+            <input type="password" name="password" placeholder="Nhập mật khẩu">
+
+            <label for="re-password">Nhập lại mật khẩu</label>
+            <input type="password" name="re-password" placeholder="Nhập lại mật khẩu">
+
+            <button class="btn-signup" type="submit">Đăng ký</button>
+        </form>
+
+        <div>
+            Bạn đã có tài khoản?
+            <a href="{{ route('users.login') }}">Dăng Nhập</a>
+        </div>
+    </div>
+
 </body>
+
 </html>

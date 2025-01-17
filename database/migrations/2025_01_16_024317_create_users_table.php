@@ -6,27 +6,24 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+ 
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();  // Tạo cột id tự động tăng
             $table->string('name');
-            $table->integer('price'); 
-            $table->string('image')->nullable();
-            $table->text('description')->nullable();
-            $table->text('provider_id')->nullable();
+            $table->date('birthday'); 
+            $table->string('sex');
+            $table->text('address');
+            $table->string('email');
+            $table->text('password');
             $table->timestamps();
         });
     }
 
-    /**category
-     * Reverse the migrations.
-     */
+ 
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        //
     }
 };

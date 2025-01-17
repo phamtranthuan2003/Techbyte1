@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 
@@ -9,7 +10,7 @@ class CategoryController extends Controller
 {
     public function create()
     {
-        return view('categories.create');
+        return view('admins.categories.create');
     }
     public function store(Request $request): void
     {

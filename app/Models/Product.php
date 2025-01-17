@@ -16,6 +16,7 @@ class Product extends Model
         'image',
         'description',
         'provider_id',
+        'category',
     ];
     public function provider()
     {
