@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+<x-app-layout>
     <h2>Chinh sua nguoi dung</h2>
     <form action="{{ route('users.update', $user->id) }}" method="post">
         @csrf
@@ -34,9 +26,17 @@
 
             <label for="password">Mật khẩu</label>
             <input type="password" name="password" placeholder="Nhập mật khẩu" value="{{ $user->password }}">
+
+            <div class="role-options">
+                <div class="radio-group">
+                    <input type="radio" id="admin" name="role" value="admin"> Admin
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="user" name="role" value="user" checked> User
+                </div>
+            </div>
             <button type="submit">Sua</button>
             <button type="delete">Xoa</button>
     </form>
 
-</body>
-</html>
+</x-app-layout>

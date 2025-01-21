@@ -10,7 +10,7 @@ use App\Models\Provider;
 use App\Models\Category_Product;
 use App\Models\CategoryProduct;
 
-class ProductController extends Controller
+class ProductControllerr extends Controller
 {
     public function create()
     {
@@ -75,4 +75,10 @@ class ProductController extends Controller
         $products = Product::with(['provider','categories'])->get();
         return view('admins.products.listproduct', compact('products'));
     }
+    public function editUser(Request $request)
+    {
+
+        return view('admins.users.editUser');
+    }
+    
 }

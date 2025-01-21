@@ -26,32 +26,41 @@ use App\Http\Controllers\Admin;
 
 
 
-use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductControllerr;
+Route::prefix('admins')->name('admins.')->group(function () {
 Route::prefix('products')->name('products.')->group(function () {
+Route::get('list', [ProductControllerr::class, 'listproduct'])->name('list');
+Route::post('editUser/{id}', [ProductControllerr::class, 'editUser'])->name('editUser');
 
-Route::get('listproduct', [ProductController::class, 'listproduct'])->name('list');
-
-
-Route::get('create', [ProductController::class, 'create'])->name('create');
-
-
-Route::post('store', [ProductController::class, 'store'])->name('store');
+Route::get('create', [ProductControllerr::class, 'create'])->name('create');
 
 
-Route::get('edit/{id}', [ProductController::class, 'edit'])->name('edit');
+Route::post('store', [ProductControllerr::class, 'store'])->name('store');
 
 
-Route::put('update/{id}', [ProductController::class, 'update'])->name('update');
+Route::get('edit/{id}', [ProductControllerr::class, 'edit'])->name('edit');
 
 
-Route::delete('delete/{id}', [ProductController::class, 'delete'])->name('delete');
+Route::put('update/{id}', [ProductControllerr::class, 'update'])->name('update');
+
+
+Route::delete('delete/{id}', [ProductControllerr::class, 'delete'])->name('delete');
+});
 });
 
 
+use App\Http\Controllers\User\ProductController;
+    Route::prefix('users')->name('users.')->group(function () {
+    Route::prefix('products')->name('products.')->group(function () {
 
+    Route::get('list', [ProductController::class, 'list'])->name('list');
 
+    Route::get('pay', [ProductController::class, 'pay'])->name('pay');
+
+});
+});
 use App\Http\Controllers\Admin\ProviderController;
-
+Route::prefix('admins')->name('admins.')->group(function () {
 Route::prefix('providers')->name('providers.')->group(function () {
 
     Route::get('create', [ProviderController::class, 'create'])->name('create');
@@ -64,21 +73,48 @@ Route::prefix('providers')->name('providers.')->group(function () {
 
     
     Route::post('update/{id}', [ProviderController::class, 'update'])->name('update');
+
+    Route::get('list', [ProviderController::class, 'list'])->name('list');
+
+    Route::delete('delete/{id}', [ProviderController::class, 'delete'])->name('delete');
+});
+});
+
+use App\Http\Controllers\Admin\UserControllerr;
+    Route::prefix('admins')->name('admins.')->group(function () {
+    Route::prefix('users')->name('users.')->group(function () {
+
+
+    Route::get('list', [UserControllerr::class, 'list'])->name('list');
+
+    Route::delete('deleteuser/{id}', [UserControllerr::class, 'deleteuser'])->name('deleteuser');
+
+
+});
 });
 
 
 
 
 
-
-
 use App\Http\Controllers\Admin\CategoryController;
+Route::prefix('admins')->name('admins.')->group(function () {
 Route::prefix('categories')->name('categories.')->group(function () {
 
     Route::get('create', [CategoryController::class, 'create'])->name('create');
 
     
     Route::post('store', [CategoryController::class, 'store'])->name('store');
+
+    Route::get('list', [CategoryController::class, 'listcategory'])->name('list');
+
+    Route::get('edit/{id}', [CategoryController::class, 'edit'])->name('edit');
+
+    Route::put('update/{id}', [CategoryController::class, 'update'])->name('update');
+
+
+    Route::delete('delete/{id}', [CategoryController::class, 'delete'])->name('delete');
+});
 });
 
 
@@ -101,16 +137,17 @@ Route::prefix('users')->name('users.')->group(function () {
 
     Route::post('loginIndex', [UserController::class, 'loginIndex'])->name('loginIndex');
 
-    Route::get('forgotpassword', [UserController::class, 'forgotpassword'])->name('forgotpassword');
-    Route::post('resetpassword', [UserController::class, 'resetpassword'])->name('resetpassword');
-
     Route::get('confirmEmail', [UserController::class, 'confirmEmail'])->name('confirmEmail');
-    Route::post('Emailsucces', [UserController::class, 'Emailsucces'])->name('Emailsucces');
+    Route::post('resetpassword', [UserController::class, 'resetpassword'])->name('resetpassword');
+    Route::post('updatepassword/{id}', [UserController::class, 'updatepassword'])->name('updatepassword');
+
+    
 
     Route::get('confirmOTP', [UserController::class, 'confirmOTP'])->name('confirmOTP');
     Route::post('Otpsucces', [UserController::class, 'Otpsucces'])->name('Otpsucces');
 
-    Route::get('home', [UserController::class, 'home'])->name('home');
+    Route::get('home', [UserController::class, 'home'])->name('home'); 
+    Route::get('introduce', [UserController::class, 'introduce'])->name('introduce');
 });
 
 use App\Http\Controllers\Admin\AdminController;
@@ -119,9 +156,5 @@ Route::prefix('admins')->name('admins.')->group(function () {
   
     Route::get('home', [AdminController::class, 'home'])->name('home');
 
-    Route::get('user', [AdminController::class, 'user'])->name('user');
-
-    Route::get('adduser', [AdminController::class, 'adduser'])->name('adduser');
-
-    Route::get('listproduct', [AdminController::class, 'listproduct'])->name('listproduct');
+    
 });

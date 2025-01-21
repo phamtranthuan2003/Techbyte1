@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products</title>
-</head>
-<body>
+<x-app-layout>
     <h1> sua san pham </h1>
-    <form action="{{ route('products.store', $product->id) }}" method="post">
+    <form action="{{ route('admins.products.store', $product->id) }}" method="post" class="editProduct">
     @csrf
  
         <label for="Name">
@@ -46,5 +38,4 @@
         <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')">Xóa sản phẩm</button>
     </form>
         
-</body>
-</html>
+</x-app-layout>

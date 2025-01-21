@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-<form action="{{ route('providers.update', $provider->id) }}" method="post">
+<x-app-layout>
+<form action="{{ route('admins.providers.update', $provider->id) }}" method="post">
 @csrf
 @method('PUT')
     <h1>Thay doi nha cung cap</h1>
@@ -25,5 +17,4 @@
     <button type="submit">them nha cung cap</button>
 </body>
 
-</form>
-</html>
+</x-app-layout>

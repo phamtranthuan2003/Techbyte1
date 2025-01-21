@@ -21,6 +21,7 @@ class User extends Model implements Authenticatable
         'address',
         'email',
         'password',
+        'role',
         
 
     ];

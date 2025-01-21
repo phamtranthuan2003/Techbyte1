@@ -1,28 +1,17 @@
-<!DOCTYPE html>
-<lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-<form action="{{ route('providers.store') }}" method="post">
-@csrf
-    <h1>Nha cung cap</h1>
-    <label for="name">Ten nha cung cap
-        <input type="text" name="name">
-    </label>
-    <label for="address">
-        Dia chi
-        <input type="text" name="address">
-    </label>
-    <label for="tele">
-        so dien thoai
-        <input type="number" name="tele">
-    </label>
-    <button type="submit">them nha cung cap</button>
-</body>
-
-</form>
-</html>
+<x-app-layout>
+    <form action="{{ route('admins.providers.store') }}" method="post">
+        @csrf
+        <h1>Nhà cung cấp</h1>
+        
+        <label for="name">Tên nhà cung cấp</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="address">Địa chỉ</label>
+        <input type="text" id="address" name="address" required>
+        
+        <label for="tele">Số điện thoại</label>
+        <input type="tel" id="tele" name="tele" required>
+        
+        <button type="submit">Thêm nhà cung cấp</button>
+    </form>
+</x-app-layout>

@@ -42,4 +42,16 @@ class ProviderController extends Controller
         // Phản hồi thông báo thành công
         echo "Cập nhật sản phẩm thành công";
     }
+    public function list()
+    {
+        $providers = Provider::get();
+        return view('admins.providers.list', compact('providers'));
+    }
+    public function delete($id)
+    {
+        $providers = Provider::findOrFail($id);
+        $providers->delete();
+        echo "Xoa sản phẩm thành công";
+        
+    }
 }

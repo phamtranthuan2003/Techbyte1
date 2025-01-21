@@ -1,24 +1,26 @@
-<!DOCTYPE html>
-<lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-<form action="{{ route('categories.store') }}" method="POST">
-@csrf
-    <h1>Danh muc</h1>
-    <label for="name"> Ten the loai
-        <input type="text" name="name">
-    </label>
-    <label for="price">
-        Mo ta
-        <input type="text" name="description">
-    </label>
-    <button type="submit">Them danh muc</button>
-</body>
+<x-app-layout>
+    <form action="{{ route('categories.store') }}" method="POST">
+        @csrf
+        <div class="form-container">
+            <h1>Thêm Danh Mục</h1>
+            
+         
+            <div class="form-group">
+                <label for="name">Danh Mục:</label>
+                <input type="text" name="name" id="name" placeholder="Nhập tên danh mục" required>
+            </div>
 
-</form>
-</html>
+           
+            <div class="form-group">
+                <label for="description">Mô Tả:</label>
+                <input type="text" name="description" id="description" placeholder="Nhập mô tả" required>
+            </div>
+
+
+            <div class="form-group">
+                <button type="submit">Thêm Danh Mục</button>
+            </div>
+        </div>
+    </form>
+    </style>
+</x-app-layout>

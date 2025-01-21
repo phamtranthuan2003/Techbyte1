@@ -1,0 +1,73 @@
+<x-app-layout>
+<form class="admin">    
+<div class="sidebar">
+<div class="logo">
+<h2>Admin Dashboard</h2>
+</div>
+<ul class="menu">
+        <li><a href="{{ route('admins.home') }}">Tổng quan</a></li>
+        <li><a href="{{ route('admins.users.list') }}">Quản lý người dùng</a></li>
+        <li><a href="{{ route('admins.products.list') }}">Quản lý đơn hàng</a></li>
+        <li><a href="{{ route('admins.categories.list') }}">Danh mục</a></li>
+        <li><a href="{{ route('admins.providers.list') }}" onclick="logout()">Nha cung cap</a></li>
+        <!-- <li><a href="./admin_setting_management.html">Cài đặt</a></li> -->
+        <li><a href="{{ route('users.login') }}" onclick="logout()">Đăng xuất</a></li>
+
+    </ul>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+<!-- Header -->
+<header>
+<h1 class="dsnd">Danh sách người dùng</h1>
+<div class="search-container">
+<input type="text" id="searchInput" placeholder="Tìm kiếm người dùng...">
+</div>
+</header>
+<section>
+<table class="table-admin">
+<thead>
+        <tr>
+            <th>ID</th>
+            <th>Họ Tên</th>
+            <th>Ngày Sinh</th>
+            <th>Giới Tính</th>
+            <th>Địa Chỉ</th>
+            <th>Email</th>
+            <th>Vai Tro</th>
+            <th>Tùy Chỉnh</th>
+        </tr>
+</thead>
+<tbody>
+    @foreach ($users as $user)
+        <tr>
+            <td>{{ $user->id }}</td>
+            <td>{{ $user->name }}</td>
+            <td>{{ $user->birthday }}</td>
+            <td>{{ $user->sex }}</td>
+            <td>{{ $user->address }}</td>
+            <td>{{ $user->email }}</td>
+            <td>{{ $user->role }}</td>
+            
+            <td>
+            <a href="{{ route('users.edit', $user->id) }}">
+            <button type="button">Sửa</button>
+        </a>
+
+        
+        <form action="{{ route('admins.users.deleteuser', $user->id) }}" method="POST" style="display:inline;">
+            @csrf
+            @method('DELETE')
+            <button type="button" onclick="return confirm('Xoa nguoi dung nay');">Xóa</button>
+        </form>
+            </td>
+        </tr>
+    @endforeach
+</tbody>
+</table>
+</section>
+</div>
+
+</form>
+</x-app-layout>

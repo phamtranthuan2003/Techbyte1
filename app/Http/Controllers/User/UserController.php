@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Hash;
 
+use function Laravel\Prompts\error;
+
 class UserController extends Controller
 
 {
@@ -19,9 +21,10 @@ class UserController extends Controller
     }
     public function store(Request $request): void
     {
+        
         $data = $request->all();
-      
-        $data['password'] = Hash::make($request->password);
+        $data['role'] = 'user';
+        // $data['password'] = Hash::make($request->password);
         User::create($data);
         echo "Tao tai khoan thanh cong";
     }
@@ -40,7 +43,6 @@ class UserController extends Controller
 
         // gán dữ liệu gửi lên vào biến data
         $data = $request->all();
-        // dd($data);
         // mã hóa password trước khi đẩy lên DB
         $data['password'] = Hash::make($request->password);
 
@@ -74,19 +76,11 @@ class UserController extends Controller
             return back()->withErrors(['email' => 'Email hoặc mật khẩu không đúng']);
         }
     }
-    public function forgotpassword(Request $request){
-
-        return view('users.forgotpassword');
-    }
-    public function resetpassword(Request $request){
-        session()->flash('success', 'Mật khẩu đã được thay đổi thành công!');
-        return view('users.login');
-    }
     public function confirmEmail(Request $request){
 
         return view('users.confirmEmail');
     }
-    public function Emailsucces(Request $request){   
+    public function resetpassword(Request $request){   
         // Lấy email từ request
             $email = $request->input('email');
     
@@ -94,26 +88,39 @@ class UserController extends Controller
             $user = User::where('email', $email)->first();
     
             if ($user) {
-                return view('users.confirmOTP');
-                // Email trùng khớp
-                // return redirect()->route('dashboard')->with('success', 'Email được xác nhận!');
+                return view('users.forgotpassword', compact('user'));
+                
             } else {
                 // Email không trùng khớp
                 return back()->with('error', 'Email không tồn tại trong hệ thống!');
             }
+    }
+    public function updatepassword(Request $request)
+    {
+        $user = User::get();
         
-    }
-    public function confirmOTP(Request $request){
-
-        return view('users.confirmOTP');
-    }
-    public function Otpsucces(Request $request){
-
-        return view('users.forgotpassword');
-    }
+            // Kiểm tra dữ liệu đầu vào
+            $validatedData = $request->validate([
+                'password' => 'required|string|confirmed',
+            ]);
+        
+            if ($user) {
+                // Mã hóa mật khẩu mới
+                $user->password = Hash::make($request->password);
+        
+                // Lưu thay đổi vào cơ sở dữ liệu
+                $user->save();
+        
+                // Chuyển hướng đến màn hình đăng nhập với thông báo thành công
+                return redirect()->route('users.login')->with('success', 'Mật khẩu đã được cập nhật. Vui lòng đăng nhập lại!');
+            } 
+        }
     public function home(Request $request){
 
         return view('users.home');
 }
+public function introduce(Request $request){
 
+    return view('users.introduce.introduce');
+}
 }

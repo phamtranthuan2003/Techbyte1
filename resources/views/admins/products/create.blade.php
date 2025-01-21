@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products</title>
-</head>
-<body>
+<x-app-layout>
     <h1> Thêm sản phẩm </h1>
-    <form action="{{ route('products.store') }}" method="post">
+    <form action="{{ route('admins.products.store') }}" method="post">
     @csrf
         <label for="name">
             Tên:
@@ -53,5 +45,4 @@
     
         <button type="submit">Tạo sản phẩm</button>
     </form>
-</body>
-</html>
+</x-app-layout>

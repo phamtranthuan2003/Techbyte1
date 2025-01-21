@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng Ký</title>
-    
-</head>
-
-<body>
-
+<x-app-layout>
+<form class="signup" >
 <h2 class="signup-title">Đăng Ký</h2>
     <form action="{{ route('users.store') }}" method="post">
     @csrf
@@ -41,6 +31,8 @@
             <label for="re-password">Nhập lại mật khẩu</label>
             <input type="password" name="re-password" placeholder="Nhập lại mật khẩu">
 
+            
+
             <button class="btn-signup" type="submit">Đăng ký</button>
         </form>
 
@@ -49,7 +41,5 @@
             <a href="{{ route('users.login') }}">Dăng Nhập</a>
         </div>
     </div>
-
-</body>
-
-</html>
+    </form>
+    </x-app-layout>

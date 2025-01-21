@@ -1,0 +1,73 @@
+<x-app-layout>
+<form class="admin">
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="logo">
+        <h2>Admin Dashboard</h2>
+</div>
+<ul class="menu">
+        <li><a href="{{ route('admins.home') }}">Tổng quan</a></li>
+        <li><a href="{{ route('admins.users.list') }}">Quản lý người dùng</a></li>
+        <li><a href="{{ route('admins.products.list') }}">Quản lý đơn hàng</a></li>
+        <li><a href="{{ route('admins.categories.list') }}">Danh mục</a></li>
+        <li><a href="{{ route('admins.providers.list') }}" onclick="logout()">Nha cung cap</a></li>
+        <!-- <li><a href="./admin_setting_management.html">Cài đặt</a></li> -->
+        <li><a href="{{ route('users.login') }}" onclick="logout()">Đăng xuất</a></li>
+
+    </ul>
+</div>
+
+
+<div class="main-content">
+    
+    <header>
+        <h1 class="dsnd">Danh sách danh muc</h1>
+        <div class="add">
+            <a href="{{ route('admins.categories.create') }}">
+                        <button type="button">Them</button>
+            </a>
+        </div>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Tìm kiếm người dùng..." onkeyup="searchUser()">
+        </div>
+        
+    </header>
+    <section>
+        <table class="table-admin">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên danh muc</th>
+                    <th>Mo ta</th>
+                    <th>Chuc nang</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($categories as $category)
+                    <tr>
+                        <td>{{ $category->id }}</td>
+                        <td>{{ $category->name }}</td>
+                        <td>{{ $category->description }}</td>
+                        <td>
+                    <a href="{{ route('admins.categories.edit', $category->id) }}">
+                        <button type="button">Sửa</button>
+                    </a>
+
+                
+                <form action="{{ route('admins.categories.delete', $category->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Xóa</button>
+                </form>
+                        
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </section>
+</div>
+</form>
+
+</x-app-layout>
