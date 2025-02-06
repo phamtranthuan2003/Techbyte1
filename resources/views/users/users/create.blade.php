@@ -1,5 +1,5 @@
 <x-app-layout>
-<form class="signup" >
+<div class="signup" >
 <h2 class="signup-title">Đăng Ký</h2>
     <form action="{{ route('users.store') }}" method="post">
     @csrf
@@ -41,5 +41,5 @@
             <a href="{{ route('users.login') }}">Dăng Nhập</a>
         </div>
     </div>
-    </form>
+
     </x-app-layout>

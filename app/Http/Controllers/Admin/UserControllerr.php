@@ -23,6 +23,7 @@ class UserControllerr extends Controller
         
         $user = User::findOrFail($id);
         $user->delete();
-        echo "Xoa sản phẩm thành công";
+        return redirect()->route('admins.users.list')->with('success', 'Cập nhật sản phẩm thành công');
     }
+    
 }

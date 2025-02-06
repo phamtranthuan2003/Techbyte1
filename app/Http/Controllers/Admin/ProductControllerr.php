@@ -14,39 +14,41 @@ class ProductControllerr extends Controller
 {
     public function create()
     {
-        $category = Category::get();
-        $provider = Provider::get();
-        return view('admins.products.create', compact('provider','category'));
+        $categories = Category::all();
+        $providers = Provider::all();
+        return view('admins.products.create', compact('providers', 'categories'));
     }
-
-    public function store(Request $request)
-    {   
-        // Lấy toàn bộ dữ liệu từ request
-        $data = $request->all();
-
-        $data['description'] = $data['description1'] . ' '. $data['description2'];
-        
-        // Tạo mới sản phẩm
-        $Product = Product::create($data);
-
-        foreach ($data['category_id'] as $category) {
-        CategoryProduct::create([
-            'category_id' => $category,
-            'product_id' => $Product->id
-        ]);
-    }
-        echo "Thêm sản phẩm thành công";
     
+    public function store(Request $request)
+    {
+        // Validate the incoming request
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'category_id' => 'required|array',
+            'category_id.*' => 'exists:categories,id',
+            'provider_id' => 'required|exists:providers,id'
+        ]);
+    
+        // Create the product
+        $product = Product::create($request->except('category_id'));
+    
+        // Attach categories using Eloquent relationships
+        $product->categories()->attach($request->category_id);
+    
+        return redirect()->route('admins.products.list')->with('success', 'Thêm sản phẩm thành công');
     }
-
+    
     public function edit($id)
     {
-        // Tìm sản phẩm cần chỉnh sửa
-        $product = Product::findOrFail($id);
-        $provider = Provider::get();
+        
+        $products = Product::find( $id );
+        $providers = Provider::get();
+        $categories = Category::get();
+        
 
-
-        return view('admins.products.edit', compact('product','provider'));
+        return view('admins.products.edit', compact('products', 'providers', 'categories'));
+        
     }
 
     public function update(Request $request, $id)
@@ -54,31 +56,26 @@ class ProductControllerr extends Controller
         
         // Tìm sản phẩm cần cập nhật
         $product = Product::findOrFail($id);
-
-        $validatedData = $request->all();
-
+        
+        $data = $request->all();
+        
         // Cập nhật dữ liệu sản phẩm
-        $product->update($validatedData);
+        $product->update($data);
+        $product->categories()->sync($request->category_id);
 
-        // Phản hồi thông báo thành công
-        echo "Cập nhật sản phẩm thành công";
+        return redirect()->route('admins.products.list')->with('success', 'Cập nhật sản phẩm thành công');
     }
     public function delete($id)
     {
         $product = Product::findOrFail($id);
         $product->delete();
-        echo "Xoa sản phẩm thành công";
+        return redirect()->route('admins.products.list')->with('success', 'Xoa sản phẩm thành công');
         
     }
     public function listproduct(Request $request)
     {
         $products = Product::with(['provider','categories'])->get();
         return view('admins.products.listproduct', compact('products'));
-    }
-    public function editUser(Request $request)
-    {
-
-        return view('admins.users.editUser');
     }
     
 }

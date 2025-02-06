@@ -17,6 +17,7 @@ class Product extends Model
         'description',
         'provider_id',
         'category',
+        'role',
     ];
     public function provider()
     {
@@ -25,6 +26,10 @@ class Product extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class);
+    }
+    public function carts()
+    {
+        return $this->belongsToMany(Cart::class);
     }
 }
    

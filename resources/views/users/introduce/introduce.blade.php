@@ -1,6 +1,32 @@
 <x-app-layout>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<header>
+        <h1>Giới Thiệu Cửa Hàng</h1>
+        <nav>
+            <a href="{{ route('users.home') }}">Trang Chủ</a>
+            <a href="{{ route('users.introduce') }}">Giới thiệu</a>
+            <a href="{{route('users.products.list')}}">Sản Phẩm</a>
+            <a href="{{route('users.promotion')}}">Khuyến Mãi</a>
+            <a href="{{route('users.contact')}}">Liên Hệ</a>
+            <a href="{{ route('users.products.cart') }}" class="cart-link">
+                    <button class="cart-button" type="button" onclick="showCart()">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="cart-count" id="cart-count">{{$cartCount}}</span>
+                    </button>
+            </a>
+        </nav>
+        @if(!$user)
+                <a href="{{ route('users.login') }}" class="login-button">Đăng Nhập</a>
+                @else
+                <form action="{{ route('users.products.logout') }}" method="post">
+                @csrf
+                <button type="submit" name="logout" class="logout-button">Đăng Xuất</button>
+                </form>
+            @endif
+</header>
     <div class="about-section">
-        <h1>Giới Thiệu Cửa Hàng Điện Tử Cao Cấp</h1>
+        
+        <h2>Chao mung</h2>
         <p>Chào mừng bạn đến với Cửa Hàng Điện Tử Cao Cấp, nơi cung cấp những sản phẩm công nghệ tiên tiến nhất với chất lượng hàng đầu. Chúng tôi cam kết mang đến cho khách hàng những trải nghiệm mua sắm tuyệt vời và dịch vụ khách hàng xuất sắc.</p>
         
         <h2>Sứ Mệnh của Chúng Tôi</h2>
@@ -12,7 +38,7 @@
                 <img src="https://scontent.fhan3-3.fna.fbcdn.net/v/t1.6435-9/184312071_628869065182201_5567451020859531625_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFILG2n-iZ186nsPZXWDcjsxEz9UExELN3ETP1QTEQs3eunkyp6ny3uKCeJ4K71Ll5xebat5GpkB0ow5Gd0UmNY&_nc_ohc=lWA46hLQBm0Q7kNvgF-ulW0&_nc_oc=Adg9eGqQYUxzK0VKvy3UahRUBJdnXLbLIAaOfQ95nVl9LDjaaHCXBfjPvf9xDVdLlPI&_nc_zt=23&_nc_ht=scontent.fhan3-3.fna&_nc_gid=ASMdvUECSwy-CRn5SaDtwXH&oh=00_AYD9sunJYOeKDC1Fvkf4wG9lFMxQu69mLES5F8b_fUf2qQ&oe=67B685D7" alt="Thành Viên Đội Ngũ 1">
                 <h3>Pham Tran Thuan</h3>
                 <p>Giám Đốc Điều Hành</p>
-                <p>Với hơn 10 năm kinh nghiệm trong ngành điện tử, anh A luôn nỗ lực để phát triển cửa hàng.</p>
+                <p>Với hơn 10 năm kinh nghiệm trong ngành điện tử, anh Thuan luôn nỗ lực để phát triển cửa hàng.</p>
             </div>
             <div class="team-member">
                 <img src="https://scontent.fhan3-3.fna.fbcdn.net/v/t1.6435-9/184312071_628869065182201_5567451020859531625_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFILG2n-iZ186nsPZXWDcjsxEz9UExELN3ETP1QTEQs3eunkyp6ny3uKCeJ4K71Ll5xebat5GpkB0ow5Gd0UmNY&_nc_ohc=lWA46hLQBm0Q7kNvgF-ulW0&_nc_oc=Adg9eGqQYUxzK0VKvy3UahRUBJdnXLbLIAaOfQ95nVl9LDjaaHCXBfjPvf9xDVdLlPI&_nc_zt=23&_nc_ht=scontent.fhan3-3.fna&_nc_gid=ABsvKliD6vYxG03jlMHNuE-&oh=00_AYBGEpWLc8cm95beCtpYNYJ5zDA-Q01mC8zHpHxaRBOR2g&oe=67B685D7" alt="Thành Viên Đội Ngũ 2">
@@ -47,7 +73,7 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
         }
         h1 {
-            color: #004d40; /* Màu xanh đậm */
+            color: #ffeb3b; /* Màu xanh đậm */
             margin-bottom: 20px;
             font-size: 2.5em; /* Kích thước tiêu đề lớn */
         }

@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
+use App\Models\CartProduct;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,14 +21,14 @@ class UserController extends Controller
     public function create()
     {
         
-        return view('users.create');
+        return view('users.users.create');
     }
     public function store(Request $request): void
     {
         
         $data = $request->all();
         $data['role'] = 'user';
-        // $data['password'] = Hash::make($request->password);
+      
         User::create($data);
         echo "Tao tai khoan thanh cong";
     }
@@ -43,34 +47,39 @@ class UserController extends Controller
 
         // gán dữ liệu gửi lên vào biến data
         $data = $request->all();
-        // mã hóa password trước khi đẩy lên DB
-        $data['password'] = Hash::make($request->password);
+ 
+        
 
         // Update user
         $user->update($data);
 
-        echo"Cap nhat nguoi dung thanh cong";
+        return redirect()->route('admins.users.list')->with('success', 'Cập nhật sản phẩm thành công');
     }
     
     public function login(Request $request){
-    
+        
         return view('users.login');
     }
-    public function loginIndex(Request $request){
-
-         // Validate dữ liệu
-         $request->validate([
+    public function loginIndex(Request $request)
+    {
+        // Validate dữ liệu
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
+    
         // Kiểm tra người dùng và mật khẩu
         $user = User::where('email', $request->email)->first();
-        if ($user && Hash::check($request->password, $user->password)) {
+    
+        if ($user &&($request->password == $user->password)) {
             // Đăng nhập người dùng
             Auth::login($user);
-
-            return view('users.home ');
+            // Kiểm tra role và chuyển hướng
+            if ($user->role === 'admin') {
+                return redirect()->route('admins.home');
+            } else {
+                return redirect()->route('users.home');
+            }
         } else {
             // Trả lại thông báo lỗi nếu đăng nhập thất bại
             return back()->withErrors(['email' => 'Email hoặc mật khẩu không đúng']);
@@ -95,32 +104,46 @@ class UserController extends Controller
                 return back()->with('error', 'Email không tồn tại trong hệ thống!');
             }
     }
-    public function updatepassword(Request $request)
+    public function updatepassword(Request $request, $id)
     {
-        $user = User::get();
+        $user = User::findOrFail($id);
+        $data = $request->all();
+
         
-            // Kiểm tra dữ liệu đầu vào
-            $validatedData = $request->validate([
-                'password' => 'required|string|confirmed',
-            ]);
-        
-            if ($user) {
-                // Mã hóa mật khẩu mới
-                $user->password = Hash::make($request->password);
-        
-                // Lưu thay đổi vào cơ sở dữ liệu
-                $user->save();
-        
-                // Chuyển hướng đến màn hình đăng nhập với thông báo thành công
-                return redirect()->route('users.login')->with('success', 'Mật khẩu đã được cập nhật. Vui lòng đăng nhập lại!');
-            } 
-        }
+        $user->update($data);
+        return redirect()->route('users.login');
+    }
     public function home(Request $request){
-
-        return view('users.home');
+        $user = Auth::user();
+        $cart = Cart::where('user_id', $user->id)->first();
+        $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
+        $cartCount = $cartproducts->count();
+        $categories = Category::all();
+        $user = auth::user();
+        $products = Product::where('role', 'hiện')->get();
+        return view('users.home', compact('products','user', 'categories','cartCount'));
+    }
+    public function introduce(Request $request){
+        $user = Auth::user();
+        $cart = Cart::where('user_id', $user->id)->first();
+        $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
+        $cartCount = $cartproducts->count();
+        $user = auth::user();
+        return view('users.introduce.introduce', compact('user','cartCount'));
+    }
+    public function promotion()
+    {
+        $user = Auth::user();
+        $cart = Cart::where('user_id', $user->id)->first();
+        $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
+        $cartCount = $cartproducts->count();
+        $user = auth::user();
+        return view('users.promotions.promotion', compact('user','cartCount'));
 }
-public function introduce(Request $request){
+    public function contact()
+    {
+        
+        return view('users.contacts.contact');
+    }
 
-    return view('users.introduce.introduce');
-}
 }
