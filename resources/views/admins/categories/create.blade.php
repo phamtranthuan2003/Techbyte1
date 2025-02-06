@@ -1,5 +1,5 @@
 <x-app-layout>
-    <form action="{{ route('categories.store') }}" method="POST">
+    <form action="{{ route('admins.categories.store') }}" method="POST">
         @csrf
         <div class="form-container">
             <h1>Thêm Danh Mục</h1>

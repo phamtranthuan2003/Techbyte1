@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 
-class CategoryController extends Controller
+class CategoryControllerr extends Controller
 {
     public function create()
     {
@@ -45,7 +45,7 @@ class CategoryController extends Controller
         $category->update($validatedData);
 
         // Phản hồi thông báo thành công
-        echo "Cập nhật sản phẩm thành công";
+        return redirect()->route('admins.categories.list')->with('success', 'Cập nhật sản phẩm thành công');
     }
     public function delete($id)
     {

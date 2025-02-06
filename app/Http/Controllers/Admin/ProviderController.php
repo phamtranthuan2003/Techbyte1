@@ -40,7 +40,7 @@ class ProviderController extends Controller
         $provider->update($validatedData);
 
         // Phản hồi thông báo thành công
-        echo "Cập nhật sản phẩm thành công";
+        return redirect()->route('admins.providers.list')->with('success', 'Cập nhật sản phẩm thành công');
     }
     public function list()
     {

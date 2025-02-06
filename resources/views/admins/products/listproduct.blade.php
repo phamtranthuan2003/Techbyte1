@@ -6,31 +6,32 @@
         <ul class="menu">
         <li><a href="{{ route('admins.home') }}">Tổng quan</a></li>
         <li><a href="{{ route('admins.users.list') }}">Quản lý người dùng</a></li>
-        <li><a href="{{ route('admins.products.list') }}">Quản lý đơn hàng</a></li>
+        <li><a href="{{ route('admins.carts.list') }}">Quản lý đơn hàng</a></li>
+        <li><a href="{{ route('admins.products.list') }}">Quản lý sản phẩm</a></li>
         <li><a href="{{ route('admins.categories.list') }}">Danh mục</a></li>
-        <li><a href="{{ route('admins.providers.list') }}" onclick="logout()">Nha cung cap</a></li>
-        <!-- <li><a href="./admin_setting_management.html">Cài đặt</a></li> -->
+        <li><a href="{{ route('admins.providers.list') }}" onclick="logout()">Nhà Cung Cấp</a></li>
         <li><a href="{{ route('users.login') }}" onclick="logout()">Đăng xuất</a></li>
 
-    </ul>
+        </ul>
     </div>
     
-    <div class="main-content">  
+    <div class="main-content">      
         <header>
             <h1>Quản lý sản phẩm</h1>
-            <div class="add">
-            <a href="{{ route('admins.products.create') }}">
-                        <button type="button">Them</button>
-            </a>
-            </div>
+          
             <!-- Thêm ô tìm kiếm vào đây -->
             <div class="search-container">
                 <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." onkeyup="searchProduct()">
             </div>
         </header>
+        <div class="add">
+            <a href="{{ route('admins.products.create') }}">
+                        <button type="button">Thêm</button>
+            </a>
+            </div>
         <section class="add-Product" >
         </section>
-
+    
     <table class="table-admin">
         <thead>
             <tr>
@@ -38,8 +39,11 @@
                 <th>Tên</th>
                 <th>Giá</th>
                 <th>Mô tả</th>
+                <th>Ảnh</th>
+                <th>Tùy Chỉnh</th>
                 <th>Nhà cung cấp</th>
                 <th>Danh mục</th>
+               
                 <th>Chức năng</th>
                 
             </tr>
@@ -51,11 +55,11 @@
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->price }}</td>
                     <td>{{ $product->description }}</td>
+                    <td>{{ $product->image }}</td>
+                    <td>{{ $product->role }}</td>
                     <td>{{ $product->provider ? $product->provider->name : '' }}</td>
-                    <td>
-              
-                        @foreach ($product->categories as $category)
-                            <span>{{ $category->name }}</span><br>
+                    <td>@foreach ($product->categories as $category)
+                    {{ $category->name }}<br>
                         @endforeach
                     </td>
                     <td>

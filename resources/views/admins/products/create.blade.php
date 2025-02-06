@@ -8,40 +8,48 @@
         </label><br><br>
         <label for="Price">
             Giá:
-            <input type="number" name="price" required min="1"> <br> <br>
+            <input type="text" name="price" required min="1"> <br> <br>
 
-            <label for="describe1">
-            Mo Ta 1
+            <label for="describe">
+            Mo Ta 
             </label>
-            <input type="text" name="description1"required><br> <br>
-            <label for="describe2">Mo Ta 2</label>
-            <input type="text" name="description2"required>
-        </label><br><br>
-         <select multiple name="category_id[]"required>
-    
+            <input type="text" name="description"required><br> <br>
 
-            @foreach ($category as $category)
+
+         <select multiple name="category_id[]"required>
+            
+            @foreach ($categories as $category)
 
                 <option value="{{ $category->id }}">{{ $category->name }}</option>
             
-                @endforeach
+            @endforeach
 
         </select><br><br>
+
+        
         <label for="Image">
             Ảnh:
-            <input type="file" name="image" accept="image/*">
+            <input type="text" name="image" accept="image/*">
         </label>
+        
         <select name="provider_id"required>
     
 
-            @foreach ($provider as $provider)
+            @foreach ($providers as $provider)
 
                 <option value="{{ $provider->id }}">{{ $provider->name }}</option>
             
-                @endforeach
+            @endforeach
 
         </select><br><br>
-       
+        <div class="role-options">
+                <div class="radio-group">
+                    <input type="radio" id="presently" name="role" value="Hien"> Hien
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="hide" name="role" value="An" checked> An
+                </div>
+            </div>
     
         <button type="submit">Tạo sản phẩm</button>
     </form>

@@ -161,8 +161,8 @@ form {
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    right: 42rem;
-    top: 2.5rem;
+    right: 0rem;
+    top: -1.5rem;
 }
 
 .add button:hover {
@@ -228,7 +228,7 @@ form {
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
         
-        }
+}
         .banner::after {
             content: '';
             position: absolute;
@@ -273,57 +273,102 @@ form {
             background-color: #ffd600; /* Màu vàng đậm khi hover */
             transform: translateY(-5px);
         }
+        .container {
+            width: 90%;
+            margin: auto;
+            text-align: center;
+        }
+        
+        .search-bar {
+            margin: 20px 0;
+        }
+        
+        .search-bar input {
+            width: 60%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .category {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: #0A6428;
+            color: #ffeb3b;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
         .products {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
-            padding: 20px 0;
+            justify-content: center;
+            padding: 10px;
+            margin-bottom: 0px;
         }
+        
         .product {
-            background: #fff;
+            background: #004d40; /* Màu xanh Gucci */
+            border: 1px solid #D4AF37;
             border-radius: 10px;
             padding: 15px;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            
         }
+        
         .product:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
+        
         .product img {
-            width: 70%; /* Kích thước hình ảnh */
-            height: auto;
-            border-radius: 10px;
-            display: block; /* Căn giữa hình ảnh */
-            margin: 0 auto; /* Căn giữa hình ảnh */
-            filter: brightness(1.1); /* Làm sáng hình ảnh */
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 2px solid #D4AF37;
         }
+        
         .product h3 {
-            color: #004d40; /* Màu xanh đậm cho tiêu đề sản phẩm */
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5em; /* Kích thước font chữ tiêu đề sản phẩm */
+            font-size: 18px;
             margin: 10px 0;
+            color: #ffeb3b; /* Chữ màu vàng Gucci */
+            font-weight: bold;
         }
+        
         .product p {
-            font-size: 1.5em; /* Kích thước chữ giá */
-            color: #d32f2f; /* Màu đỏ cho giá */
-            margin: 5px 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffeb3b;
         }
-        button {
-            background-color: #004d40; /* Màu xanh đậm */
+        
+        .product button {
+            background-color: #ffeb3b;
+            color: #004d40;
             border: none;
-            color: #ffeb3b; /* Màu vàng sáng */
             padding: 10px 15px;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
+            font-size: 16px;
+            margin-top: 10px;
             font-weight: bold;
         }
-        button:hover {
-            background-color: #00796b; /* Màu xanh sáng khi hover */
-            transform: scale(1.05);
+        
+        .product button:hover {
+            background-color: #B8860B;
+            color: white;
         }
+        
       
 
 .pay{
@@ -334,11 +379,11 @@ form {
         border: 1px solid #ccc;
         border-radius: 5px;
         margin-bottom: 15px;
-}
-.summary p {
-    font-size: 1.2em;
-    margin: 5px 0;
-}
+        }
+        .summary p {
+            font-size: 1.2em;
+            margin: 5px 0;
+        }
 }
 
 
@@ -520,19 +565,7 @@ nav a:hover {
     min-height: 100vh;
     position: relative; /* Để định vị nút giỏ hàng */
 
-    .cart-button {
-        background: none;
-        border: none;
-        color: #ffeb3b;
-        cursor: pointer;
-        font-size: 1.2em; /* Kích thước nhỏ hơn */
-        position: absolute; /* Định vị ở góc */
-        top: 15px; /* Cách từ trên xuống */
-        right: 15px; /* Cách từ bên phải */
-    }
-    .cart-button:hover {
-        color: #fff; /* Màu trắng khi hover */
-    }
+    
     .cart-count {
         position: absolute;
         top: -5px;
@@ -556,206 +589,561 @@ nav a:hover {
     
    }
 .login{
-    /* Container for the login form */
-.login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f6f9;
-}
-
-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 350px; /* Reduced max width */
-    text-align: center;
-}
-
-h2 {
-    font-family: 'Roboto', sans-serif;
-    color: #004d40;
-    margin-bottom: 15px; /* Reduced margin */
-    font-size: 22px; /* Smaller font size */
-}
-
-label {
-    font-size: 14px; /* Smaller font size */
-    color: #333;
-    text-align: left;
-    margin-bottom: 5px;
-    display: block;
-}
-
-input[type="email"], input[type="password"] {
-    width: 100%;
-    padding: 10px; /* Reduced padding */
-    margin: 8px 0; /* Reduced margin */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    font-size: 14px; /* Smaller font size */
-    background-color: #f9f9f9;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-input[type="email"]:focus, input[type="password"]:focus {
-    border-color: #00796b;
-    box-shadow: 0 0 5px rgba(0, 121, 107, 0.5);
-}
-
-button[type="submit"] {
-    background-color: #00796b;
-    color: #fff;
-    padding: 10px 15px; /* Reduced padding */
-    font-size: 14px; /* Smaller font size */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 15px; /* Reduced margin */
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-button[type="submit"]:hover {
-    background-color: #004d40;
-    transform: scale(1.05);
-}
-
-.invalid-feedback {
-    color: #d32f2f;
-    font-size: 12px; /* Smaller font size */
-    margin-bottom: 8px;
-}
-
-.forgot-password {
-    margin-top: 8px; /* Reduced margin */
-    font-size: 12px; /* Smaller font size */
-}
-
-.forgot-password a {
-    color: #00796b;
-    text-decoration: none;
-}
-
-.forgot-password a:hover {
-    text-decoration: underline;
-}
-
-.signup {
-    margin-top: 15px; /* Reduced margin */
-    font-size: 12px; /* Smaller font size */
-}
-
-.signup a {
-    color: #00796b;
-    text-decoration: none;
-}
-
-.signup a:hover {
-    text-decoration: underline;
-}
+  
 
    
 }
-.signup{
-    /* Container for the signup form */
-.signup-title {
-    font-family: 'Roboto', sans-serif;
-    color: #004d40;
+
+ .promotion{
+
+
+    .promotion-section {
+        background-color: #f9f9f9;
+        padding: 20px;
+    }
+    
+    /* Bảng cho Promotion Container */
+    .promotion-container {
+        max-width: 800px;
+        margin: auto;
+        text-align: center;
+    }
+    
+    /* Bảng cho Offer Card */
+    .offer-card {
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        margin: 15px;
+        padding: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+        width: calc(45% - 30px);
+    }
+ }
+.contact{
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 20px;
+    }
+        .contact-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .contact-info {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .contact-info p {
+            margin: 5px 0;
+        }
+        input[type="text"], input[type="email"], input[type="tel"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #00796b;
+           
+            width: 100%;
+        }
+        button:hover {
+            background-color: #00796b;
+        }
+
+}
+.cart-link {
+    text-decoration: none;
+    display: inline-block;
+    position: fixed; /* Cố định vị trí */
+    top:15px; /* Khoảng cách từ trên */
+    right: 5px; /* Khoảng cách từ bên phải */
+    z-index: 1000; /* Đảm bảo luôn hiển thị phía trên */
+}
+
+.cart-button {
+    background-color: #00796b; /* Màu xanh Gucci */
+    color: #FFCC00; /* Màu vàng Gucci */
+    border: none;
+    border-radius: 50%; /* Làm tròn nút */
+    width: 50px; /* Giảm kích thước nút */
+    height: 50px; /* Giảm kích thước nút */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    position: relative;
+    font-size: 20px; /* Giảm kích thước biểu tượng */
+}
+
+.cart-button:hover {
+    background-color: #09472A; /* Màu xanh đậm hơn khi hover */
+    transform: scale(1.1);
+}
+
+.cart-count {
+    position: absolute;
+    top: -4px; /* Dịch số lượng lên gần hơn */
+    right: -4px; /* Dịch số lượng lên gần hơn */
+    background-color: #FFCC00; /* Màu vàng Gucci */
+    color: #0A5F38; /* Màu xanh Gucci */
+    font-size: 12px; /* Giảm kích thước số lượng */
+    font-weight: bold;
+    width: 18px; /* Giảm kích thước vòng tròn */
+    height: 18px; /* Giảm kích thước vòng tròn */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+.cartform{
+    .container {
+        width: 90%;
+        margin: auto;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .cart-items {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 10px; /* Giảm khoảng cách giữa các dòng sản phẩm */
+        justify-content: center;
+        padding: 10px;
+    }
+    
+    .cart {
+        background: #004d40; /* Màu xanh Gucci */
+        border: 1px solid #D4AF37;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin-bottom: 5px; /* Giảm khoảng cách giữa các dòng */
+    }
+    
+    .cart:hover {
+        transform: translateY(-5px);
+    }
+    
+    .cart-product {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+    
+    .cart-product img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 5px;
+        border: 2px solid #D4AF37;
+    }
+    
+    .cart h3, .cart p {
+        color: #ffeb3b; /* Màu vàng Gucci */
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+    
+    .summary {
+        margin-top: 20px;
+        background: #004d40;
+        border: 1px solid #D4AF37;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .summary h3 {
+        font-size: 20px;
+        color: #ffeb3b;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+    
+    .summary p {
+        font-size: 18px;
+        color: #ffeb3b;
+        font-weight: bold;
+    }
+    
+    #discount-code {
+        width: 80%;
+        padding: 10px;
+        border: 1px solid #D4AF37;
+        border-radius: 5px;
+        font-size: 16px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    
+    .checkout-button {
+        background-color: #ffeb3b;
+        color: #004d40;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+    
+    .checkout-button:hover {
+        background-color: #B8860B;
+        color: white;
+    }
+    
+    
+}
+.loginform{
+            /* Reset some default styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* Styling for the login container */
+.login {
+    width: 300px; /* Kích thước nhỏ hơn */
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    border: 5px solid #007a33; /* Màu xanh Gucci */
+    position: relative;
+}
+
+/* Decorative border */
+.login::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, #007a33, #ffd700); /* Gradient xanh và vàng */
+    border-radius: 10px;
+    z-index: -1; /* Đặt phía sau */
+}
+
+/* Title styling */
+h2 {
     text-align: center;
-    font-size: 26px;
+    color: #007a33; /* Màu xanh Gucci */
+    font-weight: bold;
+    margin-bottom: 15px; /* Giảm khoảng cách */
+}
+
+/* Input fields styling */
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px; /* Giảm padding */
+    margin: 10px 0;
+    border: 2px solid #007a33; /* Màu xanh Gucci */
+    border-radius: 5px;
+    font-size: 14px; /* Giảm kích thước font */
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+/* Input focus effect */
+input:focus {
+    border-color: #ffd700; /* Màu vàng */
+    outline: none;
+}
+
+/* Button styling */
+button {
+    width: 100%;
+    padding: 8px; /* Giảm padding */
+    background-color: #007a33; /* Màu xanh Gucci */
+    color: #fff;
+    font-size: 14px; /* Giảm kích thước font */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #005920; /* Màu xanh tối */
+}
+
+/* Links styling */
+.forgot-password,
+.signup {
+    text-align: center;
+    margin-top: 10px; /* Giảm khoảng cách */
+}
+
+a {
+    color: #ffd700; /* Màu vàng */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #e6b800; /* Màu vàng nhạt hơn */
+}
+
+/* Invalid feedback styling */
+.invalid-feedback {
+    color: red;
+    font-size: 12px; /* Giảm kích thước font */
+    text-align: center;
+    margin-top: 10px;
+}
+}
+.payform{
+    /* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7f9;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* Container */
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Title */
+h2 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Form labels and inputs */
+.form-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="tel"],
+select {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Cart section */
+.cart {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cart h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.cart-product {
+    display: flex;
+    align-items: center;
+}
+
+.cart-product img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-left: 15px;
+}
+
+/* Payment Method */
+.payment_method {
     margin-bottom: 20px;
 }
 
-form {
-    background-color: #fff;
+.payment_method select {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+}
+
+/* Discount Code */
+#discount-code {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+#discount-code:focus {
+    border-color: #007bff;
+}
+
+/* Summary Section */
+.summary {
+    background-color: #f7f7f7;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.summary h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.summary p {
+    font-size: 22px;
+    font-weight: bold;
+    color: #d9534f;
+    margin-bottom: 20px;
+}
+
+/* Checkout Button */
+.checkout-button {
     width: 100%;
-    max-width: 400px; /* Set max width */
-    margin: 0 auto; /* Center the form */
-    text-align: left;
-}
-
-label {
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 8px;
-    display: block;
-}
-
-input[type="text"], input[type="date"], input[type="email"], input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px; /* Increased margin for better spacing */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    background-color: #f9f9f9;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-input[type="text"]:focus, input[type="date"]:focus, input[type="email"]:focus, input[type="password"]:focus {
-    border-color: #00796b;
-    box-shadow: 0 0 5px rgba(0, 121, 107, 0.5);
-}
-
-.sex-options {
-    margin-bottom: 15px;
-}
-
-.radio-group {
-    margin-right: 20px;
-}
-
-button[type="submit"] {
-    background-color: #00796b;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: 600;
     color: #fff;
-    padding: 12px 15px;
-    font-size: 14px;
+    background-color: #218838;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    width: 100%;
-    transition: background-color 0.3s, transform 0.3s;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
 }
 
-button[type="submit"]:hover {
-    background-color: #004d40;
-    transform: scale(1.05);
+.checkout-button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
 }
 
-/* Error messages */
-.invalid-feedback {
-    color: #d32f2f;
-    font-size: 12px;
-    margin-bottom: 8px;
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    .payform {
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    select,
+    #discount-code,
+    .checkout-button {
+        padding: 12px;
+    }
+
+    .summary p {
+        font-size: 18px;
+    }
 }
 
-/* Link to login page */
-div a {
-    color: #00796b;
+}
+.logout-button{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #00796b;
+    color: #ffeb3b;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: bold;
     text-decoration: none;
-}
-
-div a:hover {
-    text-decoration: underline;
-}
-
-}
- 
-
-   
-   
-   
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    right: 5rem;
+    .logout-button:hover {
+        background-color: #004d40;
+        transform: scale(1.1);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
     
+    .logout-button:active {
+        background-color: #003e34;
+        transform: scale(1);
+    }
     
-    
+    .logout-button:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.4);
+    }
+}
     
    
    

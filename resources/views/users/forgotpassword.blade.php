@@ -5,10 +5,10 @@
     @csrf
         
         <label for="password">Mật khẩu</label>
-        <input type="password" id="password" class="email" placeholder="Nhập mật khẩu">
+        <input type="password" id="password" name="password" class="email" placeholder="Nhập mật khẩu">
 
         <label for="re-password">Nhập lại mật khẩu</label>
-        <input type="password" id="re-password" class="email" placeholder="Nhập lại mật khẩu">
+        <input type="password" id="re-password" name="password"  class="email" placeholder="Nhập lại mật khẩu">
     
 
         <button type="submit">Xác nhận</button>

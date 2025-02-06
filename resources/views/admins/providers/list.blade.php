@@ -5,13 +5,13 @@
     <div class="logo">
         <h2>Admin Dashboard</h2>
 </div>
-<ul class="menu">
+    <ul class="menu">
         <li><a href="{{ route('admins.home') }}">Tổng quan</a></li>
         <li><a href="{{ route('admins.users.list') }}">Quản lý người dùng</a></li>
-        <li><a href="{{ route('admins.products.list') }}">Quản lý đơn hàng</a></li>
+        <li><a href="{{ route('admins.carts.list') }}">Quản lý đơn hàng</a></li>
+        <li><a href="{{ route('admins.products.list') }}">Quản lý sản phẩm</a></li>
         <li><a href="{{ route('admins.categories.list') }}">Danh mục</a></li>
-        <li><a href="{{ route('admins.providers.list') }}" onclick="logout()">Nha cung cap</a></li>
-        <!-- <li><a href="./admin_setting_management.html">Cài đặt</a></li> -->
+        <li><a href="{{ route('admins.providers.list') }}" onclick="logout()">Nhà Cung Cấp</a></li>
         <li><a href="{{ route('users.login') }}" onclick="logout()">Đăng xuất</a></li>
 
     </ul>
@@ -21,25 +21,26 @@
 <div class="main-content">
     <!-- Header -->
     <header>
-        <h1 class="dsnd">Danh sach nha cung cap</h1>
-        <div class="add">
-            <a href="{{ route('admins.products.create') }}">
-                        <button type="button">Them</button>
-            </a>
-        </div>
+        <h1 class="dsnd">Danh sách nhà cung cấp</h1>
+        
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Tìm kiếm người dùng..." onkeyup="searchUser()">
         </div>
     </header>
+    <div class="add">
+            <a href="{{ route('admins.providers.create') }}">
+                        <button type="button">Thêm</button>
+            </a>
+        </div>
     <section>
         <table class="table-admin">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nha cung cap</th>
-                    <th>Dia chi</th>
-                    <th>SDT</th>
-                    <th>Chuc nang</th>
+                    <th>Nhà Cung Cấp</th>
+                    <th>Địa Chỉ</th>
+                    <th>Số Điện Thoại</th>
+                    <th>Chức Năng</th>
                     
                 </tr>
             </thead>

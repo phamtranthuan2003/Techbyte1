@@ -1,6 +1,6 @@
 <x-app-layout>
-    <form class="login">
-        <div>
+<div class="container">
+        <div class="loginform">
             <h2>Đăng Nhập</h2>
             @if ($errors->has('email'))
                 <span class="invalid-feedback">
@@ -36,6 +36,7 @@
                 <a href="{{ route('users.create') }}">Đăng ký</a>
             </div>
 
-        </div>
-    </form>
+    </div>
+    </div>
+
 </x-app-layout>

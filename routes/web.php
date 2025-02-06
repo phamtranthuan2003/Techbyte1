@@ -4,6 +4,9 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\Admin\ProductControllerr;
+use App\Http\Controllers\User\ProductController;
+
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
@@ -26,7 +29,6 @@ use App\Http\Controllers\Admin;
 
 
 
-use App\Http\Controllers\Admin\ProductControllerr;
 Route::prefix('admins')->name('admins.')->group(function () {
 Route::prefix('products')->name('products.')->group(function () {
 Route::get('list', [ProductControllerr::class, 'listproduct'])->name('list');
@@ -41,7 +43,7 @@ Route::post('store', [ProductControllerr::class, 'store'])->name('store');
 Route::get('edit/{id}', [ProductControllerr::class, 'edit'])->name('edit');
 
 
-Route::put('update/{id}', [ProductControllerr::class, 'update'])->name('update');
+Route::post('update/{id}', [ProductControllerr::class, 'update'])->name('update');
 
 
 Route::delete('delete/{id}', [ProductControllerr::class, 'delete'])->name('delete');
@@ -49,16 +51,24 @@ Route::delete('delete/{id}', [ProductControllerr::class, 'delete'])->name('delet
 });
 
 
-use App\Http\Controllers\User\ProductController;
-    Route::prefix('users')->name('users.')->group(function () {
+Route::prefix('users')->name('users.')->group(function () {
     Route::prefix('products')->name('products.')->group(function () {
+        Route::get('list', [ProductController::class, 'list'])->name('list');
 
-    Route::get('list', [ProductController::class, 'list'])->name('list');
+        Route::get('cart', [ProductController::class, 'cart'])->name('cart');
 
-    Route::get('pay', [ProductController::class, 'pay'])->name('pay');
+        Route::get('pay', [ProductController::class, 'pay'])->name('pay');
 
+        Route::post('addtocart', [ProductController::class, 'addtocart'])->name('addtocart');
+        
+        Route::post('removeProduct/{id}', [ProductController::class,'removeProduct'])->name('removeProduct');
+
+        Route::post('updateQuantity/{id}', [ProductController::class,'updateQuantity'])->name('updateQuantity');
+
+        Route::post('logout', [ProductController::class,'logout'])->name('logout');
+    });
 });
-});
+
 use App\Http\Controllers\Admin\ProviderController;
 Route::prefix('admins')->name('admins.')->group(function () {
 Route::prefix('providers')->name('providers.')->group(function () {
@@ -72,13 +82,14 @@ Route::prefix('providers')->name('providers.')->group(function () {
     Route::get('edit/{id}', [ProviderController::class, 'edit'])->name('edit');
 
     
-    Route::post('update/{id}', [ProviderController::class, 'update'])->name('update');
+    Route::put('update/{id}', [ProviderController::class, 'update'])->name('update');
 
     Route::get('list', [ProviderController::class, 'list'])->name('list');
 
     Route::delete('delete/{id}', [ProviderController::class, 'delete'])->name('delete');
 });
 });
+
 
 use App\Http\Controllers\Admin\UserControllerr;
     Route::prefix('admins')->name('admins.')->group(function () {
@@ -88,7 +99,15 @@ use App\Http\Controllers\Admin\UserControllerr;
     Route::get('list', [UserControllerr::class, 'list'])->name('list');
 
     Route::delete('deleteuser/{id}', [UserControllerr::class, 'deleteuser'])->name('deleteuser');
+});
+});
 
+use App\Http\Controllers\Admin\OderController;
+    Route::prefix('admins')->name('admins.')->group(function () {
+    Route::prefix('carts')->name('carts.')->group(function () {
+
+
+    Route::get('list', [OderController::class, 'list'])->name('list');
 
 });
 });
@@ -96,26 +115,38 @@ use App\Http\Controllers\Admin\UserControllerr;
 
 
 
-
-use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CategoryControllerr;
 Route::prefix('admins')->name('admins.')->group(function () {
 Route::prefix('categories')->name('categories.')->group(function () {
 
-    Route::get('create', [CategoryController::class, 'create'])->name('create');
+    Route::get('create', [CategoryControllerr::class, 'create'])->name('create');
 
     
-    Route::post('store', [CategoryController::class, 'store'])->name('store');
+    Route::post('store', [CategoryControllerr::class, 'store'])->name('store');
 
-    Route::get('list', [CategoryController::class, 'listcategory'])->name('list');
+    Route::get('list', [CategoryControllerr::class, 'listcategory'])->name('list');
 
-    Route::get('edit/{id}', [CategoryController::class, 'edit'])->name('edit');
+    Route::get('edit/{id}', [CategoryControllerr::class, 'edit'])->name('edit');
+    Route::post('update/{id}', [CategoryControllerr::class, 'update'])->name('update');
 
-    Route::put('update/{id}', [CategoryController::class, 'update'])->name('update');
+    Route::put('update/{id}', [CategoryControllerr::class, 'update'])->name('update');
 
 
-    Route::delete('delete/{id}', [CategoryController::class, 'delete'])->name('delete');
+    Route::delete('delete/{id}', [CategoryControllerr::class, 'delete'])->name('delete');
 });
 });
+
+use App\Http\Controllers\User\CategoryController;
+    Route::prefix('users')->name('users.')->group(function () {
+
+
+        Route::get('category/{id}', [CategoryController::class, 'category'])->name('category');
+
+    });
+
+
+
+
 
 
 use App\Http\Controllers\User\UserController;
@@ -123,31 +154,29 @@ use App\Http\Controllers\User\UserController;
 Route::prefix('users')->name('users.')->group(function () {
 
     Route::get('create', [UserController::class, 'create'])->name('create');
-
- 
     Route::post('store', [UserController::class, 'store'])->name('store');
 
   
     Route::get('edit/{id}', [UserController::class, 'edit'])->name('edit');
-
-  
     Route::post('update/{id}', [UserController::class, 'update'])->name('update');
 
     Route::get('login', [UserController::class, 'login'])->name('login');
-
     Route::post('loginIndex', [UserController::class, 'loginIndex'])->name('loginIndex');
 
     Route::get('confirmEmail', [UserController::class, 'confirmEmail'])->name('confirmEmail');
     Route::post('resetpassword', [UserController::class, 'resetpassword'])->name('resetpassword');
     Route::post('updatepassword/{id}', [UserController::class, 'updatepassword'])->name('updatepassword');
 
-    
+    Route::get('promotion', [UserController::class, 'promotion'])->name('promotion');
+
+    Route::get('contact', [UserController::class, 'contact'])->name('contact');
 
     Route::get('confirmOTP', [UserController::class, 'confirmOTP'])->name('confirmOTP');
     Route::post('Otpsucces', [UserController::class, 'Otpsucces'])->name('Otpsucces');
 
     Route::get('home', [UserController::class, 'home'])->name('home'); 
-    Route::get('introduce', [UserController::class, 'introduce'])->name('introduce');
+
+    Route::get('introduce', [UserController::class, 'introduce'])->name('introduce'); 
 });
 
 use App\Http\Controllers\Admin\AdminController;
@@ -158,3 +187,4 @@ Route::prefix('admins')->name('admins.')->group(function () {
 
     
 });
+
