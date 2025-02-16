@@ -8,12 +8,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Product;
-use Illuminate\Mail\Mailables\Content;
 use Illuminate\Support\Facades\Auth;
-
-use Illuminate\Support\Facades\Hash;
-
-use function Laravel\Prompts\error;
 
 class UserController extends Controller
 
@@ -113,33 +108,56 @@ class UserController extends Controller
         $user->update($data);
         return redirect()->route('users.login');
     }
-    public function home(Request $request){
-        $user = Auth::user();
+    public function home(Request $request)
+{
+    $user = Auth::user();
+    $cartCount = 0;
+    $cartproducts = collect(); // Khởi tạo một collection rỗng để tránh lỗi
+
+    if ($user) {
         $cart = Cart::where('user_id', $user->id)->first();
-        $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
-        $cartCount = $cartproducts->count();
-        $categories = Category::all();
-        $user = auth::user();
-        $products = Product::where('role', 'hiện')->get();
-        return view('users.home', compact('products','user', 'categories','cartCount'));
+        if ($cart) {
+            $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
+            $cartCount = $cartproducts->count();
+        }
     }
-    public function introduce(Request $request){
-        $user = Auth::user();
-        $cart = Cart::where('user_id', $user->id)->first();
-        $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
-        $cartCount = $cartproducts->count();
-        $user = auth::user();
-        return view('users.introduce.introduce', compact('user','cartCount'));
-    }
-    public function promotion()
-    {
-        $user = Auth::user();
-        $cart = Cart::where('user_id', $user->id)->first();
-        $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
-        $cartCount = $cartproducts->count();
-        $user = auth::user();
-        return view('users.promotions.promotion', compact('user','cartCount'));
+
+    $categories = Category::all();
+    $products = Product::where('role', 'hiện')->get();
+
+    return view('users.home', compact('products', 'user', 'categories', 'cartCount'));
 }
+
+public function introduce(Request $request)
+{
+    $user = Auth::user();
+    $cartCount = 0; // Mặc định giỏ hàng trống nếu user chưa đăng nhập
+
+    if ($user) {
+        $cart = Cart::where('user_id', $user->id)->first();
+        if ($cart) {
+            $cartCount = CartProduct::where('cart_id', $cart->id)->count();
+        }
+    }
+
+    return view('users.introduce.introduce', compact('user', 'cartCount'));
+}
+
+public function promotion()
+{
+    $user = Auth::user();
+    $cartCount = 0; // Mặc định giỏ hàng trống nếu user chưa đăng nhập
+
+    if ($user) { // Kiểm tra user có đăng nhập không
+        $cart = Cart::where('user_id', $user->id)->first();
+        if ($cart) {
+            $cartCount = CartProduct::where('cart_id', $cart->id)->count();
+        }
+    }
+
+    return view('users.promotions.promotion', compact('user', 'cartCount'));
+}
+
     public function contact()
     {
         
