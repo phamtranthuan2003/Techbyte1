@@ -12,11 +12,11 @@ class ProviderController extends Controller
     {
         return view('admins.providers.create');
     }
-    public function store(Request $request): void
+    public function store(Request $request)
     {
         $data = $request->all();
         Provider::create($data);
-        echo "Thêm sản phẩm thành công";
+        return redirect()->route('admins.providers.list');
     }
     public function edit($id)
     {

@@ -12,11 +12,11 @@ class CategoryControllerr extends Controller
     {
         return view('admins.categories.create');
     }
-    public function store(Request $request): void
+    public function store(Request $request)
     {
         $data = $request->all();
         Category::create($data);
-        echo "Thêm sản phẩm thành công";
+        return redirect()->route('admins.categories.list');
     }
 
     public function listcategory()

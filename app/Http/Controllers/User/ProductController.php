@@ -5,13 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartProduct;
 use Illuminate\Http\Request;
-use App\Models\User;
-use Illuminate\Mail\Mailables\Content;
 use Illuminate\Support\Facades\Auth;
-
-use Illuminate\Support\Facades\Hash;
-
-use function Laravel\Prompts\error;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\CategoryProduct;
@@ -21,14 +15,23 @@ class ProductController extends Controller
     public function list()
     {
         $user = Auth::user();
-        $cart = Cart::where('user_id', $user->id)->first();
-        $cartCount = CartProduct::with('products')->where('cart_id', $cart->id)->count();
+        $cartCount = 0; // Mặc định giỏ hàng trống
+    
+        if ($user) { // Kiểm tra user có đăng nhập không
+            $cart = Cart::where('user_id', $user->id)->first();
+            if ($cart) {
+                $cartCount = CartProduct::where('cart_id', $cart->id)->count();
+            }
+        }
+    
         $categoryProduct = CategoryProduct::all();
-        $categories = Category::get();
+        $categories = Category::all();
         $products = Product::where('role', 'hiện')->get();
-        return view('users.products.list',compact('products','categories','user','cartCount'));
-
+    
+        return view('users.products.list', compact('products', 'categories', 'user', 'cartCount'));
     }
+    
+
     public function addToCart(Request $request)
     {
         $user = Auth::user();
@@ -39,7 +42,7 @@ class ProductController extends Controller
             $product = Product::find($request->product_id);
     
         if (!$product) {
-            return redirect()->route('users.products.list')->with('error', 'Product not found.');
+            return redirect()->route('users.products.list');
         }
     
      
