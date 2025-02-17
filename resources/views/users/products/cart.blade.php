@@ -54,14 +54,12 @@
 
             </div>
             <div class="summary">
+                <form action="{{route('users.products.order') }}" method="post">
+                @csrf
                 <h3>Tổng Giỏ Hàng</h3>
                 <p>{{ number_format($totalPrice, 0, ',', '.') }} VND</p>
-                
-                <input type="text" id="discount-code" placeholder="Nhập mã giảm giá" oninput="applyDiscount()">
-                    @csrf
-                    <a href="{{ route('users.products.pay') }}">
-                    <button class="checkout-button" type="submit">Thanh Toán</button>
-                </a>
+                <button class="checkout-button" type="submit">Thanh Toán</button>
+                </form>
             </div>
         </div>
     </body>

@@ -7,7 +7,7 @@
     <ul class="menu">
         <li><a href="{{ route('admins.home') }}">Tổng quan</a></li>
         <li><a href="{{ route('admins.users.list') }}">Quản lý người dùng</a></li>
-        <li><a href="{{ route('admins.carts.list') }}">Quản lý đơn hàng</a></li>
+        <li><a href="{{ route('admins.orders.list') }}">Quản lý đơn hàng</a></li>
         <li><a href="{{ route('admins.products.list') }}">Quản lý sản phẩm</a></li>
         <li><a href="{{ route('admins.categories.list') }}">Danh mục</a></li>
         <li><a href="{{ route('admins.providers.list') }}">Nhà Cung Cấp</a></li>
@@ -40,6 +40,7 @@
                     <th>Ngày Sinh</th>
                     <th>Giới Tính</th>
                     <th>Địa Chỉ</th>
+                    <th>Số Điện Thoại</th>
                     <th>Email</th>
                     <th>Vai Trò</th>
                     <th>Tùy Chỉnh</th>
@@ -53,6 +54,7 @@
                         <td>{{ $user->birthday }}</td>
                         <td>{{ $user->sex }}</td>
                         <td>{{ $user->address }}</td>
+                        <td>{{ $user->phone }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->role }}</td>
                         <td>

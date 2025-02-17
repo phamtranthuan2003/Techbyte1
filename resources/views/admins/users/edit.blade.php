@@ -21,6 +21,9 @@
             <label for="address">Địa chỉ</label>
             <input type="text" name="address" placeholder="Nhập địa chỉ" value="{{ $user->address }}">
 
+            <label for="phone">Số điện thoại</label>
+            <input type="text" name="phone" placeholder="Nhập Số điện thoại" value="{{ $user->phone }}">
+
             <label for="email">Email</label>
             <input type="email" name="email" placeholder="Nhập email" value="{{ $user->email }}">
 

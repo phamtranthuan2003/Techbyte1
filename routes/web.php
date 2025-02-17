@@ -59,6 +59,10 @@ Route::prefix('users')->name('users.')->group(function () {
 
         Route::get('pay', [ProductController::class, 'pay'])->name('pay');
 
+        Route::post('order', [ProductController::class, 'order'])->name('order');
+
+        Route::post('ordersucess', [ProductController::class, 'ordersucess'])->name('ordersucess');
+
         Route::post('addtocart', [ProductController::class, 'addtocart'])->name('addtocart');
         
         Route::post('removeProduct/{id}', [ProductController::class,'removeProduct'])->name('removeProduct');
@@ -104,7 +108,7 @@ use App\Http\Controllers\Admin\UserControllerr;
 
 use App\Http\Controllers\Admin\OderController;
     Route::prefix('admins')->name('admins.')->group(function () {
-    Route::prefix('carts')->name('carts.')->group(function () {
+    Route::prefix('orders')->name('orders.')->group(function () {
 
 
     Route::get('list', [OderController::class, 'list'])->name('list');

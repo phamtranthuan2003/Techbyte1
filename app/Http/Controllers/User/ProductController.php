@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\OrderProduct;
+use App\Models\Order;
 use App\Models\CartProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -87,24 +89,39 @@ class ProductController extends Controller
 
     public function cart()
     {   
+
+        
         $user = Auth::user();
-    
-        if(!$user){
+        $products = Product::get();
+        if (!$user) {
             return redirect()->route('users.login');
         }
-        $cart = Cart::where('user_id', $user->id)->first();
-
-
-        $products = Product::all();
-        
-        $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
-     
-        $totalPrice = $cartproducts->sum(function($cartproduct) {
-            return $cartproduct->quantity * $cartproduct->price;
-        });
-        return view('users.products.cart', compact('products', 'cart', 'cartproducts', 'totalPrice'));
     
+        // Tìm giỏ hàng của người dùng
+        $cart = Cart::where('user_id', $user->id)->first();
+    
+        // Nếu không có giỏ hàng, đặt giá trị mặc định
+        if (!$cart) {
+            return view('users.products.cart', [
+                'products' => Product::all(),
+                'cart' => null,
+                'cartproducts' => collect(),
+                'totalPrice' => 0
+            ]);
+        }
+    
+        // Lấy danh sách sản phẩm trong giỏ hàng
+        $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
+    
+        // Tính tổng giá
+        $totalPrice = $cartproducts->sum(function ($cartproduct) {
+            return ($cartproduct->quantity ?? 0) * ($cartproduct->price ?? 0);
+        });
+    
+        return view('users.products.cart', compact('products', 'cart', 'cartproducts', 'totalPrice'));
     }
+    
+
     public function updateQuantity(Request $request, $id)
     {
         
@@ -126,25 +143,164 @@ class ProductController extends Controller
     }
 
 
-    public function pay()
-    {   
+    public function pay(Request $request)
+{  
+ 
         $user = Auth::user();
         $cart = Cart::where('user_id', $user->id)->first();
+        if (!$cart) {
+            return redirect()->back()->with('error', 'Giỏ hàng của bạn đang trống!');
+        }
+
+        $cartproducts = CartProduct::with('products')
+                                    ->where('cart_id', $cart->id)
+                                    ->get();
+
+        if ($cartproducts->isEmpty()) {
+            return redirect()->back()->with('error', 'Giỏ hàng của bạn không có sản phẩm nào!');
+        }
 
         $products = Product::all(); 
-        $cartproducts = CartProduct::with('products')
-                                    ->where('cart_id',$cart->id)->get();
-        $cart = Cart::all();
-        $totalPrice = $cartproducts->sum(function($cartproduct) {
+        $totalPrice = $cartproducts->sum(function ($cartproduct) {
             return $cartproduct->quantity * $cartproduct->price;
         });
-        return view('users.products.pay',compact('products', 'cart', 'cartproducts', 'totalPrice'));
+
+        return view('users.products.pay', compact('products', 'cart', 'cartproducts', 'totalPrice'));
+    }   
+    public function order(){
+        $user = Auth::user();
+        
+        if (!$user) {
+            return redirect()->route('users.login');
+        }
+    
+        // Kiểm tra xem người dùng đã có đơn hàng nào chưa
+        $existingOrder = Order::where('user_id', $user->id)->first();
+    
+        // Nếu đơn hàng đã tồn tại, kiểm tra status
+        if ($existingOrder) {
+            if ($existingOrder->status == 0) {
+                // Nếu status là 0 (chua giao hang), cộng dồn sản phẩm trong OrderProduct
+                $cart = Cart::where('user_id', $user->id)->first();
+                $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
+    
+                foreach ($cartproducts as $cartproduct) {
+                    // Kiểm tra nếu sản phẩm đã có trong đơn hàng này
+                    $existingProductInOrder = OrderProduct::where('order_id', $existingOrder->id)
+                        ->where('product_id', $cartproduct->product_id)
+                        ->first();
+    
+                    if ($existingProductInOrder) {
+                        // Nếu sản phẩm đã có trong đơn hàng, tăng quantity lên
+                        $existingProductInOrder->quantity += $cartproduct->quantity;
+                        $existingProductInOrder->save();
+                    } else {
+                        // Nếu sản phẩm chưa có trong đơn hàng, tạo mới
+                        OrderProduct::create([
+                            'user_id' => $user->id,
+                            'order_id' => $existingOrder->id,  // Sử dụng order_id của đơn hàng đã tồn tại
+                            'product_id' => $cartproduct->product_id,
+                            'quantity' => $cartproduct->quantity,
+                            'price' => $cartproduct->price,
+                            'name_product' => $cartproduct->products->name,
+                        ]);
+                    }
+                }
+    
+                // Sau khi cộng dồn sản phẩm, chuyển hướng đến trang thanh toán
+                return redirect()->route('users.products.pay');
+            } else {
+                // Nếu status là 1 (đã thanh toán), tạo đơn hàng mới
+                $cart = Cart::where('user_id', $user->id)->first();
+                $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
+    
+                $totalPrice = $cartproducts->sum(function ($cartproduct) {
+                    return ($cartproduct->quantity ?? 0) * ($cartproduct->price ?? 0);
+                });
+    
+                // Tạo đơn hàng mới
+                $order = Order::create([
+                    'name'=>$user->name,
+                    'address'=> $user->address,
+                    'phone'=> $user->phone,
+                    'user_id' => $user->id,
+                    'status' => '0',
+                    'price' => $totalPrice,
+                ]);
+    
+                // Lưu các sản phẩm vào OrderProduct của đơn hàng mới
+                foreach ($cartproducts as $cartproduct) {
+                    OrderProduct::create([
+                        'user_id' => $user->id,
+                        'order_id' => $order->id,
+                        'product_id' => $cartproduct->product_id,
+                        'quantity' => $cartproduct->quantity,
+                        'price' => $cartproduct->price,
+                        'name_product' => $cartproduct->products->name,
+                    ]);
+                }
+    
+                // Sau khi tạo đơn hàng và các sản phẩm trong đơn hàng, chuyển hướng đến trang thanh toán
+                return redirect()->route('users.products.pay');
+            }
+        } else {
+            // Nếu chưa có đơn hàng, tạo đơn hàng mới
+            $cart = Cart::where('user_id', $user->id)->first();
+            $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
+    
+            $totalPrice = $cartproducts->sum(function ($cartproduct) {
+                return ($cartproduct->quantity ?? 0) * ($cartproduct->price ?? 0);
+            });
+    
+            // Tạo đơn hàng mới
+            $order = Order::create([
+                'name'=>$user->name,
+                'address'=> $user->address,
+                'phone' => $user->phone,
+                'user_id' => $user->id,
+                'status' => '0',
+                'price' => $totalPrice,
+            ]);
+    
+            // Lưu các sản phẩm vào OrderProduct
+            foreach ($cartproducts as $cartproduct) {
+                OrderProduct::create([
+                    'user_id' => $user->id,
+                    'order_id' => $order->id,  // Sử dụng order_id của đơn hàng mới tạo
+                    'product_id' => $cartproduct->product_id,
+                    'quantity' => $cartproduct->quantity,
+                    'price' => $cartproduct->price,
+                    'name_product' => $cartproduct->products->name,
+                ]);
+            }
+    
+            // Sau khi tạo đơn hàng và các sản phẩm trong đơn hàng, chuyển hướng đến trang thanh toán
+            return redirect()->route('users.products.pay');
+        }
     }
-    public function logout()
-    {   
+    
+    
+    
+    public function logout(){   
         Auth::logout();
         
         return redirect()->route('users.home');
+    }
+    public function ordersucess(Request $request){
+        $user = Auth::user();
+        $cart = Cart::where('user_id', $user->id)->first();
+        $order = Order::where('user_id', $user->id)->where('status', 0)->first();
+
+        $order->update([
+        'name'=>$request->name,
+        'address'=> $request->address,
+        'phone'=> $request->phone,
+        'user_id'=> $user->id ,
+        'status'=> '1',
+        'price'=> $request->total_price,
+     ]);
+         $cart->delete();
+     return redirect()->route('users.home');
     }
 }
     
