@@ -10,7 +10,7 @@ class OderController extends Controller
 {
     public function list()
     {
-        return view('admins.carts.list');
+        return view('admins.orders.list');
     }
     
 }

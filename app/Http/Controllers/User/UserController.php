@@ -18,14 +18,14 @@ class UserController extends Controller
         
         return view('users.users.create');
     }
-    public function store(Request $request): void
+    public function store(Request $request)
     {
         
         $data = $request->all();
         $data['role'] = 'user';
       
         User::create($data);
-        echo "Tao tai khoan thanh cong";
+        return redirect()->route('users.login');
     }
 
     public function edit($id){
