@@ -40,6 +40,7 @@
                 <th>Giá</th>
                 <th>Mô tả</th>
                 <th>Ảnh</th>
+                <th>Số lượng sản phẩm</th>
                 <th>Tùy Chỉnh</th>
                 <th>Nhà cung cấp</th>
                 <th>Danh mục</th>
@@ -56,6 +57,7 @@
                     <td>{{ $product->price }}</td>
                     <td>{{ $product->description }}</td>
                     <td>{{ $product->image }}</td>
+                    <td>{{ $product->sell }}</td>
                     <td>{{ $product->role }}</td>
                     <td>{{ $product->provider ? $product->provider->name : '' }}</td>
                     <td>@foreach ($product->categories as $category)
@@ -80,5 +82,27 @@
             @endforeach
         </tbody>
     </table>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("searchInput");
+            const tableRows = document.querySelectorAll(".table-admin tbody tr");
 
+            searchInput.addEventListener("keyup", function () {
+                const searchText = searchInput.value.toLowerCase();
+
+                tableRows.forEach(row => {
+                    const cells = row.querySelectorAll("td");
+                    let found = false;
+
+                    cells.forEach(cell => {
+                        if (cell.textContent.toLowerCase().includes(searchText)) {
+                            found = true;
+                        }
+                    });
+
+                    row.style.display = found ? "" : "none";
+                });
+            });
+        });
+    </script>
 </x-app-layout>

@@ -58,6 +58,7 @@ class ProductControllerr extends Controller
         $product = Product::findOrFail($id);
         
         $data = $request->all();
+
         
         // Cập nhật dữ liệu sản phẩm
         $product->update($data);
@@ -72,7 +73,7 @@ class ProductControllerr extends Controller
         return redirect()->route('admins.products.list')->with('success', 'Xoa sản phẩm thành công');
         
     }
-    public function listproduct(Request $request)
+    public function listproduct()
     {
         $products = Product::with(['provider','categories'])->get();
         return view('admins.products.listproduct', compact('products'));

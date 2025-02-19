@@ -29,17 +29,64 @@
             <tr>
                 <th>ID</th>
                 <th>Tên</th>
-                <th>Giá</th>
-                <th>Số lượng</th>
+                <th>Tổng tiền đơn hàng</th>
                 <th>Địa Chỉ</th>
                 <th>Số Điện Thoại</th>
                 <th>Hình thức thanh toán</th>
+                <th>Chi tiết đơn hàng</th>
 
         </thead>
         <tbody>
-             
+        @foreach ($orders as $order)
+            <tr>
+                <td>{{$order->id }}</td>
+                <td>{{$order->name }}</td>
+                <td>{{$order->price }}</td>
+                <td>{{$order->address }}</td>
+                <td>{{$order->phone }}</td>
+
+                <td>
+                @if ($order->status == 0)
+                    Chưa đặt hàng
+                @elseif ($order->status == 1)
+                    Đã đặt hàng
+                @else ($order->status == 2)
+                    Đã vận chuyển
+                @endif
+                </td>
+                <td>
+                    <a href="{{ route('admins.orders.orderDetail', ['id' => $order->id]) }}">
+                    <button type="button" class="reviewprodduct">Xem</button>
+                    </a>
+                </td>
+            </tr>
+        @endforeach
+     
           
         </tbody>
     </table>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("searchInput");
+            const tableRows = document.querySelectorAll(".table-admin tbody tr");
+
+            searchInput.addEventListener("keyup", function () {
+                const searchText = searchInput.value.toLowerCase();
+
+                tableRows.forEach(row => {
+                    const cells = row.querySelectorAll("td");
+                    let found = false;
+
+                    cells.forEach(cell => {
+                        if (cell.textContent.toLowerCase().includes(searchText)) {
+                            found = true;
+                        }
+                    });
+
+                    row.style.display = found ? "" : "none";
+                });
+            });
+        });
+    </script>
 
 </x-app-layout>

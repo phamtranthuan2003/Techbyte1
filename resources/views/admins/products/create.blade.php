@@ -11,9 +11,14 @@
             <input type="text" name="price" required min="1"> <br> <br>
 
             <label for="describe">
-            Mo Ta 
+            Mô tả 
             </label>
             <input type="text" name="description"required><br> <br>
+
+            <label for="sell">
+            bán ra 
+            </label>
+            <input type="text" name="sell"required><br> <br>
 
 
          <select multiple name="category_id[]"required>

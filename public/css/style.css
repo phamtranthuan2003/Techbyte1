@@ -1307,8 +1307,137 @@ select:focus {
         color: white;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
+
 }
-   
+
+.orderDetail {
+    /* Cấu trúc chung */
+    .order-container {
+        margin: 20px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .order-title {
+        font-size: 58px;
+        font-weight: 600;
+        color: #ff4f4f;
+        margin-bottom: 20px;
+    }
+
+    .order-info p {
+        font-size: 25px;
+        color: #000000;
+        margin-bottom: 10px;
+    }
+
+    .total-price {
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+        margin-top: 20px;
+    }
+
+    .product-list-title {
+        font-size: 45px;
+        font-weight: bold;
+        margin-top: 30px;
+        color:#000000
+    }
+
+    /* Bảng sản phẩm */
+    .product-table {
+        width: 100%; /* Đặt chiều rộng bảng là 100% */
+        border-collapse: collapse; /* Đảm bảo các ô không có khoảng cách */
+    }
+
+    .product-table th, .product-table td {
+        padding: 12px;
+        text-align: left;
+    }
+
+    .product-table th {
+        background-color: #3ed7bd;
+        font-weight: 600;
+        color: #000000;
+    }
+
+    .product-table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .product-table tbody tr:hover {
+        background-color: #e0e0e0;
+    }
+
+    .product-table td {
+        color: #555;
+    }
+
+    /* Trạng thái đơn hàng */
+    .status {
+        padding: 10px;
+        font-weight: bold;
+        border-radius: 5px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .chua-dat {
+        background-color: #ff0000;
+        color: white;
+    }
+
+    .da-dat {
+        background-color: #4caf50;
+        color: white;
+    }
+
+    .da-van-chuyen {
+        background-color: #00715e;
+        color: #ffeb3b;
+    }
+
+    /* Form thay đổi trạng thái */
+    .status-label {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .update-status-btn {
+        margin-top: 15px;
+        background-color: #16a085;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .update-status-btn:hover {
+        background-color: #0056b3;
+    }
+
+    /* Dropdown cho trạng thái */
+    select.form-control {
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        width: 100%;
+        border: 1px solid #ddd;
+        background-color: #fff;
+    }
+
+    select.form-control:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+}
+
     
     
     

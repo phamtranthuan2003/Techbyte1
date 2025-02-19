@@ -113,6 +113,9 @@ use App\Http\Controllers\Admin\OderController;
 
     Route::get('list', [OderController::class, 'list'])->name('list');
 
+    Route::get('/orderDetail/{id}', [OderController::class, 'orderDetail'])->name('orderDetail');
+    
+    Route::post('/changestatus/{id}', [OderController::class, 'changestatus'])->name('changestatus');
 });
 });
 

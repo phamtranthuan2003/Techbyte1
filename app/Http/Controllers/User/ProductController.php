@@ -144,7 +144,7 @@ class ProductController extends Controller
 
 
     public function pay(Request $request)
-{  
+{   
  
         $user = Auth::user();
         $cart = Cart::where('user_id', $user->id)->first();
