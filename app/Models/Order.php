@@ -17,4 +17,12 @@ class Order extends Model
         'price',
         'status',
     ];
+    public function orderProducts()
+    {
+        return $this->hasMany(OrderProduct::class, 'order_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

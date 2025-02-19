@@ -12,9 +12,12 @@
             <input type="number" name="price" required min="1" value="{{$products->price}}">
         </label><br><br>
         <label for="description">
-            Mo ta:
+            Mô tả:
             <input type="text" name="description" required value="{{ $products->description}}">
         </label><br><br>
+            bán ra 
+            </label>
+            <input type="text" name="sell"required value="{{ $products->sell }}"><br> <br>
         <select id="provider" name="provider_id" required>
         <option value="" disabled>-- Chọn nhà cung cấp --</option>
         @foreach ($providers as $provider)
@@ -39,12 +42,12 @@
             <input type="text" name="image" accept="image/*" value="{{$products->image}}">
         </label><br><br>
     <div class="role-options">
-    
-        <input type="radio" name="role" value="Hiện" {{ isset($product) && $product->role === 'Hien' ? 'checked' : '' }}>
+   
+        <input type="radio" name="role" value="Hiện" {{ isset($products) && $products->role === 'Hiện' ? 'checked' : '' }}>
         <label for="presently">Hiện</label>
     </div>
     <div class="role-options">
-        <input type="radio" name="role" value="Ẩn" {{ isset($product) && $product->role === 'An' ? 'checked' : '' }}>
+        <input type="radio" name="role" value="Ẩn" {{ isset($products) && $products->role === 'Ẩn' ? 'checked' : '' }}>
         <label for="hide">Ẩn</label>
     </div>
 

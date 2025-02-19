@@ -53,6 +53,7 @@
                         <img src="{{ $product->image }}">
                         <h3>{{ $product->name }}</h3>
                         <p>Giá: {{ number_format($product->price, 0, ',', '.') }} VNĐ</p>
+                        <p>Còn lại: {{ $product->sell }}</p>
                         <input type="hidden" name="product_id" value="{{$product->id}}">
                         <button type="submit">Thêm vào Giỏ</button>
                     </div>
@@ -60,5 +61,22 @@
                 @endforeach
         </div>
     </body>
+    <script>
+    function searchProducts() {
+        let input = document.getElementById("search").value.toLowerCase();
+        let products = document.querySelectorAll(".product");
+
+        products.forEach(product => {
+            let productName = product.querySelector("h3").textContent.toLowerCase();
+            if (productName.includes(input)) {
+                product.style.display = "block";
+            } else {
+                product.style.display = "none";
+            }
+        });
+    }
+</script>
+
+    
     
 </x-app-layout>

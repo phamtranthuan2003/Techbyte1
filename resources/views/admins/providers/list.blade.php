@@ -71,5 +71,28 @@
     </section>
 </div>
 </form>
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("searchInput");
+            const tableRows = document.querySelectorAll(".table-admin tbody tr");
+
+            searchInput.addEventListener("keyup", function () {
+                const searchText = searchInput.value.toLowerCase();
+
+                tableRows.forEach(row => {
+                    const cells = row.querySelectorAll("td");
+                    let found = false;
+
+                    cells.forEach(cell => {
+                        if (cell.textContent.toLowerCase().includes(searchText)) {
+                            found = true;
+                        }
+                    });
+
+                    row.style.display = found ? "" : "none";
+                });
+            });
+        });
+    </script>
 
 </x-app-layout>

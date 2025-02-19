@@ -1,10 +1,10 @@
 <x-app-layout>
-<form class="admin">
+<div class="admin">
 <!-- Sidebar -->
-<div class="sidebar">
+    <div class="sidebar">
     <div class="logo">
         <h2>Admin Dashboard</h2>
-</div>
+    </div>
     <ul class="menu">
         <li><a href="{{ route('admins.home') }}">Tổng quan</a></li>
         <li><a href="{{ route('admins.users.list') }}">Quản lý người dùng</a></li>
@@ -68,7 +68,30 @@
             </tbody>
         </table>
     </section>
+    </div>
 </div>
-</form>
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("searchInput");
+            const tableRows = document.querySelectorAll(".table-admin tbody tr");
+
+            searchInput.addEventListener("keyup", function () {
+                const searchText = searchInput.value.toLowerCase();
+
+                tableRows.forEach(row => {
+                    const cells = row.querySelectorAll("td");
+                    let found = false;
+
+                    cells.forEach(cell => {
+                        if (cell.textContent.toLowerCase().includes(searchText)) {
+                            found = true;
+                        }
+                    });
+
+                    row.style.display = found ? "" : "none";
+                });
+            });
+        });
+    </script>
 
 </x-app-layout>
