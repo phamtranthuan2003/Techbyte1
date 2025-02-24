@@ -2,7 +2,7 @@
 <div class="sidebar">
         <div class="logo">
             <h2>Admin Dashboard</h2>
-        </div>
+    </div>
         <ul class="menu">
         <li><a href="{{ route('admins.home') }}">Tổng quan</a></li>
         <li><a href="{{ route('admins.users.list') }}">Quản lý người dùng</a></li>
@@ -14,19 +14,19 @@
         <li><a href="{{ route('admins.providers.list') }}" onclick="logout()">Nhà Cung Cấp</a></li>
         <li><a href="{{ route('users.login') }}" onclick="logout()">Đăng xuất</a></li>
 
-        </ul>
+
     </div>
     
     <div class="main-content">      
         <header>
-            <h1>Đã đặt hàng</h1>
+            <h1>Đơn hàng đã vận chuyển</h1>
           
             <!-- Thêm ô tìm kiếm vào đây -->
             <div class="search-container">
                 <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." onkeyup="searchProduct()">
             </div>
         </header>
-    <div class="statusOrder">
+        <div class="statusOrder">
         <a href="{{ route("admins.orders.orderNotPlaced")}}">
             <button type="button">Đơn hàng chờ xác nhận</button>
         </a>
@@ -93,8 +93,6 @@
                         </button>
                     </form>
                 </td>
-                </button>
-                </td>
             </tr>
         @endforeach
      
@@ -151,5 +149,4 @@
     background-color: #219150; /* Màu khi hover */
 }
 
-</style>
-
+    </style>

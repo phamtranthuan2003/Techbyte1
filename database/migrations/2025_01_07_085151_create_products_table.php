@@ -17,9 +17,9 @@ return new class extends Migration
             $table->integer('price'); 
             $table->string('image')->nullable();
             $table->text('description')->nullable();
-            $table->text('provider_id')->nullable();
-            $table->text('category_id');
+            $table->text('provider_id');
             $table->text('role');
+            $table->text('sell');
             $table->timestamps();
         });
     }

@@ -41,7 +41,6 @@
 
             @endforeach
         </div>
-                <h2 style="margin: 20px 0;">Sản Phẩm Bán Chạy</h2>
                 <div class="products">
                 @foreach ($products as $product)
                 <div class="product" data-category="{{ $product->category }}">

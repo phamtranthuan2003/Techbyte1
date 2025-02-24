@@ -22,7 +22,6 @@ class UserController extends Controller
     {
         
         $data = $request->all();
-        $data['role'] = 'user';
       
         User::create($data);
         return redirect()->route('users.login');

@@ -19,8 +19,8 @@ return new class extends Migration
                 $table->text('address');
                 $table->string('phone');
                 $table->string('email')->unique(); // Thêm unique để tránh trùng email
-                $table->string('password'); // Đổi từ text thành string cho password
-                $table->enum('role', ['admin', 'user'])->default('user'); // Giới hạn giá trị role
+                $table->string('password');
+                $table->enum('role', ['admin', 'user'])->default('user');
                 $table->timestamps();
             });
         }

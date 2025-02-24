@@ -61,7 +61,7 @@
                 @endforeach
         </div>
     </body>
-    <script>
+<script>
     function searchProducts() {
         let input = document.getElementById("search").value.toLowerCase();
         let products = document.querySelectorAll(".product");

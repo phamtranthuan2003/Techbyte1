@@ -8,13 +8,11 @@
     <ul class="menu">
         <li><a href="{{ route('admins.home') }}">Tổng quan</a></li>
         <li><a href="{{ route('admins.users.list') }}">Quản lý người dùng</a></li>
-        <li><a href="{{ route('admins.orders.list') }}">Quản lý đơn hàng</a></li>
+        <li><a href="{{ route('admins.orders.orderNotPlaced') }}">Quản lí đơn hàng</a></li>
         <li><a href="{{ route('admins.products.list') }}">Quản lý sản phẩm</a></li>
         <li><a href="{{ route('admins.categories.list') }}">Danh mục</a></li>
         <li><a href="{{ route('admins.providers.list') }}" onclick="logout()">Nhà Cung Cấp</a></li>
-        <!-- <li><a href="./admin_setting_management.html">Cài đặt</a></li> -->
         <li><a href="{{ route('users.login') }}" onclick="logout()">Đăng xuất</a></li>
-
     </ul>
 </div>
 

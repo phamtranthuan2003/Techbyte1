@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Provider;
+use App\Models\Order;
 use App\Models\Category_Product;
 use App\Models\CategoryProduct;
 
@@ -77,6 +78,19 @@ class ProductControllerr extends Controller
     {
         $products = Product::with(['provider','categories'])->get();
         return view('admins.products.listproduct', compact('products'));
+    }
+    public function updatestatus($id)
+    {
+        $order = Order::findOrFail($id);
+    
+        if ($order->status >= 4) {
+            $order->delete(); // Xóa đơn hàng nếu status > 4
+        } else {
+            $order->status += 1;
+            $order->save();
+        }
+    
+        return redirect()->back()->with('success', 'Cập nhật trạng thái đơn hàng thành công!');
     }
     
 }

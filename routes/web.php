@@ -47,6 +47,8 @@ Route::post('update/{id}', [ProductControllerr::class, 'update'])->name('update'
 
 
 Route::delete('delete/{id}', [ProductControllerr::class, 'delete'])->name('delete');
+
+
 });
 });
 
@@ -106,20 +108,28 @@ use App\Http\Controllers\Admin\UserControllerr;
 });
 });
 
-use App\Http\Controllers\Admin\OderController;
+use App\Http\Controllers\Admin\OrderController;
     Route::prefix('admins')->name('admins.')->group(function () {
     Route::prefix('orders')->name('orders.')->group(function () {
 
 
-    Route::get('list', [OderController::class, 'list'])->name('list');
+    Route::get('list', [OrderController::class, 'list'])->name('list');
 
-    Route::get('/orderDetail/{id}', [OderController::class, 'orderDetail'])->name('orderDetail');
+    Route::get('orderhasbeenship', [OrderController::class, 'orderhasbeenship'])->name('orderhasbeenship');
+
+    Route::get('orderNotPlaced', [OrderController::class, 'orderNotPlaced'])->name('orderNotPlaced');
+
+    Route::get('orderComplete', [OrderController::class, 'orderComplete'])->name('orderComplete');
+
+    Route::get('orderCancelled', [OrderController::class, 'orderCancelled'])->name('orderCancelled');
+
+    Route::get('/orderDetail/{id}', [OrderController::class, 'orderDetail'])->name('orderDetail');
     
-    Route::post('/changestatus/{id}', [OderController::class, 'changestatus'])->name('changestatus');
+    Route::post('/changestatus/{id}', [OrderController::class, 'changestatus'])->name('changestatus');
+
+    Route::post('updatestatus/{id}', [ProductControllerr::class, 'updatestatus'])->name('updatestatus');
 });
 });
-
-
 
 
 use App\Http\Controllers\Admin\CategoryControllerr;

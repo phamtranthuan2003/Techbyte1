@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->text('name_product');
             $table->integer('quantity')->default(1); 
-            $table->decimal('price', 10, 2); // Cột lưu giá sản phẩm khi mua (nếu cần)
+            $table->integer('price'); // Cột lưu giá sản phẩm khi mua (nếu cần)
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_product');
+        Schema::dropIfExists('order_products');
     }
 };

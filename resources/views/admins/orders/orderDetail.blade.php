@@ -13,17 +13,17 @@
 
             
             
-            <div class="status 
-                @if ($order->status == 0) chua-dat 
-                @elseif ($order->status == 1) da-dat 
-                @elseif ($order->status == 2) da-van-chuyen 
-                @endif">
-                @if ($order->status == 0)
+            <div class="status">
+                 @if ($order->status == 0)
                     Chưa đặt hàng
                 @elseif ($order->status == 1)
                     Đã đặt hàng
                 @elseif ($order->status == 2)
                     Đã vận chuyển
+                @elseif ($order->status == 3)
+                    Đã hoàn thành
+                @else
+                    Đã hủy
                 @endif
             </div>
 
@@ -63,6 +63,8 @@
                         <option value="0" {{ $order->status == 0 ? 'selected' : '' }}>Chưa đặt hàng</option>
                         <option value="1" {{ $order->status == 1 ? 'selected' : '' }}>Đã đặt hàng</option>
                         <option value="2" {{ $order->status == 2 ? 'selected' : '' }}>Đã vận chuyển</option>
+                        <option value="3" {{ $order->status == 3 ? 'selected' : '' }}>Đơn hàng thành công</option>
+                        <option value="4" {{ $order->status == 4 ? 'selected' : '' }}>Đã hủy</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary update-status-btn">Cập nhật trạng thái</button>
