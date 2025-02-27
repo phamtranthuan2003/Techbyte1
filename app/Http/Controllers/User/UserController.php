@@ -22,8 +22,15 @@ class UserController extends Controller
     {
         
         $data = $request->all();
-      
-        User::create($data);
+        $user = User::create($data);
+        $cart = Cart::where('user_id', $user->id)->first();
+    
+        if (!$cart) {
+            $cart = Cart::create([
+                'user_id' => $user->id,
+                'price' => 0,
+            ]);
+        }
         return redirect()->route('users.login');
     }
 

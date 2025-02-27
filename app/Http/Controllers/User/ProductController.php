@@ -177,7 +177,7 @@ class ProductController extends Controller
     $existingOrder = Order::where('user_id', $user->id)
                           ->where('status', 0)
                           ->first();
-
+    
     $cart = Cart::where('user_id', $user->id)->first();
     $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
     $totalPrice = $cartproducts->sum(function ($cartproducts) {
@@ -186,36 +186,32 @@ class ProductController extends Controller
     });
 
     if ($existingOrder) {
-        // Cập nhật thông tin của đơn hàng (order)
-        $existingOrder->name = $user->name;
-        $existingOrder->address = $user->address;
-        $existingOrder->phone = $user->phone;
-        $existingOrder->price = $totalPrice;
-        $existingOrder->save();
-        // Nếu có đơn hàng chờ xác nhận
-        foreach ($cartproducts as $cartproduct) {
-            $existingProductInOrder = OrderProduct::where('order_id', $existingOrder->id)
-                ->where('product_id', $cartproduct->product_id)
-                ->first();
-        
-            if ($existingProductInOrder) {
-                // Nếu sản phẩm đã có trong đơn hàng, cập nhật số lượng và giá
-                $existingProductInOrder->quantity = $cartproduct->quantity;
-                $existingProductInOrder->price = $totalPrice;
-                $existingProductInOrder->save();
+       // Xóa tất cả sản phẩm trong đơn hàng cũ
+    OrderProduct::where('order_id', $existingOrder->id)->delete();
+    
+    // Xóa đơn hàng cũ
+    $existingOrder->delete();
 
-            } else {
-                // Nếu sản phẩm chưa có trong đơn hàng, tạo mới
-                OrderProduct::create([
-                    'user_id' => $user->id,
-                    'order_id' => $existingOrder->id,
-                    'product_id' => $cartproduct->product_id,
-                    'quantity' => $cartproduct->quantity,
-                    'price' => $cartproduct->price,
-                    'name_product' => $cartproduct->products->name,
-                ]);
-            }
-        }
+    // Tạo đơn hàng mới
+    $order = Order::create([
+        'name' => $user->name,
+        'address' => $user->address,
+        'phone' => $user->phone,
+        'user_id' => $user->id,
+        'status' => 0,
+        'price' => $totalPrice,
+    ]);
+    foreach ($cartproducts as $cartproduct) {
+            $orderProduct = OrderProduct::create([
+            'user_id' => $user->id,
+            'order_id' => $order->id,
+            'product_id' => $cartproduct->product_id,
+            'quantity' => $cartproduct->quantity,
+            'price' => $cartproduct->price,
+            'name_product' => $cartproduct->products->name,
+        ]);
+    }
+       
 
     } else {
         // Nếu không có đơn hàng nào đang chờ xác nhận, tạo đơn hàng mới
@@ -258,6 +254,7 @@ class ProductController extends Controller
         return redirect()->route('users.home');
     }
     public function ordersucess(Request $request){
+
         $user = Auth::user();
         $cart = Cart::where('user_id', $user->id)->first();
         $order = Order::where('user_id', $user->id)->where('status', 0)->first();

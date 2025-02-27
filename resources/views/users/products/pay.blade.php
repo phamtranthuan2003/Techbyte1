@@ -36,11 +36,11 @@
                 </div>
             </header>
         </div>
-    </div>
+    </div><br><br><br>
      <!-- end Header -->
 
 
-
+     <form action="{{ route("users.products.ordersucess") }}" method="post">
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
     <div class="w-full max-w-2xl p-8 bg-white shadow-xl rounded-2xl">
             <!-- Thông tin khách hàng -->
@@ -100,7 +100,7 @@
                 <!-- Mã giảm giá -->
                 <input type="text" id="discount-code" name="discount_code" placeholder="🎟 Nhập mã giảm giá"
                     class="w-full mt-4 px-5 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none transition">
-                <form action="{{ route("users.products.ordersucess") }}" method="post">
+                
                 @csrf
                 <button class="mt-4 w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-75 transition shadow-lg">
                     🚀 Thanh Toán Ngay

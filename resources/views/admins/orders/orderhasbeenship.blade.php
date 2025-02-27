@@ -160,7 +160,7 @@
 }
 
 .statusOrder button {
-    background-color: #007BFF; /* Blue background */
+    background-color: #2c3e50; /* Blue background */
     color: white; /* White text */
     border: none; /* No border */
     padding: 20px 80px; /* Padding for buttons */

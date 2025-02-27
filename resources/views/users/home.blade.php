@@ -53,7 +53,7 @@
                 <img src="{{ asset('image/bannerxx2.png') }}" alt="Slide 2" class="w-full h-64 object-cover rounded-lg">
             </div>
             <div class="swiper-slide">
-                <img src="{{ asset('image/bannerx.png') }}" alt="Slide 3" class="w-full h-64 object-cover rounded-lg">
+                <img src="{{ asset('image/banner2.png') }}" alt="Slide 3" class="w-full h-64 object-cover rounded-lg">
             </div>
         </div>
     </div>
@@ -80,7 +80,7 @@
         @endforeach    
         </div>
         <div class=" py-12">
-        <img src="{{ asset('image/banner2.png') }}">
+        <img src="{{ asset('image/banner1.png') }}">
         </div>
         <h3 class="text-2xl text-gray-800 mb-6 title relative pl-[20px]">SẢN PHẨM MỚI</h3>
         <div class="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
