@@ -16,7 +16,9 @@
     <div class="fixed top-0 left-0 z-50 w-full shadow-lg bg-white">
         <div class="container mx-auto">
             <header class="bg-gradient-to-r text-black p-4 w-full flex justify-between items-center">
-                <h1 class="text-3xl font-bold tracking-widest ml-4">ProsStudio STORE</h1>
+                <a href="{{ route("users.home") }}">
+                    <h1 class="text-3xl font-bold tracking-widest ml-4">ProsStudio Store</h1>
+                </a>
                 <nav class="space-x-6 hidden md:flex">
                     <a href="{{ route("users.home") }}" class="hover:text-yellow-300 transition">TRANG CHỦ</a>
                     <a href="{{ route("users.introduce") }}" class="hover:text-yellow-300 transition">GIỚI THIỆU</a>
@@ -44,6 +46,8 @@
     
     <!-- Contact Section -->
     <div class="max-w-4xl mx-auto bg-white p-8 mt-10 shadow-md rounded-lg">
+        <form action="{{ route("users.feedback") }}" class="mt-4 space-y-4" method="post">
+        @csrf
         <h2 class="text-2xl font-semibold text-center mb-6">Thông Tin Liên Hệ</h2>
         <div class="grid md:grid-cols-2 gap-6">
             <div>
@@ -57,7 +61,7 @@
         </div>
         
         <h2 class="text-2xl font-semibold text-center mt-8">Gửi Yêu Cầu</h2>
-        <form class="mt-4 space-y-4">
+        
             <input type="text" placeholder="Tên của bạn" class="w-full p-3 border rounded-md" required>
             <input type="text" placeholder="Số điện thoại của bạn" class="w-full p-3 border rounded-md" required>
             <input type="email" placeholder="Email của bạn" class="w-full p-3 border rounded-md" required>
@@ -65,7 +69,7 @@
             <button type="submit" class="w-full bg-black text-white p-3 rounded-md">Gửi Yêu Cầu</button>
         </form>
     </div>
-    <footer class="bg-black text-[#999999] p-4 w-full mt-[149px]">
+    <footer class="bg-black text-[#999999] p-4 w-full mt-[157px]">
         <div class="container mx-auto flex flex-col md:flex-row justify-between items-center py-3">
             <p>&copy; 2025 Cửa Hàng Điện Tử Pros studio</p>
             <div class="flex space-x-4">

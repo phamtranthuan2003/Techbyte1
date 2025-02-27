@@ -16,7 +16,9 @@
     <div class="fixed top-0 left-0 z-50 w-full shadow-lg bg-white">
         <div class="container mx-auto">
             <header class="bg-gradient-to-r text-black p-4 w-full flex justify-between items-center">
-                <h1 class="text-3xl font-bold tracking-widest ml-4">ProsStudio STORE</h1>
+                <a href="{{ route("users.home") }}">
+                    <h1 class="text-3xl font-bold tracking-widest ml-4">ProsStudio Store</h1>
+                </a>
                 <nav class="space-x-6 hidden md:flex">
                     <a href="{{ route("users.home") }}" class="hover:text-yellow-300 transition">TRANG CHỦ</a>
                     <a href="{{ route("users.introduce") }}" class="hover:text-yellow-300 transition">GIỚI THIỆU</a>

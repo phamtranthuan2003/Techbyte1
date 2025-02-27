@@ -72,6 +72,8 @@ Route::prefix('users')->name('users.')->group(function () {
         Route::post('updateQuantity/{id}', [ProductController::class,'updateQuantity'])->name('updateQuantity');
 
         Route::post('logout', [ProductController::class,'logout'])->name('logout');
+
+        Route::get('productDetail/{id}', [ProductController::class,'productDetail'])->name('productDetail');
     });
 });
 
@@ -187,6 +189,7 @@ Route::prefix('users')->name('users.')->group(function () {
     Route::get('promotion', [UserController::class, 'promotion'])->name('promotion');
 
     Route::get('contact', [UserController::class, 'contact'])->name('contact');
+    Route::post('feedback', [UserController::class, 'feedback'])->name('feedback');
 
     Route::get('confirmOTP', [UserController::class, 'confirmOTP'])->name('confirmOTP');
     Route::post('Otpsucces', [UserController::class, 'Otpsucces'])->name('Otpsucces');

@@ -267,8 +267,31 @@ class ProductController extends Controller
         'status'=> '1',
         'price'=> $request->total_price,
      ]);
-         $cart->delete();
+     // Lấy danh sách sản phẩm trong đơn hàng
+    $orderProducts = OrderProduct::where('order_id', $order->id)->get();
+
+    // Giảm số lượng sản phẩm trong bảng Product
+    foreach ($orderProducts as $orderProduct) {
+        $product = Product::find($orderProduct->product_id);
+        if ($product) {
+            $product->decrement('sell', $orderProduct->quantity);
+        }
+    }
+    CartProduct::where('cart_id', $cart->id)->delete();
+
+
      return redirect()->route('users.home');
+    }
+    public function productDetail(Request $request, $id){
+        $products = Product::find($id);
+        $user = Auth::user();
+        if ($user) { // Kiểm tra user có đăng nhập không
+            $cart = Cart::where('user_id', $user->id)->first();
+            if ($cart) {
+                $cartCount = CartProduct::where('cart_id', $cart->id)->count();
+            }
+        }
+        return view('users.products.productDetail', compact('products','user', 'cartCount'));
     }
 }
     

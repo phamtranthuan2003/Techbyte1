@@ -16,7 +16,9 @@
     <div class="fixed top-0 left-0 z-50 w-full shadow-lg bg-white">
         <div class="container mx-auto">
             <header class="bg-gradient-to-r text-black p-4 w-full flex justify-between items-center">
+                <a href="{{ route("users.home") }}">
                 <h1 class="text-3xl font-bold tracking-widest ml-4">ProsStudio Store</h1>
+                </a>
                 <nav class="space-x-6 hidden md:flex">
                     <a href="{{ route("users.home") }}" class="hover:text-yellow-300 transition">TRANG CHỦ</a>
                     <a href="{{ route("users.introduce") }}" class="hover:text-yellow-300 transition">GIỚI THIỆU</a>
@@ -65,20 +67,23 @@
         <h3 class="text-2xl text-gray-800 mb-6 title relative pl-[20px]">SẢN PHẨM BÁN CHẠY NHẤT</h3>
         
         <div class="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        @foreach ($products as $product)
-            <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition text-center">
-                <img src="{{ $product->image }}" class="w-full h-64 object-cover rounded-lg hover:scale-105 transition">
-                        <h4 class="text-2xl font-bold mt-3 text-gray-900">{{ $product->name }}</h4>
-                        <p class="text-red-500 font-bold mt-2 text-xl">{{ number_format($product->price, 0, ',', '.') }} VNĐ</p>
-                        <p class="text-gray-600">Còn lại: {{ $product->sell }}</p>
+            @foreach ($bestProduct as $product)
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition text-center">
+                    <img src="{{ $product->image }}" class="w-full h-64 object-cover rounded-lg hover:scale-105 transition">
+                    <h4 class="text-2xl font-bold mt-3 text-gray-900">{{ $product->name }}</h4>
+                    <p class="text-red-500 font-bold mt-2 text-xl">{{ number_format($product->price, 0, ',', '.') }} VNĐ</p>
+                    <p class="text-gray-600">Còn lại: {{ $product->sell }}</p>
+                    
                     <form action="{{ route('users.products.addtocart') }}" method="post">
                         @csrf
-                        <button type="submit" class="mt-4 w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-75 transition shadow-lg">Thêm vào Giỏ</button>
+                        <button type="submit" class="mt-4 w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-75 transition shadow-lg">
+                            Thêm vào Giỏ
+                        </button>
                     </form>
-                    
+                </div>
+            @endforeach
         </div>
-        @endforeach    
-        </div>
+
         <div class=" py-12">
         <img src="{{ asset('image/banner1.png') }}">
         </div>

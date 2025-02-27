@@ -17,7 +17,7 @@
         <div class="container mx-auto">
             <header class="bg-gradient-to-r text-black p-4 w-full flex justify-between items-center">
                 <a href="{{ route("users.home") }}">
-                <h1 class="text-3xl font-bold tracking-widest ml-4">ProsStudio Store</h1>
+                    <h1 class="text-3xl font-bold tracking-widest ml-4">ProsStudio Store</h1>
                 </a>
                 <nav class="space-x-6 hidden md:flex">
                     <a href="{{ route("users.home") }}" class="hover:text-yellow-300 transition">TRANG CHỦ</a>
@@ -44,46 +44,46 @@
         </div>
     </div>
 
-    <!-- Nội dung trang -->
-    <main class="flex-grow container mx-auto px-6 py-20 text-center mt-16">
-    <section class="container mx-auto px-6 py-20 text-center mt-16">
-        <h2 class="text-4xl font-bold text-gray-800">Chào mừng đến với Pros Studio</h2>
-        <p class="text-gray-600 mt-4">Nơi cung cấp các sản phẩm công nghệ tiên tiến nhất với chất lượng hàng đầu.</p>
-    </section>
-    
-    <!-- Team Section -->
-    <section class="container mx-auto px-6 py-16">
-        <h2 class="text-3xl font-bold text-gray-800 text-center">Đội Ngũ Của Chúng Tôi</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-            <div class="bg-white shadow-lg rounded-lg p-6 text-center">
-                <img src="https://hoanghamobile.com/tin-tuc/wp-content/uploads/2023/11/tai-google-dich.jpg" alt="Pham Tran Thuan" class="w-32 h-32 mx-auto rounded-full">
-                <h3 class="text-xl font-semibold mt-4">Pham Tran Thuan</h3>
-                <p class="text-gray-600">Giám Đốc Điều Hành</p>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-24">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white p-8 rounded-lg shadow-lg">
+            <!-- Product Image -->
+            <div>
+                <img src="{{ $products->image }}" class="w-full h-auto object-cover rounded-lg shadow-md">
             </div>
-            <div class="bg-white shadow-lg rounded-lg p-6 text-center">
-                <img src="https://hoanghamobile.com/tin-tuc/wp-content/uploads/2023/11/tai-google-dich.jpg" alt="Pham Tran Thuan" class="w-32 h-32 mx-auto rounded-full">
-                <h3 class="text-xl font-semibold mt-4">Pham Tran Thuan</h3>
-                <p class="text-gray-600">Chuyên Gia Công Nghệ</p>
-            </div>
-            <div class="bg-white shadow-lg rounded-lg p-6 text-center">
-                <img src="https://hoanghamobile.com/tin-tuc/wp-content/uploads/2023/11/tai-google-dich.jpg" alt="Pham Tran Thuan" class="w-32 h-32 mx-auto rounded-full">
-                <h3 class="text-xl font-semibold mt-4">Pham Tran Thuan</h3>
-                <p class="text-gray-600">Nhân Viên Hỗ Trợ Khách Hàng</p>
+            
+            <!-- Product Details -->
+            <div>
+                <h2 class="text-3xl font-bold text-gray-900">{{ $products->name }}</h2>
+                <p class="text-red-500 font-bold text-2xl mt-2">{{ number_format($products->price, 0, ',', '.') }} VND</p>
+                <p class="text-gray-600 mt-2">Còn lại: {{ $products->sell }}</p>
+                
+                <div class="mt-4">
+                    <h4 class="text-lg font-semibold">Thông số kỹ thuật:</h4>
+                    <ul class="list-disc list-inside text-gray-700">
+                        <li>Thương hiệu: {{ $products->brand }}</li>
+                        <li>Mô hình: {{ $products->model }}</li>
+                        <li>Khối lượng: {{ $products->weight }} kg</li>
+                        <li>Kích thước: {{ $products->dimensions }}</li>
+                        <li>Bảo hành: {{ 12 }} tháng</li>
+                    </ul>
+                </div>
+                
+                <button class="mt-6 w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-80 transition shadow-lg" onclick="addToCart()">Thêm vào Giỏ</button>
             </div>
         </div>
-    </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-black text-[#999999] p-4 w-full mt-[21px]">
-        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center py-3">
-            <p>&copy; 2025 Cửa Hàng Điện Tử Pros studio</p>
-            <div class="flex space-x-4">
-                <a href="#" class="hover:text-gray-300"><i class="fab fa-facebook text-xl"></i></a>
-                <a href="#" class="hover:text-gray-300"><i class="fab fa-instagram text-xl"></i></a>
-                <a href="#" class="hover:text-gray-300"><i class="fab fa-twitter text-xl"></i></a>
-            </div>
-        </div>
+    <footer class="bg-black text-gray-400 p-4 text-center">
+        <p>&copy; 2025 Cửa Hàng Điện Tử Pros Studio</p>
     </footer>
+
+    <script>
+        function addToCart() {
+            alert("Sản phẩm đã được thêm vào giỏ hàng!");
+        }
+    </script>
 </body>
+
 </html>

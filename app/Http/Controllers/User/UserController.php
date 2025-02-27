@@ -5,11 +5,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\Category;
+use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Product;
+use App\Jobs\SendEmail as NotificationsSendEmail;
 use Illuminate\Support\Facades\Auth;
-
+use App\Task;
 class UserController extends Controller
 
 {
@@ -118,21 +120,37 @@ class UserController extends Controller
     public function home(Request $request)
 {
     $user = Auth::user();
-    $cartCount = 0;
-    $cartproducts = collect(); // Khởi tạo một collection rỗng để tránh lỗi
+$cartCount = 0;
+$cartproducts = collect(); // Khởi tạo một collection rỗng để tránh lỗi
 
-    if ($user) {
-        $cart = Cart::where('user_id', $user->id)->first();
-        if ($cart) {
-            $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
-            $cartCount = $cartproducts->count();
-        }
+if ($user) {
+    $cart = Cart::where('user_id', $user->id)->first();
+    if ($cart) {
+        $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
+        $cartCount = $cartproducts->count();
     }
+}
 
-    $categories = Category::all();
-    $products = Product::where('role', 'hiện')->get();
+$categories = Category::all();
+$products = Product::where('role', 'hiện')
+    ->orderBy('created_at', 'desc')
+    ->limit(4)
+    ->get();
 
-    return view('users.home', compact('products', 'user', 'categories', 'cartCount'));
+// Lấy 4 sản phẩm bán chạy nhất
+$bestSellingProduct = OrderProduct::select('product_id')
+    ->selectRaw('SUM(quantity) as total_sold')
+    ->groupBy('product_id')
+    ->orderByDesc('total_sold')
+    ->limit(4)
+    ->pluck('product_id'); // Trả về danh sách product_id
+
+// Lấy thông tin sản phẩm từ bảng products
+$bestProduct = Product::whereIn('id', $bestSellingProduct)->get();
+
+return view('users.home', compact('products', 'user', 'categories', 'cartCount', 'bestProduct'));
+
+
 }
 
 public function introduce(Request $request)
@@ -177,6 +195,16 @@ public function promotion()
         }
     }
         return view('users.contacts.contact', compact('user','cartCount'));
+    }
+    public function feedback(Request $request)
+    {
+        try {
+            NotificationsSendEmail::dispatch();
+
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            //throw $th;
+        }
     }
 
 }

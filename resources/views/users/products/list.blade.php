@@ -16,7 +16,9 @@
     <div class="fixed top-0 left-0 z-50 w-full shadow-lg bg-white">
         <div class="container mx-auto">
             <header class="bg-gradient-to-r text-black p-4 w-full flex justify-between items-center">
-                <h1 class="text-3xl font-bold tracking-widest ml-4">ProsStudio STORE</h1>
+                <a href="{{ route("users.home") }}">
+                    <h1 class="text-3xl font-bold tracking-widest ml-4">ProsStudio Store</h1>
+                </a>
                 <nav class="space-x-6 hidden md:flex">
                     <a href="{{ route("users.home") }}" class="hover:text-yellow-300 transition">TRANG CHỦ</a>
                     <a href="{{ route("users.introduce") }}" class="hover:text-yellow-300 transition">GIỚI THIỆU</a>
@@ -60,7 +62,9 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id ="product-list">
             @foreach ($products as $product)
                 <div class="bg-white p-4 rounded-lg shadow-lg hover:shadow-2xl transition text-center">
+                    <a href="{{ route('users.products.productDetail', ['id' => $product->id]) }}">
                     <img src="{{ $product->image }}" class="w-full h-64 object-cover rounded-lg hover:scale-105 transition">
+                    </a>
                     <h3 class="text-2xl font-bold mt-3 text-gray-900">{{ $product->name }}</h3>
                     <p class="text-red-500 font-bold mt-2 text-xl">{{ number_format($product->price, 0, ',', '.') }} VNĐ</p>
                     <p class="text-gray-600">Còn lại: {{ $product->sell }}</p>
