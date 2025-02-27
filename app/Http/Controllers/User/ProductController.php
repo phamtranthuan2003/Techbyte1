@@ -116,7 +116,7 @@ class ProductController extends Controller
             return ($cartproduct->quantity ?? 0) * ($cartproduct->price ?? 0);
         });
     
-        return view('users.products.cart', compact('products', 'cart', 'cartproducts', 'totalPrice'));
+        return view('users.products.cart', compact('products', 'cart', 'cartproducts', 'totalPrice','user'));
     }
     
 
@@ -163,7 +163,7 @@ class ProductController extends Controller
             return $cartproduct->quantity * $cartproduct->price;
         });
 
-        return view('users.products.pay', compact('products', 'cart', 'cartproducts', 'totalPrice'));
+        return view('users.products.pay', compact('products', 'cart', 'cartproducts', 'totalPrice','user'));
     }   
     public function order()
 {

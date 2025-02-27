@@ -1,42 +1,59 @@
-<x-app-layout>
-<div class="container">
-        <div class="loginform">
-            <h2>Đăng Nhập</h2>
-            @if ($errors->has('email'))
-                <span class="invalid-feedback">
-                    <strong>{{ $errors->first('email') }}</strong>
-                </span>
-            @endif
-            <!-- Form đăng nhập -->
-            <form action="{{ route('users.loginIndex') }}" method="post">
-                @csrf  
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 
-                <!-- Nhập email -->
-                <label for="email">Email</label>
-                <input type="email" name="email" placeholder="Nhập email" required>
+    <style>
+        .bg-image {
+            background-image: url("{{ asset('image/login1.png') }}");
+            background-size: cover; /* Hiển thị toàn bộ ảnh */
+            background-position: bottom; /* Căn giữa ảnh */
+            background-repeat: no-repeat; /* Không lặp lại ảnh */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Đưa ảnh nền xuống dưới */
+        }
+    </style>
+</head>
+<body class="h-screen flex items-center justify-center bg-gray-100 relative bg-image">
+    
+    <!-- Form đăng nhập -->
+    <div class="relative bg-white p-8 rounded-lg shadow-lg w-96 text-center mt-[-100px]">
+        <h2 class="text-2xl font-bold text-gray-700">Đăng Nhập</h2>
 
-                <!-- Nhập mật khẩu -->
-                <label for="password">Mật khẩu</label>
-                <div class="password-container">
-                    <input type="password" name="password" placeholder="Nhập mật khẩu" required>
-                </div>
-
-                <!-- Nút đăng nhập -->
-                <button type="submit" name="btn-login">Đăng nhập</button>
-            </form>
-
-            <!-- Liên kết quên mật khẩu -->
-            <div class="forgot-password">
-                <a href="{{ route('users.confirmEmail') }}">Quên mật khẩu?</a>
+        <!-- Hiển thị lỗi -->
+        @if ($errors->has('email'))
+            <div class="text-red-500 text-sm mt-2">
+                <p>{{ $errors->first('email') }}</p>
             </div>
+        @endif
 
-            <!-- Liên kết đăng ký nếu chưa có tài khoản -->
-            <div class="signup">    
-                Bạn chưa có tài khoản? 
-                <a href="{{ route('users.create') }}">Đăng ký</a>
-            </div>
+        <!-- Form -->
+        <form action="{{ route('users.loginIndex') }}" method="POST" class="mt-4">
+            @csrf  
 
+            <!-- Nhập email -->
+            <label class="block text-gray-700 text-left">Email</label>
+            <input type="email" name="email" placeholder="Nhập email" 
+                   class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+            <!-- Nhập mật khẩu -->
+            <label class="block text-gray-700 text-left mt-4">Mật khẩu</label>
+            <input type="password" name="password" placeholder="Nhập mật khẩu" 
+                   class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+            <!-- Nút đăng nhập -->
+            <button type="submit" 
+                    class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold">
+                Đăng nhập
+            </button>
+        </form>
     </div>
-    </div>
-
-</x-app-layout>
+</body>
+</html>

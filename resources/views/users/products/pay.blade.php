@@ -1,59 +1,130 @@
-<x-app-layout>
-<div class="container">
-    <div class="payform">
-        <body>
-            <h1 class="text-center mb-4">Thông Tin Thanh Toán</h1>
-            
-            <form action="{{ route('users.products.ordersucess') }}" method="POST">
-                @csrf
+<!DOCTYPE html>
+<html lang="vi">
 
-                <div class="pay-product">
-                    <label for="name" class="form-label">Tên</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Nhập tên của bạn" required>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cửa Hàng Điện Tử - Pros Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Thêm Swiper.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-                    <label for="address" class="form-label">Địa Chỉ</label>
-                    <input type="text" class="form-control" id="address" name="address" placeholder="Nhập địa chỉ" required>
-
-                    <label for="phone" class="form-label">Số Điện Thoại</label>
-                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Nhập số điện thoại" required>
+</head>
+    <!-- Header -->
+    <div class="fixed top-0 left-0 z-50 w-full shadow-lg bg-white">
+        <div class="container mx-auto">
+            <header class="bg-gradient-to-r text-black p-4 w-full flex justify-between items-center">
+                <h1 class="text-3xl font-bold tracking-widest ml-4">ProsStudio STORE</h1>
+                <nav class="space-x-6 hidden md:flex">
+                    <a href="{{ route("users.home") }}" class="hover:text-yellow-300 transition">TRANG CHỦ</a>
+                    <a href="{{ route("users.introduce") }}" class="hover:text-yellow-300 transition">GIỚI THIỆU</a>
+                    <a href="{{ route("users.products.list") }}" class="hover:text-yellow-300 transition">SẢN PHẨM</a>
+                    <a href="{{ route("users.promotion") }}" class="hover:text-yellow-300 transition">KHUYẾN MÃI</a>
+                    <a href="{{ route("users.contact") }}" class="hover:text-yellow-300 transition">LIÊN HỆ</a>
+                </nav>
+                <div class="flex items-center space-x-4 mr-4">
+                    @if(!$user)
+                        <a href="{{ route('users.login') }}" class="bg-black text-white px-4 py-2 rounded-lg font-semibold">Đăng Nhập</a>
+                    @else
+                        <form action="{{ route('users.products.logout') }}" method="post">
+                            @csrf
+                            <button type="submit" class="underline text-back px-4 py-2 rounded-lg">Đăng Xuất</button>
+                        </form>
+                    @endif
                 </div>
+            </header>
+        </div>
+    </div>
+     <!-- end Header -->
 
-                <div class="mb-3">
-                    @foreach ($cartproducts as $cartproduct)
-                        <div class="cart">
-                            <h3 name="price">Giá: {{ number_format($cartproduct->price, 0, ',', '.') }} VND</h3>
-                            <p name="quantity">Số lượng: {{ $cartproduct->quantity }}</p>
 
-                            @if ($cartproduct->products)
-                                <div class="cart-product">
-                                    <p>{{ $cartproduct->products->name }}</p>
-                                    <img src="{{ asset($cartproduct->products->image) }}" >
+
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="w-full max-w-2xl p-8 bg-white shadow-xl rounded-2xl">
+            <!-- Thông tin khách hàng -->
+            <div class="space-y-4">
+                <label for="name" class="block text-sm font-semibold text-gray-700">Tên</label>
+                <input type="text" id="name" name="name" placeholder="Nhập tên của bạn" required
+                    class="w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none transition">
+
+                <label for="address" class="block text-sm font-semibold text-gray-700">Địa Chỉ</label>
+                <input type="text" id="address" name="address" placeholder="Nhập địa chỉ" required
+                    class="w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none transition">
+
+                <label for="phone" class="block text-sm font-semibold text-gray-700">Số Điện Thoại</label>
+                <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại" required
+                    class="w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none transition">
+            </div>
+
+            <!-- Danh sách sản phẩm -->
+            <div class="bg-gray-100 p-5 rounded-xl shadow-md">
+                <h2 class="text-lg font-semibold mb-3 text-gray-700">🛍 Sản Phẩm</h2>
+                @foreach ($cartproducts as $cartproduct)
+                    <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm mb-3">
+                        @if ($cartproduct->products)
+                            <div class="flex items-center gap-4">
+                                <img src="{{ asset($cartproduct->products->image) }}" alt="{{ $cartproduct->products->name }}"
+                                    class="w-16 h-16 object-cover rounded-lg border border-gray-300">
+                                <div>
+                                    <p class="font-semibold text-gray-800">{{ $cartproduct->products->name }}</p>
+                                    <p class="text-sm text-gray-500">Số lượng: {{ $cartproduct->quantity }}</p>
                                 </div>
-                            @endif
-                        </div>
-                    @endforeach
-                </div>
+                            </div>
+                        @endif
+                        <h3 class="text-sm text-red-500 font-bold">{{ number_format($cartproduct->price, 0, ',', '.') }} VND</h3>
+                    </div>
+                @endforeach
+            </div>
 
-                <div class="payment_method">
-                    <label for="payment_method">Phương thức thanh toán</label>
-                    <select name="payment_method" id="payment_method">
-                        <option name="cash" value="cash">Thanh toán khi nhận hàng (COD)</option>
-                        <option name="bank" value="bank">Chuyển khoản ngân hàng</option>
-                        <option name="momo" value="momo">Ví MoMo</option>
-                        <option name="zalopay" value="zalopay">Ví ZaloPay</option>
-                        <option name="credit" value="credit">Thẻ tín dụng/Ghi nợ</option>
-                    </select>
-                </div>
+            <!-- Phương thức thanh toán -->
+            <div>
+                <label for="payment_method" class="block text-sm font-semibold text-gray-700">💳 Phương thức thanh toán</label>
+                <select name="payment_method" id="payment_method"
+                    class="w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none transition">
+                    <option value="cash">💵 Thanh toán khi nhận hàng (COD)</option>
+                    <option value="bank">🏦 Chuyển khoản ngân hàng</option>
+                    <option value="momo">📱 Ví MoMo</option>
+                    <option value="zalopay">📱 Ví ZaloPay</option>
+                    <option value="credit">💳 Thẻ tín dụng/Ghi nợ</option>
+                </select>
+            </div>
 
-                <div class="summary">
-                    <h3>Tổng Giỏ Hàng</h3>
-                    <p>{{ number_format($totalPrice, 0, ',', '.') }} VND</p>
-                    <input type="hidden" name="total_price" value="{{ $totalPrice }}">
-                    <input type="text" id="discount-code" name="discount_code" placeholder="Nhập mã giảm giá" oninput="applyDiscount()">
-                    <button class="checkout-button" type="submit">Thanh Toán</button>
-                </div>
-            </form>
-        </body>
+            <!-- Tổng đơn hàng -->
+            <div class="bg-gray-200 p-6 rounded-xl shadow-lg text-center">
+                <h3 class="text-lg font-bold text-gray-700">📦 Tổng Giỏ Hàng</h3>
+                <p class="text-3xl text-red-500 font-bold">{{ number_format($totalPrice, 0, ',', '.') }} VND</p>
+                <input type="hidden" name="total_price" value="{{ $totalPrice }}">
+
+                <!-- Mã giảm giá -->
+                <input type="text" id="discount-code" name="discount_code" placeholder="🎟 Nhập mã giảm giá"
+                    class="w-full mt-4 px-5 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none transition">
+                <form action="{{ route("users.products.ordersucess") }}" method="post">
+                @csrf
+                <button class="mt-4 w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-75 transition shadow-lg">
+                    🚀 Thanh Toán Ngay
+                </button>
+                </form>
+            </div>
+        </form>
     </div>
 </div>
-</x-app-layout>
+
+
+
+<!-- footer -->
+<footer class="bg-black text-[#999999] p-4 w-full">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center py-3">
+            <p>&copy; 2025 Cửa Hàng Điện Tử Pros studio</p>
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-gray-300"><i class="fab fa-facebook text-xl"></i></a>
+                <a href="#" class="hover:text-gray-300"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="#" class="hover:text-gray-300"><i class="fab fa-twitter text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    </body>
+</div>
+</html>

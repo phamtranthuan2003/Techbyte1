@@ -51,7 +51,8 @@ class UserController extends Controller
     }
     
     public function login(Request $request){
-        
+        $users = auth::user();
+
         return view('users.login');
     }
     public function loginIndex(Request $request)
@@ -159,8 +160,16 @@ public function promotion()
 
     public function contact()
     {
-        
-        return view('users.contacts.contact');
+        $user = Auth::user();
+    $cartCount = 0; // Mặc định giỏ hàng trống nếu user chưa đăng nhập
+
+    if ($user) { // Kiểm tra user có đăng nhập không
+        $cart = Cart::where('user_id', $user->id)->first();
+        if ($cart) {
+            $cartCount = CartProduct::where('cart_id', $cart->id)->count();
+        }
+    }
+        return view('users.contacts.contact', compact('user','cartCount'));
     }
 
 }

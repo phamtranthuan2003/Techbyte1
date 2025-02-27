@@ -11,15 +11,11 @@
                 <li><a href="{{ route('admins.products.list') }}">Quản lý sản phẩm</a></li>
                 <li><a href="{{ route('admins.categories.list') }}">Danh mục</a></li>
                 <li><a href="{{ route('admins.providers.list') }}">Nhà Cung Cấp</a></li>
-                <li>
-                    <a href="{{ route('users.login') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
-                </li>
+                <li><a href="{{ route('users.login') }}" onclick="logout()">Đăng xuất</a></li>
+        
             </ul>
         </div>
-
-        <!-- Main Content -->
         <div class="main-content">
-            <!-- Header -->
             <header>
                 <h1 class="dsnd">Danh sách người dùng</h1>
                 <div class="search-container">

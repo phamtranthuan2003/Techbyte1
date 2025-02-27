@@ -18,7 +18,4 @@ class AdminController extends Controller
     {
         return view('admins.users.home');
     }
-
-   
-  
 }
