@@ -106,14 +106,19 @@ class ProductController extends Controller
                 'cartproducts' => collect(),
                 'totalPrice' => 0,
             ]);
+            
         }
     
         // Lấy danh sách sản phẩm trong giỏ hàng
         $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
+
+        $filteredCartProducts = $cartproducts->filter(function ($cartproduct) {
+            return $cartproduct->products && $cartproduct->products->sell != 0;
+        });
     
         // Tính tổng giá
-        $totalPrice = $cartproducts->sum(function ($cartproduct) {
-            return ($cartproduct->quantity ?? 0) * ($cartproduct->price ?? 0);
+        $totalPrice = $filteredCartProducts->sum(function ($cartproduct) {
+            return $cartproduct->price * $cartproduct->quantity;
         });
     
         return view('users.products.cart', compact('products', 'cart', 'cartproducts', 'totalPrice','user'));
@@ -142,29 +147,45 @@ class ProductController extends Controller
 
 
     public function pay(Request $request)
-{   
- 
+    {   
         $user = Auth::user();
         $cart = Cart::where('user_id', $user->id)->first();
+    
         if (!$cart) {
             return redirect()->back()->with('error', 'Giỏ hàng của bạn đang trống!');
         }
-
+    
         $cartproducts = CartProduct::with('products')
                                     ->where('cart_id', $cart->id)
                                     ->get();
-
+    
         if ($cartproducts->isEmpty()) {
             return redirect()->back()->with('error', 'Giỏ hàng của bạn không có sản phẩm nào!');
         }
-
-        $products = Product::all(); 
-        $totalPrice = $cartproducts->sum(function ($cartproduct) {
-            return $cartproduct->quantity * $cartproduct->price;
+    
+        // Lọc sản phẩm có sell != 0
+        $filteredCartProducts = $cartproducts->filter(function ($cartproduct) {
+            return $cartproduct->products && $cartproduct->products->sell != 0;
         });
-
-        return view('users.products.pay', compact('products', 'cart', 'cartproducts', 'totalPrice','user'));
-    }   
+    
+        // Kiểm tra nếu không có sản phẩm hợp lệ sau khi lọc
+        if ($filteredCartProducts->isEmpty()) {
+            return redirect()->back()->with('error', 'Không có sản phẩm hợp lệ để thanh toán!');
+        }
+    
+        // Tính tổng giá từ danh sách sản phẩm hợp lệ
+        $totalPrice = $filteredCartProducts->sum(function ($cartproduct) {
+            return $cartproduct->price * $cartproduct->quantity;
+        });
+    
+        return view('users.products.pay', [
+            'cart' => $cart,
+            'cartproducts' => $filteredCartProducts, // Chỉ truyền sản phẩm hợp lệ vào view
+            'totalPrice' => $totalPrice,
+            'user' => $user
+        ]);
+    }
+       
     public function order()
 {
     $user = Auth::user();
@@ -282,16 +303,61 @@ class ProductController extends Controller
 
      return redirect()->route('users.home');
     }
-    public function productDetail(Request $request, $id){
-        $products = Product::find($id);
-        $user = Auth::user();
-        if ($user) { // Kiểm tra user có đăng nhập không
-            $cart = Cart::where('user_id', $user->id)->first();
-            if ($cart) {
-                $cartCount = CartProduct::where('cart_id', $cart->id)->count();
-            }
-        }
-        return view('users.products.productDetail', compact('products','user', 'cartCount'));
+    public function productDetail(Request $request, $id)
+{
+    // Lấy sản phẩm theo ID
+    $products = Product::find($id);
+
+    // Kiểm tra sản phẩm có tồn tại không
+    if (!$products) {
+        return redirect()->back()->with('error', 'Sản phẩm không tồn tại.');
     }
+
+    // Không cho phép thêm vào giỏ hàng nếu sản phẩm không bán được
+    if ($products->sell == 0) {
+        return redirect()->back()->with('error', 'Sản phẩm này hiện không thể mua.');
+    }
+
+    $cartCount = 0;
+    $user = Auth::user();
+    $bestSellingProduct = OrderProduct::select('product_id')
+    ->selectRaw('SUM(quantity) as total_sold')
+    ->groupBy('product_id')
+    ->orderByDesc('total_sold')
+    ->limit(4)
+    ->pluck('product_id'); // Trả về danh sách product_id
+
+// Lấy thông tin sản phẩm từ bảng products
+    $bestProduct = Product::whereIn('id', $bestSellingProduct)->get();
+
+    if ($user) {
+        // Kiểm tra xem user đã có giỏ hàng chưa, nếu chưa thì tạo mới
+        $cart = Cart::firstOrCreate(['user_id' => $user->id]);
+
+        // Đếm số sản phẩm trong giỏ hàng
+        $cartCount = CartProduct::where('cart_id', $cart->id)->count();
+
+        // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+        $cart_product = CartProduct::where('product_id', $products->id)
+            ->where('cart_id', $cart->id)
+            ->first();
+
+        if (!$cart_product) {
+            // Thêm sản phẩm vào giỏ hàng nếu chưa có
+            CartProduct::create([
+                'cart_id' => $cart->id,
+                'product_id' => $products->id,
+                'price' => $products->price,
+                'quantity' => $request->quantity ?? 1,
+            ]);
+        } else {
+            // Nếu đã có, cập nhật số lượng
+            $cart_product->quantity += $request->quantity ?? 1;
+            $cart_product->save();
+        }
+    }
+
+    return view('users.products.productDetail', compact('products', 'user', 'cartCount', 'bestProduct'));
 }
-    
+
+}

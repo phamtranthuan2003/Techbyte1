@@ -57,7 +57,7 @@
         <!-- Ảnh sản phẩm -->
         <div>
             <label for="image" class="block text-sm font-semibold text-gray-700">Ảnh sản phẩm</label>
-            <input type="file" id="image" name="image" accept="image/*"
+            <input type="text" id="image" name="image" accept="image/*"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-300 focus:outline-none" multiple>
         </div>
 

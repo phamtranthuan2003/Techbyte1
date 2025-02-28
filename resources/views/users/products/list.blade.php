@@ -68,11 +68,15 @@
                     <h3 class="text-2xl font-bold mt-3 text-gray-900">{{ $product->name }}</h3>
                     <p class="text-red-500 font-bold mt-2 text-xl">{{ number_format($product->price, 0, ',', '.') }} VNĐ</p>
                     <p class="text-gray-600">Còn lại: {{ $product->sell }}</p>
+                    @if($product->sell == 0)
+                        <p class="text-danger">Sản phẩm này hiện đang hết hàng</p>
+                    @else
                     <form action="{{ route('users.products.addtocart') }}" method="post">
                     @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                         <button type="submit" class="mt-4 w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-75 transition shadow-lg">Thêm vào Giỏ</button>
                     </form>
+                    @endif
                 </div>
             @endforeach
         </div>
@@ -83,8 +87,8 @@
         <div class="container mx-auto flex flex-col md:flex-row justify-between items-center py-3">
             <p>&copy; 2025 Cửa Hàng Điện Tử Pros studio</p>
             <div class="flex space-x-4">
-                <a href="#" class="hover:text-gray-300"><i class="fab fa-facebook text-xl"></i></a>
-                <a href="#" class="hover:text-gray-300"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="https://www.facebook.com/thuan.phamtran.9/" class="hover:text-gray-300"><i class="fab fa-facebook text-xl"></i></a>
+                <a href="https://www.instagram.com/phamtran.thuan/" class="hover:text-gray-300"><i class="fab fa-instagram text-xl"></i></a>
                 <a href="#" class="hover:text-gray-300"><i class="fab fa-twitter text-xl"></i></a>
             </div>
         </div>

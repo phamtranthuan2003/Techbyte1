@@ -63,9 +63,15 @@
             <!-- Danh sách sản phẩm -->
             <div class="bg-gray-100 p-5 rounded-xl shadow-md">
                 <h2 class="text-lg font-semibold mb-3 text-gray-700">🛍 Sản Phẩm</h2>
-                @foreach ($cartproducts as $cartproduct)
-                    <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm mb-3">
-                        @if ($cartproduct->products)
+                @php 
+                    $filteredCartProducts = $cartproducts->filter(fn($cartproduct) => $cartproduct->products && $cartproduct->products->sell != 0);
+                @endphp
+
+                @if ($filteredCartProducts->isEmpty())
+                    <p class="text-center text-gray-500">Không có sản phẩm hợp lệ để đặt hàng.</p>
+                @else
+                    @foreach ($filteredCartProducts as $cartproduct)
+                        <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm mb-3">
                             <div class="flex items-center gap-4">
                                 <img src="{{ asset($cartproduct->products->image) }}" alt="{{ $cartproduct->products->name }}"
                                     class="w-16 h-16 object-cover rounded-lg border border-gray-300">
@@ -74,12 +80,11 @@
                                     <p class="text-sm text-gray-500">Số lượng: {{ $cartproduct->quantity }}</p>
                                 </div>
                             </div>
-                        @endif
-                        <h3 class="text-sm text-red-500 font-bold">{{ number_format($cartproduct->price, 0, ',', '.') }} VND</h3>
-                    </div>
-                @endforeach
+                            <h3 class="text-sm text-red-500 font-bold">{{ number_format($cartproduct->price, 0, ',', '.') }} VND</h3>
+                        </div>
+                    @endforeach
+                @endif
             </div>
-
             <!-- Phương thức thanh toán -->
             <div>
                 <label for="payment_method" class="block text-sm font-semibold text-gray-700">💳 Phương thức thanh toán</label>
@@ -120,8 +125,8 @@
         <div class="container mx-auto flex flex-col md:flex-row justify-between items-center py-3">
             <p>&copy; 2025 Cửa Hàng Điện Tử Pros studio</p>
             <div class="flex space-x-4">
-                <a href="#" class="hover:text-gray-300"><i class="fab fa-facebook text-xl"></i></a>
-                <a href="#" class="hover:text-gray-300"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="https://www.facebook.com/thuan.phamtran.9/" class="hover:text-gray-300"><i class="fab fa-facebook text-xl"></i></a>
+                <a href="https://www.instagram.com/phamtran.thuan/" class="hover:text-gray-300"><i class="fab fa-instagram text-xl"></i></a>
                 <a href="#" class="hover:text-gray-300"><i class="fab fa-twitter text-xl"></i></a>
             </div>
         </div>

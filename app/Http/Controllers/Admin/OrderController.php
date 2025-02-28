@@ -12,8 +12,16 @@ class OrderController extends Controller
     public function list()
     {   
         $orders = Order::where('status', 1)->get();
+        $counts = [
+            'orderNotPlaced' =>Order::where('status', 0)->count(),
+            'orderPlaced' =>Order::where('status', 1)->count(),
+            'orderShipped' =>Order::where('status', 2)->count(),
+            'orderComplete' =>Order::where('status', 3)->count(),
+            'orderCancelled' =>Order::where('status', 4)->count(),
+        ];
+
+        return view('admins.orders.list', compact('orders', 'counts'));
         
-        return view('admins.orders.list', compact('orders'));
     }
     public function orderDetail($id)
     {
@@ -35,22 +43,54 @@ class OrderController extends Controller
     public function orderhasbeenship()
     {
         $orders = Order::where('status', 2)->get();
-        return view('admins.orders.orderhasbeenship',compact('orders'));
+        $counts = [
+            'orderNotPlaced' =>Order::where('status', 0)->count(),
+            'orderPlaced' =>Order::where('status', 1)->count(),
+            'orderShipped' =>Order::where('status', 2)->count(),
+            'orderComplete' =>Order::where('status', 3)->count(),
+            'orderCancelled' =>Order::where('status', 4)->count(),
+        ];
+
+        return view('admins.orders.orderhasbeenship',compact('orders', 'counts'));
 
     }
     public function orderNotPlaced()
     {
         $orders = Order::where('status', 0)->get();
-        return view('admins.orders.orderNotPlaced',compact('orders'));
+        $counts = [
+            'orderNotPlaced' =>Order::where('status', 0)->count(),
+            'orderPlaced' =>Order::where('status', 1)->count(),
+            'orderShipped' =>Order::where('status', 2)->count(),
+            'orderComplete' =>Order::where('status', 3)->count(),
+            'orderCancelled' =>Order::where('status', 4)->count(),
+        ];
+
+        return view('admins.orders.orderNotPlaced',compact('orders',    'counts'));
     }
     public function orderComplete()
     {
         $orders = Order::where('status', 3)->get();
-        return view('admins.orders.orderComplete', compact('orders'));
+        $counts = [
+            'orderNotPlaced' =>Order::where('status', 0)->count(),
+            'orderPlaced' =>Order::where('status', 1)->count(),
+            'orderShipped' =>Order::where('status', 2)->count(),
+            'orderComplete' =>Order::where('status', 3)->count(),
+            'orderCancelled' =>Order::where('status', 4)->count(),
+        ];
+
+        return view('admins.orders.orderComplete', compact('orders', 'counts'));
     }
     public function orderCancelled()
     {
         $orders = Order::where('status', 4)->get();
-        return view('admins.orders.orderCancelled', compact('orders'));
+        $counts = [
+            'orderNotPlaced' =>Order::where('status', 0)->count(),
+            'orderPlaced' =>Order::where('status', 1)->count(),
+            'orderShipped' =>Order::where('status', 2)->count(),
+            'orderComplete' =>Order::where('status', 3)->count(),
+            'orderCancelled' =>Order::where('status', 4)->count(),
+        ];
+
+        return view('admins.orders.orderCancelled', compact('orders', 'counts'));
     }
 }

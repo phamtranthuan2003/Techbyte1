@@ -27,23 +27,23 @@
                 <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." onkeyup="searchProduct()">
             </div>
         </header>
-    <div class="statusOrder">
-        <a href="{{ route("admins.orders.orderNotPlaced")}}">
-            <button type="button">Đơn hàng chờ xác nhận</button>
-        </a>
-        <a href="{{ route("admins.orders.list")}}">
-            <button type="button">Đơn hàng đã đặt</button>
-        </a>
-        <a href ="{{route("admins.orders.orderhasbeenship")}}">
-            <button type="button">Đơn hàng đã vận chuyển</button>
-        </a>
-        <a href ="{{route("admins.orders.orderComplete")}}">
-            <button type="button">Đơn hàng thành công</button>
-        </a>
-        <a href ="{{route("admins.orders.orderCancelled")}}">
-            <button type="button">Đơn hàng đã hủy</button>
-        </a>
-    </div><br>
+        <div class="statusOrder">
+            <a href="{{ route('admins.orders.orderNotPlaced') }}">
+                <button type="button">Đơn hàng chờ xác nhận ({{ $counts['orderNotPlaced'] }})</button>
+            </a>
+            <a href="{{ route('admins.orders.list') }}">
+                <button type="button">Đơn hàng đã đặt ({{ $counts['orderPlaced'] }})</button>
+            </a>
+            <a href="{{ route('admins.orders.orderhasbeenship') }}">
+                <button type="button">Đơn hàng đã vận chuyển ({{ $counts['orderShipped'] }})</button>
+            </a>
+            <a href="{{ route('admins.orders.orderComplete') }}">
+                <button type="button">Đơn hàng thành công ({{ $counts['orderComplete'] }})</button>
+            </a>
+            <a href="{{ route('admins.orders.orderCancelled') }}">
+                <button type="button">Đơn hàng đã hủy ({{ $counts['orderCancelled'] }})</button>
+            </a>
+        </div>
 
     <table class="table-admin">
         <thead>

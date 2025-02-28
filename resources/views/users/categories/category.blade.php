@@ -79,8 +79,8 @@
         <div class="container mx-auto flex flex-col md:flex-row justify-between items-center py-3">
             <p>&copy; 2025 Cửa Hàng Điện Tử Pros studio</p>
             <div class="flex space-x-4">
-                <a href="#" class="hover:text-gray-300"><i class="fab fa-facebook text-xl"></i></a>
-                <a href="#" class="hover:text-gray-300"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="https://www.facebook.com/thuan.phamtran.9/" class="hover:text-gray-300"><i class="fab fa-facebook text-xl"></i></a>
+                <a href="https://www.instagram.com/phamtran.thuan/" class="hover:text-gray-300"><i class="fab fa-instagram text-xl"></i></a>
                 <a href="#" class="hover:text-gray-300"><i class="fab fa-twitter text-xl"></i></a>
             </div>
         </div>

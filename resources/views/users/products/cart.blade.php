@@ -45,29 +45,35 @@
     <h2 class="text-2xl font-bold text-center mb-6">🛒 Giỏ Hàng Của Bạn</h2>
 
     <div class="cart-items space-y-4">
-        @if($cartproducts->isEmpty())
-            <p class="text-gray-500 text-center">Không có sản phẩm nào trong giỏ hàng.</p>
-        @else
-            @foreach ($cartproducts as $cartproduct)
-                <div class="flex items-center justify-between p-4 bg-gray-100 rounded-lg shadow-md">
-                    <div class="flex items-center gap-4">
-                        @if ($cartproduct->products)
-                            <img src="{{ asset($cartproduct->products->image) }}" alt="{{ $cartproduct->products->name }}"
-                                class="w-16 h-16 object-cover rounded-md">
-                            <p class="text-lg font-semibold">{{ $cartproduct->products->name }}</p>
-                        @endif
-                    </div>
+    @if($cartproducts->isEmpty())
+        <p class="text-gray-500 text-center">Không có sản phẩm nào trong giỏ hàng.</p>
+    @else
+        @foreach ($cartproducts as $cartproduct)
+            <div class="flex items-center justify-between p-4 bg-gray-100 rounded-lg shadow-md 
+                        {{ $cartproduct->products->sell == 0 ? 'opacity-50 pointer-events-none' : '' }}">
+                <div class="flex items-center gap-4">
+                    @if ($cartproduct->products)
+                        <img src="{{ asset($cartproduct->products->image) }}" 
+                            alt="{{ $cartproduct->products->name }}"
+                            class="w-16 h-16 object-cover rounded-md">
+                        <p class="text-lg font-semibold">{{ $cartproduct->products->name }}</p>
+                    @endif
+                </div>
 
-                    <h3 class="text-lg text-red-500 font-bold">{{ number_format($cartproduct->price, 0, ',', '.') }} VND</h3>
+                <h3 class="text-lg text-red-500 font-bold">
+                    {{ number_format($cartproduct->price, 0, ',', '.') }} VND
+                </h3>
 
-                    <form action="{{ route('users.products.updateQuantity', $cartproduct->id) }}" method="post" class="flex items-center space-x-2">
+                @if($cartproduct->products->sell != 0)
+                    <form action="{{ route('users.products.updateQuantity', $cartproduct->id) }}" 
+                        method="post" class="flex items-center space-x-2">
                         @csrf
                         <button type="submit" name="action" value="decrease"
                             class="w-8 h-8 bg-gray-300 hover:bg-gray-400 text-black font-bold rounded">
                             −
                         </button>
-                        <input type="number" name="quantity" value="{{ $cartproduct->quantity }}" min="1" readonly
-                            class="w-10 text-center border border-gray-300 rounded-md">
+                        <input type="number" name="quantity" value="{{ $cartproduct->quantity }}" 
+                            min="1" readonly class="w-10 text-center border border-gray-300 rounded-md">
                         <button type="submit" name="action" value="increase"
                             class="w-8 h-8 bg-gray-300 hover:bg-gray-400 text-black font-bold rounded">
                             +
@@ -80,10 +86,14 @@
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </form>
-                </div>
-            @endforeach
-        @endif
-    </div>
+                @else
+                    <p class="text-sm text-gray-500 italic">Sản phẩm này hiện đang hết hàng</p>
+                @endif
+            </div>
+        @endforeach
+    @endif
+</div>
+
 
     <div class="summary mt-6 p-4 bg-gray-200 rounded-lg text-center">
         <h3 class="text-xl font-bold">Tổng Giỏ Hàng</h3>
@@ -106,8 +116,8 @@
         <div class="container mx-auto flex flex-col md:flex-row justify-between items-center py-3">
             <p>&copy; 2025 Cửa Hàng Điện Tử Pros studio</p>
             <div class="flex space-x-4">
-                <a href="#" class="hover:text-gray-300"><i class="fab fa-facebook text-xl"></i></a>
-                <a href="#" class="hover:text-gray-300"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="https://www.facebook.com/thuan.phamtran.9/" class="hover:text-gray-300"><i class="fab fa-facebook text-xl"></i></a>
+                <a href="https://www.instagram.com/phamtran.thuan/" class="hover:text-gray-300"><i class="fab fa-instagram text-xl"></i></a>
                 <a href="#" class="hover:text-gray-300"><i class="fab fa-twitter text-xl"></i></a>
             </div>
         </div>

@@ -65,7 +65,6 @@
     <!-- Danh sách sản phẩm -->
     <div class="container mx-auto px-6 py-12">
         <h3 class="text-2xl text-gray-800 mb-6 title relative pl-[20px]">SẢN PHẨM BÁN CHẠY NHẤT</h3>
-        
         <div class="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             @foreach ($bestProduct as $product)
                 <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition text-center">
@@ -111,7 +110,7 @@
             <p>&copy; 2025 Cửa Hàng Điện Tử Pros studio</p>
             <div class="flex space-x-4">
                 <a href="https://www.facebook.com/thuan.phamtran.9/" target="_blank" class="hover:text-gray-300"><i class="fab fa-facebook text-xl"></i></a>
-                <a href="#" class="hover:text-gray-300"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="https://www.instagram.com/phamtran.thuan/" class="hover:text-gray-300"><i class="fab fa-instagram text-xl"></i></a>
                 <a href="#" class="hover:text-gray-300"><i class="fab fa-twitter text-xl"></i></a>
             </div>
         </div>
