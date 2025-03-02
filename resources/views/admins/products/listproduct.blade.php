@@ -72,6 +72,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="pagination-container">
+    {{ $products->links('pagination::bootstrap-4') }}
+</div>
         </div>
     </div>
     
@@ -100,5 +103,47 @@
         .add-btn { background: #28a745; color: white; }
         .edit-btn { background: #ffc107; color: black; }
         .delete-btn { background: #dc3545; color: white; }
+        .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination {
+    list-style: none;
+    display: flex;
+    padding: 0;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination a {
+    text-decoration: none;
+    padding: 10px 15px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    color: #007bff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination .active a {
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #007bff;
+}
+
+.pagination .disabled a {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: transparent;
+    border: 1px solid #6c757d;
+}
     </style>
 </x-app-layout>

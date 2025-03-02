@@ -19,7 +19,7 @@
 <div class="main-content">
     
     <header>
-        <h1 class="dsnd">Danh sách danh mục</h1>
+    <h1 class="dsnd">📂 Danh sách danh mục</h1>
         
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Tìm kiếm người dùng..." onkeyup="searchUser()">
@@ -48,15 +48,15 @@
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->description }}</td>
                         <td>
-                    <a href="{{ route('admins.categories.edit', $category->id) }}">
-                        <button type="button">Sửa</button>
-                    </a>
+                        <a href="{{ route('admins.categories.edit', $category->id) }}">
+                                    <button class="edit-btn">✏️ Sửa</button>
+                        </a>
 
                 
                 <form action="{{ route('admins.categories.delete', $category->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Xóa</button>
+                        <button type="submit" class="delete-btn bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">🗑️ Xóa</button>
                 </form>
                         
                         </td>
@@ -103,7 +103,7 @@
         .table-admin th, .table-admin td { padding: 10px; border: 1px solid #ddd; text-align: center; }
         .product-img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; }
         .add-btn, .edit-btn, .delete-btn { padding: 5px 10px; border: none; cursor: pointer; border-radius: 5px; }
-        .add-btn { background: #28a745; color: white; }
+        .add-btn { background: #28a745; color: white !important  }
         .edit-btn { background: #ffc107; color: black; }
         .delete-btn { background: #dc3545; color: white; }
 </style>

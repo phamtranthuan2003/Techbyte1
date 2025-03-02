@@ -76,7 +76,7 @@ class ProductControllerr extends Controller
     }
     public function listproduct()
     {
-        $products = Product::with(['provider','categories'])->get();
+        $products = Product::with(['provider','categories'])->paginate(10);
         return view('admins.products.listproduct', compact('products'));
     }
     public function updatestatus($id)

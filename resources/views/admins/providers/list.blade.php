@@ -18,7 +18,7 @@
 <div class="main-content">
     <!-- Header -->
     <header>
-        <h1 class="dsnd">Danh sách nhà cung cấp</h1>
+    <h1 class="dsnd">🚚 Danh sách nhà cung cấp</h1>
         
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Tìm kiếm người dùng..." onkeyup="searchUser()">
@@ -49,18 +49,18 @@
                         <td>{{ $providers->address }}</td>
                         <td>{{ $providers->tele }}</td>
                         <td>
-                    <a href="{{ route('admins.providers.edit', $providers->id) }}">
-                        <button type="button">Sửa</button>
-                    </a>
+                        <a href="{{ route('admins.providers.edit', $providers->id) }}">
+                                    <button class="edit-btn">✏️ Sửa</button>
+                        </a>
 
                 
                 <form action="{{ route('admins.providers.delete', $providers->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Xóa</button>
+                        <button type="submit" class="delete-btn bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">🗑️ Xóa</button>
                 </form>
-                        
                         </td>
+
                     </tr>
                 @endforeach
             </tbody>
@@ -92,7 +92,6 @@
         });
     </script>
         <style>
-        
         .admin { display: flex; }
         .sidebar { width: 220px; background: #343a40; color: white; padding: 20px; }
         .menu li a { color: white; display: block; padding: 10px; }
@@ -102,10 +101,5 @@
         .table-admin { width: 100%; border-collapse: collapse; margin-top: 20px; }
         .table-admin th, .table-admin td { padding: 10px; border: 1px solid #ddd; text-align: center; }
         .product-img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; }
-        .add-btn, .edit-btn, .delete-btn { padding: 5px 10px; border: none; cursor: pointer; border-radius: 5px; }
-        .add-btn { background: #28a745; color: white; }
-        .edit-btn { background: #ffc107; color: black; }
-        .delete-btn { background: #dc3545; color: white; }
     </style>
-
 </x-app-layout>
