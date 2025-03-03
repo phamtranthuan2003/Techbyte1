@@ -1,22 +1,19 @@
 <x-app-layout>
-<div class="sidebar">
-        <div class="logo">
-            <h2>Admin Dashboard</h2>
+    <div class="admin">
+        <div class="sidebar">
+            <div class="logo">
+                <h2>Admin Dashboard</h2>
+            </div>
+            <ul class="menu">
+                <li><a href="{{ route('admins.home') }}">🏠 Tổng quan</a></li>
+                <li><a href="{{ route('admins.users.list') }}">👥 Quản lý người dùng</a></li>
+                <li><a href="{{ route('admins.orders.orderNotPlaced') }}">📦 Quản lý đơn hàng</a></li>
+                <li><a href="{{ route('admins.products.list') }}">🛒 Quản lý sản phẩm</a></li>
+                <li><a href="{{ route('admins.categories.list') }}">🗂️ Danh mục</a></li>
+                <li><a href="{{ route('admins.providers.list') }}">🚚 Nhà Cung Cấp</a></li>
+                <li><a href="{{ route('users.login') }}" onclick="logout()">🚪 Đăng xuất</a></li>
+            </ul>
         </div>
-        
-        <ul class="menu">
-        <li><a href="{{ route('admins.home') }}">Tổng quan</a></li>
-        <li><a href="{{ route('admins.users.list') }}">Quản lý người dùng</a></li>
-       
-        <li><a href="{{ route('admins.orders.orderNotPlaced') }}">Quản lí đơn hàng</a></li>
-      
-        <li><a href="{{ route('admins.products.list') }}">Quản lý sản phẩm</a></li>
-        <li><a href="{{ route('admins.categories.list') }}">Danh mục</a></li>
-        <li><a href="{{ route('admins.providers.list') }}" onclick="logout()">Nhà Cung Cấp</a></li>
-        <li><a href="{{ route('users.login') }}" onclick="logout()">Đăng xuất</a></li>
-        </ul>
-       
-    </div>
     
     <div class="main-content">      
         <header>
@@ -127,60 +124,5 @@
     </script>
 
 </x-app-layout>
-<style>
-       .updatestatus {
-    background-color: #ff0000; /* Màu nền */
-    color: white;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-    border-radius: 50%; /* Biến nút thành hình tròn */
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s ease-in-out;
-    font-size: 16px;
-}
 
-.updatestatus::before {
-    content: "▲"; /* Mã Unicode cho mũi tên lên */
-}
-
-.updatestatus:hover {
-    background-color: #219150; /* Màu khi hover */
-}
-.statusOrder {
-    display: flex;
-    justify-content: center; /* Center buttons in the container */
-    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
-    margin: 20px 0; /* Add margin for spacing */
-}
-
-.statusOrder a {
-    text-decoration: none; /* Remove underline from links */
-}
-
-.statusOrder button {
-    background-color: #2c3e50; /* Blue background */
-    color: white; /* White text */
-    border: none; /* No border */
-    padding: 20px 80px; /* Padding for buttons */
-    margin: 10px; /* Space between buttons */
-    border-radius: 8px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
-}
-
-.statusOrder button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    transform: translateY(-2px); /* Lift effect on hover */
-}
-
-.statusOrder button:active {
-    transform: translateY(0); /* Reset lift effect on click */
-}
-</style>
 

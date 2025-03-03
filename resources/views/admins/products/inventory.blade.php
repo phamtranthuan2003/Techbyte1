@@ -17,7 +17,7 @@
     
         <div class="main-content">
             <header>
-                <h1>🛍️ Quản lý sản phẩm</h1>
+                <h1>🛍️ Sản phẩm hết hàng</h1>
                 <div class="search-container">
                     <input type="text" id="searchInput" placeholder="🔍 Tìm kiếm sản phẩm...">
                 </div>
@@ -30,8 +30,8 @@
             </div>
     
             <div class="inventory">
-                <a href="{{ route('admins.products.inventory') }}">
-                    <button class="inventory">Sản phẩm cần bổ sung</button>
+                <a href="{{ route('admins.products.list') }}">
+                    <button class="inventory"> Sản phẩm hiện có</button>
                 </a>
             </div>
             <table class="table-admin">

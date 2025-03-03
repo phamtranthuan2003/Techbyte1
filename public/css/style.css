@@ -107,15 +107,6 @@ body {
 }
 
 /* Button Styling */
-button {
-    background-color: #16a085;
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
 
 button:hover {
     background-color: #1abc9c;
@@ -1334,45 +1325,115 @@ select:focus {
 }
 
 /* CSS chung cho các nút */
-.btn {
-    padding: 8px 12px;
+.admin { display: flex; }
+.sidebar { width: 220px; background: #343a40; color: white; padding: 20px; }
+.menu li a { color: white; display: block; padding: 10px; }
+.main-content { flex: 1; padding: 20px; }
+header { display: flex; justify-content: space-between; align-items: center; }
+.search-container input { padding: 8px; width: 300px; border-radius: 5px; }
+.table-admin { width: 100%; border-collapse: collapse; margin-top: 20px; }
+.table-admin th, .table-admin td { padding: 10px; border: 1px solid #ddd; text-align: center; }
+.product-img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; }
+.add-btn, .edit-btn, .delete-btn { padding: 5px 10px; border: none; cursor: pointer; border-radius: 5px; }
+.add-btn { background: #28a745; color: white; }
+.edit-btn { background: #ffc107; color: black; }
+.delete-btn { background: #dc3545; color: white; }
+    
+    
+       .updatestatus {
+    background-color: #ff0000; /* Màu nền */
+    color: white;
     border: none;
+    padding: 5px;
     cursor: pointer;
+    border-radius: 50%; /* Biến nút thành hình tròn */
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease-in-out;
+    font-size: 16px;
+}
+
+.updatestatus::before {
+    content: "▲"; /* Mã Unicode cho mũi tên lên */
+}
+
+.updatestatus:hover {
+    background-color: #219150; /* Màu khi hover */
+}
+.statusOrder {
+    display: flex;
+    justify-content: center; /* Center buttons in the container */
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+    margin: 20px 0; /* Add margin for spacing */
+}
+
+.statusOrder a {
+    text-decoration: none; /* Remove underline from links */
+}
+
+.statusOrder button {
+    background-color: #2c3e50; /* Blue background */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 20px 80px; /* Padding for buttons */
+    margin: 10px; /* Space between buttons */
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+}
+
+.statusOrder button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Lift effect on hover */
+}
+
+.statusOrder button:active {
+    transform: translateY(0); /* Reset lift effect on click */
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination {
+    list-style: none;
+    display: flex;
+    padding: 0;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination a {
+    text-decoration: none;
+    padding: 10px 15px;
+    border: 1px solid #007bff;
     border-radius: 5px;
-    font-size: 14px;
-    transition: background 0.3s ease;
+    color: #007bff;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Nút Thêm */
-.add-btn {
-    background: #28a745;
+.pagination a:hover {
+    background-color: #007bff;
     color: white;
 }
 
-.add-btn:hover {
-    background: #218838;
-}
-
-/* Nút Sửa */
-.edit-btn {
-    background: #ffc107;
-    color: black;
-}
-
-.edit-btn:hover {
-    background: #e0a800;
-}
-
-/* Nút Xóa */
-.delete-btn {
-    background: #dc3545;
+.pagination .active a {
+    background-color: #007bff;
     color: white;
+    border: 1px solid #007bff;
 }
 
-.delete-btn:hover {
-    background: #c82333;
+.pagination .disabled a {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: transparent;
+    border: 1px solid #6c757d;
 }
-
-    
-    
-    

@@ -60,7 +60,7 @@ class ProductControllerr extends Controller
         
         $data = $request->all();
 
-        
+        dd($data);
         // Cập nhật dữ liệu sản phẩm
         $product->update($data);
         $product->categories()->sync($request->category_id);
@@ -75,9 +75,18 @@ class ProductControllerr extends Controller
         
     }
     public function listproduct()
-    {
-        $products = Product::with(['provider','categories'])->paginate(10);
+    {   
+        $products = Product::with(['provider', 'categories'])
+        ->where('sell', '>', 5)
+        ->paginate(10);
         return view('admins.products.listproduct', compact('products'));
+    }
+    public function inventory()
+    {   $products = Product::with(['provider', 'categories'])
+        ->where('sell', '<', 5)
+        ->paginate(10);
+
+        return view('admins.products.inventory', compact('products'));
     }
     public function updatestatus($id)
     {

@@ -39,7 +39,7 @@
         <!-- Số Điện Thoại -->
         <div>
             <label for="phone" class="block text-sm font-semibold text-gray-700">Số Điện Thoại</label>
-            <input type="tel" id="phone" name="phone" required
+            <input type="tel" id="tele" name="tele" required
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-300 focus:outline-none">
         </div>
 

@@ -25,19 +25,19 @@
 
         <div class="statusOrder">
             <a href="{{ route('admins.orders.orderNotPlaced') }}">
-                <button type="button">Chờ xác nhận ({{ $counts['orderNotPlaced'] }})</button>
+                <button type="button">Đơn hàng chờ xác nhận ({{ $counts['orderNotPlaced'] }})</button>
             </a>
             <a href="{{ route('admins.orders.list') }}">
-                <button type="button">Đã đặt ({{ $counts['orderPlaced'] }})</button>
+                <button type="button">Đơn hàng đã đặt ({{ $counts['orderPlaced'] }})</button>
             </a>
             <a href="{{ route('admins.orders.orderhasbeenship') }}">
-                <button type="button">Đã vận chuyển ({{ $counts['orderShipped'] }})</button>
+                <button type="button">Đơn hàng đã vận chuyển ({{ $counts['orderShipped'] }})</button>
             </a>
             <a href="{{ route('admins.orders.orderComplete') }}">
-                <button type="button">Thành công ({{ $counts['orderComplete'] }})</button>
+                <button type="button">Đơn hàng thành công ({{ $counts['orderComplete'] }})</button>
             </a>
             <a href="{{ route('admins.orders.orderCancelled') }}">
-                <button type="button">Đã hủy ({{ $counts['orderCancelled'] }})</button>
+                <button type="button">Đơn hàng đã hủy ({{ $counts['orderCancelled'] }})</button>
             </a>
         </div>
 
@@ -76,8 +76,8 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('admins.orders.orderDetail', ['id' => $order->id]) }}">
-                                    <button type="button" class="edit-btn">✏ Sửa</button>
+                                <a href="{{ route('admins.orders.orderDetail', ['id'=> $order->id]) }}">
+                                        <button type="button" class="edit-btn">✏️ Sửa</button>
                                 </a>
                                 <form action="{{ route('admins.orders.updatestatus', ['id' => $order->id]) }}" method="POST" style="display:inline;">
                                     @csrf
@@ -92,19 +92,4 @@
         </section>
     </div>
 
-    <style>
-        .admin { display: flex; }
-        .sidebar { width: 220px; background: #343a40; color: white; padding: 20px; }
-        .menu li a { color: white; display: block; padding: 10px; }
-        .main-content { flex: 1; padding: 20px; }
-        header { display: flex; justify-content: space-between; align-items: center; }
-        .search-container input { padding: 8px; width: 300px; border-radius: 5px; }
-        .table-admin { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .table-admin th, .table-admin td { padding: 10px; border: 1px solid #ddd; text-align: center; }
-        .product-img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; }
-        .add-btn, .edit-btn, .delete-btn { padding: 5px 10px; border: none; cursor: pointer; border-radius: 5px; }
-        .add-btn { background: #28a745; color: white; }
-        .edit-btn { background: #ffc107; color: black; }
-        .delete-btn { background: #dc3545; color: white; }
-    </style>
 </x-app-layout>

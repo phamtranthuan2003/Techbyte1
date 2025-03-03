@@ -15,6 +15,7 @@ class ProviderController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+ 
         Provider::create($data);
         return redirect()->route('admins.providers.list');
     }
@@ -45,13 +46,15 @@ class ProviderController extends Controller
     public function list()
     {
         $providers = Provider::get();
+
         return view('admins.providers.list', compact('providers'));
+
     }
     public function delete($id)
     {
         $providers = Provider::findOrFail($id);
         $providers->delete();
-        echo "Xoa sản phẩm thành công";
+        return redirect()->route('admins.providers.list')->with('success','');
         
     }
 }

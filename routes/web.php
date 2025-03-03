@@ -32,6 +32,7 @@ use App\Http\Controllers\User\ProductController;
 Route::prefix('admins')->name('admins.')->group(function () {
 Route::prefix('products')->name('products.')->group(function () {
 Route::get('list', [ProductControllerr::class, 'listproduct'])->name('list');
+Route::get('inventory', [ProductControllerr::class, 'inventory'])->name('inventory');
 Route::post('editUser/{id}', [ProductControllerr::class, 'editUser'])->name('editUser');
 
 Route::get('create', [ProductControllerr::class, 'create'])->name('create');

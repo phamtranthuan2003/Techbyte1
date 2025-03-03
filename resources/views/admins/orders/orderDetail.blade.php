@@ -87,3 +87,37 @@
     </div>
 </body>
 </html>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    thead {
+        background-color: #f3f4f6;
+        font-weight: bold;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: center;
+    }
+
+    tbody tr:nth-child(odd) {
+        background-color: #f9fafb;
+    }
+
+    tbody tr:hover {
+        background-color: #e5e7eb;
+        transition: background-color 0.3s ease;
+    }
+
+    th {
+        text-transform: uppercase;
+        color: #4b5563;
+    }
+</style>
+

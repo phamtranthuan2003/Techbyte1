@@ -25,12 +25,12 @@
         <section class="dashboard-grid">
             <div class="dashboard-card">
                 <h3>👥 Người dùng</h3>
-                <p>Tổng số: <strong>{{ $totalUsers ?? 0 }}</strong></p>
+                <p>Tổng số: <strong>{{ $totaluser ?? 0 }}</strong></p>
                 <a href="{{ route('admins.users.list') }}">Quản lý</a>
             </div>
             <div class="dashboard-card">
                 <h3>📦 Đơn hàng</h3>
-                <p>Chưa xử lý: <strong>{{ $pendingOrders ?? 0 }}</strong></p>
+                <p>Tổng số: <strong>{{ $pendingOrders ?? 0 }}</strong></p>
                 <a href="{{ route('admins.orders.orderNotPlaced') }}">Quản lý</a>
             </div>
             <div class="dashboard-card">
@@ -40,7 +40,7 @@
             </div>
             <div class="dashboard-card">
                 <h3>🏬 Tồn kho</h3>
-                <p>Số lượng: <strong>{{ $totalStock ?? 0 }}</strong></p>
+                <p>Số lượng: <strong>{{ $totalStocks ?? 0 }}</strong></p>
                 <a href="{{ route('admins.products.list') }}">Kiểm tra</a>
             </div>
             <div class="dashboard-card">
@@ -53,7 +53,25 @@
                 <p>Tổng số: <strong>{{ $totalProviders ?? 0 }}</strong></p>
                 <a href="{{ route('admins.providers.list') }}">Quản lý</a>
             </div>
+            <div class="dashboard-card">
+                <h3>📊 Tổng số đơn hàng trong tuần</h3>
+                <p><strong>{{ $totalOrdersWeek ?? 0 }}</strong></p>
+            </div>
+            <div class="dashboard-card">
+                <h3>💰 Tổng doanh thu trong tuần</h3>
+                <p><strong>{{ number_format($totalRevenueWeek ?? 0, 0, ',', '.') }} VNĐ</strong></p>
+            </div>
         </section>
+
+        <div class="filter-container">
+    <label for="filterMonth">Chọn tháng:</label>
+    <input type="month" id="filterMonth">
+
+    <label for="filterDay">Chọn ngày:</label>
+    <input type="date" id="filterDay">
+
+    <button id="filterBtn">Lọc dữ liệu</button>
+</div>
 
         <!-- Biểu đồ đơn hàng trong tuần -->
         <section class="chart-container">
@@ -72,71 +90,67 @@
 <!-- Import Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var ctxOrders = document.getElementById("ordersChart").getContext("2d");
-        var ctxRevenue = document.getElementById("revenueChart").getContext("2d");
+   document.addEventListener("DOMContentLoaded", function () {
+    var ctxOrders = document.getElementById("ordersChart").getContext("2d");
+    var ctxRevenue = document.getElementById("revenueChart").getContext("2d");
 
-        var orderData = [20, 50, 30, 80, 40, 100, 60];
-        var revenueData = [200, 500, 300, 800, 400, 1000, 600];
-        var maxOrders = Math.max(...orderData);
-        var maxRevenue = Math.max(...revenueData);
+    var allOrderData = @json($orderCounts);
+    var allRevenueData = @json($revenueCounts);
+    var allLabels = @json($daysOfWeek); // Đổi từ $orderDates sang $daysOfWeek
 
-        var ordersChart = new Chart(ctxOrders, {
-            type: "bar",
-            data: {
-                labels: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"],
-                datasets: [{
-                    label: "Số đơn hàng",
-                    data: orderData,
-                    backgroundColor: "rgba(54, 162, 235, 0.6)",
-                    borderColor: "rgba(54, 162, 235, 1)",
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: false,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: maxOrders + 10
-                    }
-                }
-            }
-        });
-
-        var revenueChart = new Chart(ctxRevenue, {
-            type: "line",
-            data: {
-                labels: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"],
-                datasets: [{
-                    label: "Doanh thu (VNĐ)",
-                    data: revenueData,
-                    borderColor: "rgba(255, 99, 132, 1)",
-                    backgroundColor: "rgba(255, 99, 132, 0.2)",
-                    borderWidth: 2,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: false,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: maxRevenue + 200
-                    }
-                }
-            }
-        });
+    var ordersChart = new Chart(ctxOrders, {
+        type: "bar",
+        data: {
+            labels: allLabels,
+            datasets: [{
+                label: "Số đơn hàng",
+                data: allOrderData,
+                backgroundColor: "rgba(54, 162, 235, 0.6)",
+                borderColor: "rgba(54, 162, 235, 1)",
+                borderWidth: 1
+            }]
+        }
     });
+
+    var revenueChart = new Chart(ctxRevenue, {
+        type: "line",
+        data: {
+            labels: allLabels,
+            datasets: [{
+                label: "Doanh thu (VNĐ)",
+                data: allRevenueData,
+                borderColor: "rgba(255, 99, 132, 1)",
+                backgroundColor: "rgba(255, 99, 132, 0.2)",
+                borderWidth: 2,
+                fill: true
+            }]
+        }
+    });
+});
+
 </script>
+
+
+
 
 <!-- CSS -->
 <style>
+    .filter-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.filter-container input, .filter-container button {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
     .dashboard-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 20px;
         padding: 20px;
     }
@@ -179,5 +193,5 @@
         .edit-btn { background: #ffc107; color: black; }
         .delete-btn { background: #dc3545; color: white; }
     </style>
-</style>
+
 </x-app-layout>

@@ -20,7 +20,7 @@ class CategoryControllerr extends Controller
     }
 
     public function listcategory()
-    {
+    {   
         $categories = Category::get();
         return view('admins.categories.list', compact('categories'));
     }
@@ -51,7 +51,7 @@ class CategoryControllerr extends Controller
     {
         $category = Category::findOrFail($id);
         $category->delete();
-        echo "Xoa sản phẩm thành công";
+        return redirect()->route('admins.categories.list')->with('success', 'Xóa sản phẩm thành công');
         
     }
 }

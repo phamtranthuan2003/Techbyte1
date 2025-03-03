@@ -98,7 +98,7 @@
     </script>
 
     <style>
-           .admin { display: flex; }
+        .admin { display: flex; }
         .sidebar { width: 220px; background: #343a40; color: white; padding: 20px; }
         .menu li a { color: white; display: block; padding: 10px; }
         .main-content { flex: 1; padding: 20px; }
