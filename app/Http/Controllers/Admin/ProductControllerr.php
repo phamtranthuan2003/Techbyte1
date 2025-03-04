@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\Image;
 use App\Models\Category_Product;
 use App\Models\CategoryProduct;
+use App\Models\Images;
 
 class ProductControllerr extends Controller
 {
@@ -22,54 +23,51 @@ class ProductControllerr extends Controller
     }
     
     public function store(Request $request)
-    {
-        // Validate dữ liệu
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'images' => 'required|array',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'category_id' => 'required|array',
-            'category_id.*' => 'exists:categories,id',
-            'provider_id' => 'required|exists:providers,id'
-        ]);
-    
-        // Lấy ảnh đầu tiên để lưu vào bảng products
-        $firstImagePath = null;
-        if ($request->hasFile('images')) {
-            $firstImage = $request->file('images')[0];
-            $firstImagePath = $firstImage->store('products', 'public'); // Lưu ảnh đầu tiên
+{
+    // dd(
+    // // Validate dữ liệu
+    // $request->validate([
+    //     'name' => 'required|string|max:255',
+    //     'price' => 'required|numeric|min:0',
+    //     'images' => 'required|array',
+    //     'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+    //     'category_id' => 'required|array',
+    //     'category_id.*' => 'exists:categories,id',
+    //     'provider_id' => 'required|exists:providers,id'
+    // ]);
+    $firstImagePath = null;
+  
+
+    // Tạo sản phẩm, lưu ảnh đầu tiên vào cột `image`
+    $product = Product::create(array_merge(
+        $request->except(['category_id', 'images']),
+        ['image' => $firstImagePath]
+    ));
+
+    // Lưu toàn bộ ảnh vào bảng `images`
+    if ($request->hasFile('images')) {
+        $imageData = [];
+        foreach ($request->file('images') as $image) {
+        
+            $fileName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $imagePath = 'image/' . $fileName;
+            $image->move(public_path('image'), $fileName);
+
+            $imageData[] = [
+                'product_id' => $product->id,
+                'image_path' => $imagePath,
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
         }
-    
-        // Tạo sản phẩm, lưu ảnh đầu tiên vào cột `image`
-        $product = Product::create(array_merge(
-            $request->except(['category_id', 'images']),
-            ['image' => $firstImagePath]
-        ));
-    
-        // Gán danh mục cho sản phẩm
-        $product->categories()->attach($request->category_id);
-    
-        // Lưu toàn bộ ảnh vào bảng `images`
-        if ($request->hasFile('images')) {
-            $imageData = [];
-            foreach ($request->file('images') as $image) {
-                $imagePath = $image->store('products', 'public'); // Lưu vào storage/app/public/products
-    
-                $imageData[] = [
-                    'product_id' => $product->id,
-                    'image_path' => $imagePath,
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ];
-            }
-    
-            // Chèn nhiều ảnh vào database một lần
-            Image::insert($imageData);
-        }
-    
-        return redirect()->route('admins.products.list')->with('success', 'Thêm sản phẩm thành công');
+
+        // Chèn nhiều ảnh vào database một lần
+        Images::insert($imageData);
     }
+
+    return redirect()->route('admins.products.list')->with('success', 'Thêm sản phẩm thành công');
+}
+
     
 
 
@@ -80,7 +78,7 @@ public function edit($id)
     $product = Product::findOrFail($id);
     $providers = Provider::all();
     $categories = Category::all();
-    $images = Image::where('product_id', $id)->get(); // Lấy danh sách ảnh của sản phẩm
+    $images = Images::where('product_id', $id)->get(); // Lấy danh sách ảnh của sản phẩm
 
     return view('admins.products.edit', compact('product', 'providers', 'categories', 'images'));
 }
@@ -110,7 +108,7 @@ public function update(Request $request, $id)
         foreach ($request->file('images') as $image) {
             $imagePath = $image->store('products', 'public');
 
-            Image::create([
+            Images::create([
                 'product_id' => $product->id,
                 'image_path' => $imagePath,
             ]);

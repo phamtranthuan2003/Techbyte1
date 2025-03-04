@@ -12,7 +12,7 @@
 <div class="w-full max-w-lg p-8 bg-white shadow-xl rounded-2xl">
     <h1 class="text-2xl font-bold text-center text-gray-700 mb-6">Thêm sản phẩm</h1>
     
-    <form action="{{ route('admins.products.store') }}" method="post" class="space-y-4">
+    <form action="{{ route('admins.products.store') }}" method="post" class="space-y-4" enctype="multipart/form-data">
         @csrf
         
         <!-- Tên sản phẩm -->
@@ -57,8 +57,8 @@
         <!-- Ảnh sản phẩm -->
         <div>
             <label for="image" class="block text-sm font-semibold text-gray-700">Ảnh sản phẩm</label>
-            <input type="file" id="images" name="images[]" accept="image/*" multiple>
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-300 focus:outline-none" multiple>
+            <input type="file" id="images" name="images[]" accept="image/*" multiple
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-300 focus:outline-none">
         </div>
 
         <!-- Chọn nhà cung cấp -->

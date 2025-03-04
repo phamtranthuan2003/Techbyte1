@@ -29,7 +29,9 @@ class ProductController extends Controller
     
         $categoryProduct = CategoryProduct::all();
         $categories = Category::all();
-        $products = Product::where('role', 'hiện')->get();
+        $products = Product::with('firstImage')->where('role', 'hiện')->get();
+        
+    
     
         return view('users.products.list', compact('products', 'categories', 'user', 'cartCount'));
     }
@@ -306,9 +308,7 @@ class ProductController extends Controller
     }
     public function productDetail(Request $request, $id)
 {
-    // Lấy sản phẩm theo ID
-        $products = Product::find($id);
-
+        $products = Product::with('images')->where('id', $id)->first();
         // Kiểm tra sản phẩm có tồn tại không
         if (!$products) {
             return redirect()->back()->with('error', 'Sản phẩm không tồn tại.');
@@ -374,5 +374,5 @@ class ProductController extends Controller
         ]);
 
         return back()->with('success', 'Đánh giá của bạn đã được thêm!');
-}
+    }
 }

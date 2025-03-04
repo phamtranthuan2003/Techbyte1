@@ -37,11 +37,13 @@ class Product extends Model
     }
     public function images()
 {
-    return $this->hasMany(Image::class);
+    return $this->hasMany(Images::class);
 }
-
-    
+    public function firstImage()
+    {
+        return $this->hasOne(Images::class);
+        
+    }
 }
-   
     
 
