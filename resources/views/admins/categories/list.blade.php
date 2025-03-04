@@ -27,7 +27,7 @@
     </header>
     <div class="add">
             <a href="{{ route('admins.categories.create') }}">
-                        <button type="button">➕ Thêm</button>
+                        <button type="button">➕ Thêm danh mục</button>
             </a>
         </div>
     <section>

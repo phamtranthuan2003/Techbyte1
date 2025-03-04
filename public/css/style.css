@@ -1437,3 +1437,17 @@ header { display: flex; justify-content: space-between; align-items: center; }
     background-color: transparent;
     border: 1px solid #6c757d;
 }
+.reviewprodduct {
+    background-color: #3498db; /* Màu xanh */
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.reviewprodduct:hover {
+    background-color: #2980b9; /* Màu xanh đậm khi hover */
+}

@@ -9,6 +9,7 @@ use App\Models\CartProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
+use App\Models\Review;
 use App\Models\Category;
 use App\Models\CategoryProduct;
 class ProductController extends Controller
@@ -306,31 +307,31 @@ class ProductController extends Controller
     public function productDetail(Request $request, $id)
 {
     // Lấy sản phẩm theo ID
-    $products = Product::find($id);
+        $products = Product::find($id);
 
-    // Kiểm tra sản phẩm có tồn tại không
-    if (!$products) {
-        return redirect()->back()->with('error', 'Sản phẩm không tồn tại.');
-    }
+        // Kiểm tra sản phẩm có tồn tại không
+        if (!$products) {
+            return redirect()->back()->with('error', 'Sản phẩm không tồn tại.');
+        }
 
-    // Không cho phép thêm vào giỏ hàng nếu sản phẩm không bán được
-    if ($products->sell == 0) {
-        return redirect()->back()->with('error', 'Sản phẩm này hiện không thể mua.');
-    }
+        // Không cho phép thêm vào giỏ hàng nếu sản phẩm không bán được
+        if ($products->sell == 0) {
+            return redirect()->back()->with('error', 'Sản phẩm này hiện không thể mua.');
+        }
 
-    $cartCount = 0;
-    $user = Auth::user();
-    $bestSellingProduct = OrderProduct::select('product_id')
-    ->selectRaw('SUM(quantity) as total_sold')
-    ->groupBy('product_id')
-    ->orderByDesc('total_sold')
-    ->limit(4)
-    ->pluck('product_id'); // Trả về danh sách product_id
+        $cartCount = 0;
+        $user = Auth::user();
+        $bestSellingProduct = OrderProduct::select('product_id')
+        ->selectRaw('SUM(quantity) as total_sold')
+        ->groupBy('product_id')
+        ->orderByDesc('total_sold')
+        ->limit(4)
+        ->pluck('product_id'); // Trả về danh sách product_id
 
-// Lấy thông tin sản phẩm từ bảng products
-    $bestProduct = Product::whereIn('id', $bestSellingProduct)->get();
+    // Lấy thông tin sản phẩm từ bảng products
+        $bestProduct = Product::whereIn('id', $bestSellingProduct)->get();
 
-    if ($user) {
+        if ($user) {
         // Kiểm tra xem user đã có giỏ hàng chưa, nếu chưa thì tạo mới
         $cart = Cart::firstOrCreate(['user_id' => $user->id]);
 
@@ -357,7 +358,21 @@ class ProductController extends Controller
         }
     }
 
-    return view('users.products.productDetail', compact('products', 'user', 'cartCount', 'bestProduct'));
+        return view('users.products.productDetail', compact('products', 'user', 'cartCount', 'bestProduct'));
 }
+    public function reviewProduct(Request $request, $productId) {
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string|max:500'
+        ]);
 
+        Review::create([
+            'user_id' => Auth::id(),
+            'product_id' => $productId,
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+        ]);
+
+        return back()->with('success', 'Đánh giá của bạn đã được thêm!');
+}
 }

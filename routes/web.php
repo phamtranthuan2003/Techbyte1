@@ -44,7 +44,7 @@ Route::post('store', [ProductControllerr::class, 'store'])->name('store');
 Route::get('edit/{id}', [ProductControllerr::class, 'edit'])->name('edit');
 
 
-Route::post('update/{id}', [ProductControllerr::class, 'update'])->name('update');
+Route::put('update/{id}', [ProductControllerr::class, 'update'])->name('update');
 
 
 Route::delete('delete/{id}', [ProductControllerr::class, 'delete'])->name('delete');
@@ -75,6 +75,8 @@ Route::prefix('users')->name('users.')->group(function () {
         Route::post('logout', [ProductController::class,'logout'])->name('logout');
 
         Route::get('productDetail/{id}', [ProductController::class,'productDetail'])->name('productDetail');
+
+        Route::post('reviewProduct/{id}', [ProductController::class, 'reviewProduct'])->name('reviewProduct');
     });
 });
 
@@ -92,6 +94,7 @@ Route::prefix('providers')->name('providers.')->group(function () {
 
     
     Route::put('update/{id}', [ProviderController::class, 'update'])->name('update');
+   
 
     Route::get('list', [ProviderController::class, 'list'])->name('list');
 

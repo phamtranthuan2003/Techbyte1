@@ -12,34 +12,35 @@
 <div class="w-full max-w-lg p-8 bg-white shadow-xl rounded-2xl">
     <h1 class="text-2xl font-bold text-center text-gray-700 mb-6">Sửa sản phẩm</h1>
     
-    <form action="{{ route('admins.products.store') }}" method="post" class="space-y-4">
+    <form action="{{ route('admins.products.update', ['id' => $product->id]) }}" method="post" enctype="multipart/form-data" class="space-y-4">
         @csrf
-        
+        @method('PUT')
+
         <!-- Tên sản phẩm -->
         <div>
             <label for="name" class="block text-sm font-semibold text-gray-700">Tên sản phẩm</label>
-            <input type="text" id="name" name="name" required value="{{ $products->name }}"
+            <input type="text" id="name" name="name" required value="{{ $product->name }}"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-300 focus:outline-none">
         </div>
 
         <!-- Giá sản phẩm -->
         <div>
             <label for="price" class="block text-sm font-semibold text-gray-700">Giá</label>
-            <input type="number" id="price" name="price" required min="1" value="{{$products->price}}"
+            <input type="number" id="price" name="price" required min="1" value="{{ $product->price }}"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-300 focus:outline-none">
         </div>
 
         <!-- Mô tả -->
         <div>
-        <textarea id="description" name="description" required rows="3"
-    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-300 focus:outline-none">{{ $products->description }}</textarea>
-
+            <label for="description" class="block text-sm font-semibold text-gray-700">Mô tả</label>
+            <textarea id="description" name="description" required rows="3"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-300 focus:outline-none">{{ $product->description }}</textarea>
         </div>
 
         <!-- Số lượng bán ra -->
         <div>
             <label for="sell" class="block text-sm font-semibold text-gray-700">Số lượng bán ra</label>
-            <input type="number" id="sell" name="sell" required min="0" value="{{ $products->sell}}"
+            <input type="number" id="sell" name="sell" required min="0" value="{{ $product->sell }}"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-300 focus:outline-none">
         </div>
 
@@ -50,19 +51,33 @@
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-300 focus:outline-none">
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}"
-                        {{ $products->categories->contains($category->id) ? 'selected' : '' }}>
+                        {{ $product->categories->contains($category->id) ? 'selected' : '' }}>
                         {{ $category->name }}
                     </option>
-                 @endforeach
+                @endforeach
             </select>
         </div>
 
-        <!-- Ảnh sản phẩm -->
+        <!-- Ảnh sản phẩm hiện có -->
         <div>
-            <label for="image" class="block text-sm font-semibold text-gray-700">Ảnh sản phẩm</label>
-            <input type="text" id="image" name="image" accept="image/*" value="{{$products->image}}"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-300 focus:outline-none" multiple>
+            <label class="block text-sm font-semibold text-gray-700">Ảnh sản phẩm</label>
+            <div class="grid grid-cols-3 gap-2 mt-2">
+                @foreach ($images as $image)
+                    <div class="relative">
+                        <img src="{{ asset('storage/' . $image->image_path) }}" class="w-24 h-24 object-cover rounded">
+                        <input type="hidden" name="old_images[]" value="{{ $image->image_path }}">
+                    </div>
+                @endforeach
+            </div>
         </div>
+
+        <!-- Thêm ảnh mới -->
+        <div>
+            <label for="images" class="block text-sm font-semibold text-gray-700">Thêm ảnh mới</label>
+            <input type="file" id="images" name="images[]" accept="image/*" multiple
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-300 focus:outline-none">
+        </div>
+
 
         <!-- Chọn nhà cung cấp -->
         <div>
@@ -71,7 +86,7 @@
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-300 focus:outline-none">
                 @foreach ($providers as $provider)
                     <option value="{{ $provider->id }}" 
-                    {{ $products->provider_id == $provider->id ? 'selected' : '' }}>
+                    {{ $product->provider_id == $provider->id ? 'selected' : '' }}>
                     {{ $provider->name }}
                     </option>
                 @endforeach
@@ -83,10 +98,10 @@
             <label class="block text-sm font-semibold text-gray-700">Trạng thái</label>
             <div class="flex items-center space-x-6 mt-1">
                 <label class="flex items-center">
-                    <input type="radio" name="role" value="Hien" class="mr-2"> Hiện
+                    <input type="radio" name="status" value="Hiện" {{ $product->status == 'Hiện' ? 'checked' : '' }} class="mr-2"> Hiện
                 </label>
                 <label class="flex items-center">
-                    <input type="radio" name="role" value="An" checked class="mr-2"> Ẩn
+                    <input type="radio" name="status" value="Ẩn" {{ $product->status == 'Ẩn' ? 'checked' : '' }} class="mr-2"> Ẩn
                 </label>
             </div>
         </div>
@@ -94,7 +109,7 @@
         <!-- Nút submit -->
         <button type="submit"
             class="w-full bg-black hover:bg-blue-600 text-white py-2 rounded-lg text-lg font-semibold transition duration-200">
-            Sửa sản phẩm
+            Cập nhật sản phẩm
         </button>
     </form>
 </div>

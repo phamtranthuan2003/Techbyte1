@@ -26,7 +26,7 @@
         </header>
         <div class="add">
                 <a href="{{ route('admins.providers.create') }}">
-                            <button type="button">➕ Thêm</button>
+                            <button type="button">➕ Thêm nhà cung cấp</button>
                 </a>
             </div>
         <div>

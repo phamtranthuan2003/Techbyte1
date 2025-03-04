@@ -49,7 +49,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white p-8 rounded-lg shadow-lg">
             <!-- Product Image -->
             <div>
-            <img src="{{ $products->image }}" class="w-full h-96 object-cover rounded-lg shadow-md">
+            <img src="{{ $products->image }}" class="w-full h-96 object-cover rounded-lg shadow-md">ful
             </div>
             
             <!-- Product Details -->
@@ -59,20 +59,14 @@
                 <p class="text-gray-600 mt-2">Còn lại: {{ $products->sell }}</p>
                 <p class="text-gray-600 mt-2">Sản xuất: {{ $products->provider->name }}</p>
                 <p class="text-gray-600 mt-2">Suất xứ: {{ $products->provider->address }}</p>
-                <div class="mt-4">
-                    <h4 class="text-lg font-semibold">Thông số kỹ thuật:</h4>
-                    <ul class="list-disc list-inside text-gray-700">
-                        <li>Thương hiệu: {{ $products->brand }}</li>
-                        <li>Mô hình: {{ $products->model }}</li>
-                        <li>Khối lượng: {{ $products->weight }} kg</li>
-                        <li>Kích thước: {{ $products->dimensions }}</li>
-                        <li>Bảo hành: {{ 12 }} tháng</li>
-                    </ul>
-                </div>
+
                 <form action="{{ route('users.products.addtocart') }}" method="post">
                 @csrf
                 <button class="mt-6 w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-80 transition shadow-lg" onclick="addToCart()">Thêm vào Giỏ</button>
                 </form>
+               
+
+                
             </div>
         </div><br><br>
         <h3 class="text-2xl text-gray-800 mb-6 title relative pl-[20px]">SẢN PHẨM BÁN CHẠY NHẤT</h3>
@@ -93,6 +87,52 @@
                 </div>
             @endforeach
     </main>
+    <div class="mt-12 bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Đánh giá sản phẩm</h3>
+
+                    <!-- Danh sách đánh giá -->
+                    <div class="space-y-4">
+                    @foreach($products->reviews as $review)
+                        <div class="border-b pb-4">
+                            <p class="text-gray-800 font-semibold">
+                                {{ $review->user->name }}
+                                <span class="text-gray-500 text-sm">
+                                    {{ $review->created_at->format('d/m/Y') }}
+                                </span>
+                            </p>
+                            <div class="text-yellow-500 rating-stars">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <i class="fa-star {{ $i <= $review->rating ? 'fas' : 'far' }}"></i>
+                                @endfor
+                            </div>
+                            <p class="text-gray-700 mt-2">{{ $review->comment }}</p>
+                        </div>
+                    @endforeach
+                    </div>
+
+                    <!-- Form đánh giá -->
+                    @if(auth()->check())
+                    <form action="{{ route('users.products.reviewProduct', $products->id) }}" method="post" class="mt-6">
+                            @csrf
+                    <label class="block text-gray-700 font-semibold">Đánh giá của bạn:</label>
+                    <div class="flex space-x-2 mt-2 rating-stars">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" class="hidden peer/star{{ $i }}">
+                            <label for="star{{ $i }}" class="cursor-pointer text-3xl text-gray-300 peer-hover/star{{ $i }}:text-yellow-400">
+                                <i class="fas fa-star"></i>
+                            </label>
+                        @endfor
+                    </div>
+
+                        <textarea name="comment" required rows="3" placeholder="Viết đánh giá của bạn..." class="w-full mt-3 px-4 py-2 border border-gray-300 rounded-lg"></textarea>
+                        <button type="submit" class="mt-4 w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-80 transition shadow-lg">
+                            Gửi đánh giá
+                        </button>
+                    </form>
+                    @else
+                        <p class="mt-4 text-gray-500">Vui lòng <a href="{{ route('users.login') }}" class="text-blue-500 underline">đăng nhập</a> để đánh giá sản phẩm.</p>
+                    @endif
+    </div>
 
     <!-- Footer -->
     <footer class="bg-black text-[#999999] p-4 w-full mt-[35px]">
@@ -106,5 +146,5 @@
         </div>
     </footer>
 </body>
-
 </html>
+

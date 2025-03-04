@@ -25,7 +25,7 @@
 
             <div class="add">
                 <a href="{{ route('users.create') }}">
-                    <button type="button">➕ Thêm</button>
+                    <button type="button">➕ Thêm người dùng</button>
                 </a>
             </div>
 

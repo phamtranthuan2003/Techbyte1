@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thêm Danh Mục - Pros Studio</title>
+    <title>Sửa Danh Mục - Pros Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     
     <div class="w-full max-w-lg p-8 bg-white shadow-xl rounded-2xl">
-        <h1 class="text-2xl font-bold text-center text-gray-700 mb-6">Thêm Danh Mục</h1>
+        <h1 class="text-2xl font-bold text-center text-gray-700 mb-6">Sửa Danh Mục</h1>
 
-        <form action="{{ route('admins.categories.store') }}" method="POST" class="space-y-4">
+        <form action="{{ route('admins.categories.update', ['id' => $category->id]) }}" method="post" class="space-y-4">
             @csrf
 
             <!-- Tên danh mục -->
@@ -34,7 +34,7 @@
                 class="w-full bg-black hover:bg-blue-600 text-white py-2 rounded-lg text-lg font-semibold transition duration-200">
                 Thêm Danh Mục
             </button>
-        </form>
+        </>
     </div>
 
 </body>
