@@ -15,16 +15,16 @@ use Illuminate\Support\Facades\Mail;
 class SendEmail
 {
     use Dispatchable, InteractsWithQueue, SerializesModels;
-
     protected $data;
+    
     protected $users;
 
     /**
      * Create a new job instance.
      */
-    public function __construct()
+    public function __construct($data)
     {
-        
+        $this->data = $data;
     }
 
     /**
@@ -32,6 +32,6 @@ class SendEmail
      */
     public function handle(): void
     {
-        Mail::to('phamtranthuan2003@gmail.com')->send(new MailNotify());
+        Mail::to('phamtranthuan2003@gmail.com')->send(new MailNotify($this->data));
     }
 }

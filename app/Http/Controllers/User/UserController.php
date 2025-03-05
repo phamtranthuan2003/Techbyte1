@@ -197,14 +197,17 @@ public function promotion()
         return view('users.contacts.contact', compact('user','cartCount'));
     }
     public function feedback(Request $request)
-    {
+    {   $data = $request->all();
+        
         try {
-            NotificationsSendEmail::dispatch();
+
+            dispatch(new NotificationsSendEmail($data));
 
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            dd($e->getLine(), $e->getFile(), $e->getMessage());
             //throw $th;
         }
+        return redirect()->back();
     }
-
+    
 }

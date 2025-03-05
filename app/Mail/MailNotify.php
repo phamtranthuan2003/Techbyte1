@@ -20,8 +20,9 @@ class MailNotify extends Mailable
     * @return void
     */
 
-   public function __construct()
-   {
+   public function __construct($data)
+   {    
+    $this->data = $data;
    }
 
    /**
@@ -29,10 +30,13 @@ class MailNotify extends Mailable
     *
     * @return $this
     */
+
    public function build()
-   {
-       return $this->from('phamtranthuan2003@gmail.com')
-           ->view('mails.mail-notify')
-           ->subject('Notification email');
-   }
+    {
+    return $this->from($this->data['email'])
+                ->subject('Notification email')
+                ->view('mails.mail-notify')
+                ->with(['data' => $this->data]);
+    }
+
 }

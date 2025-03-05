@@ -62,10 +62,10 @@
         
         <h2 class="text-2xl font-semibold text-center mt-8">Gửi Yêu Cầu</h2>
         
-            <input type="text" placeholder="Tên của bạn" class="w-full p-3 border rounded-md" required>
-            <input type="text" placeholder="Số điện thoại của bạn" class="w-full p-3 border rounded-md" required>
-            <input type="email" placeholder="Email của bạn" class="w-full p-3 border rounded-md" required>
-            <textarea rows="4" placeholder="Nội dung yêu cầu của bạn" class="w-full p-3 border rounded-md" required></textarea>
+            <input name ="name" type="text" placeholder="Tên của bạn" class="w-full p-3 border rounded-md" required>
+            <input name = "tele" type="text" placeholder="Số điện thoại của bạn" class="w-full p-3 border rounded-md" required>
+            <input name ="email" type="email" placeholder="Email của bạn" class="w-full p-3 border rounded-md" required>
+            <textarea name = "message" rows="4" placeholder="Nội dung yêu cầu của bạn" class="w-full p-3 border rounded-md" required></textarea>
             <button type="submit" class="w-full bg-black text-white p-3 rounded-md">Gửi Yêu Cầu</button>
         </form>
     </div>

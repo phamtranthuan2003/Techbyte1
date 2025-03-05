@@ -48,19 +48,20 @@
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-24 mt-16">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white p-8 rounded-lg shadow-lg">
-            <!-- Product Image -->
+            <!-- Product Image Slider -->
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
                     @foreach($products->images as $image)
                         <div class="swiper-slide">
-                            <img src="{{ asset($image->image_path) }}" class="w-full h-96 object-cover rounded-lg shadow-md">
+                            <img src="{{ asset($image->image_path) }}" class="w-full h-[400px] object-cover rounded-lg shadow-md">
                         </div>
                     @endforeach
                 </div>
-                <!-- <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-pagination"></div> -->
+                <!-- Navigation Buttons -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-pagination"></div>
             </div>
+
 
             <!-- Product Details -->
             <div>
@@ -77,11 +78,18 @@
             </div>
         </div>
 
+
+
         <h3 class="text-2xl text-gray-800 mb-6 title relative pl-[20px] mt-12">SẢN PHẨM BÁN CHẠY NHẤT</h3>
         <div class="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             @foreach ($bestProduct as $product)
                 <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition text-center">
-                    <img src="{{ $product->image }}" class="w-full h-64 object-cover rounded-lg hover:scale-105 transition">
+                @if ($product->images->isNotEmpty())
+                    <img src="{{ asset($product->images->first()->image_path) }}" class="w-full h-64 object-cover rounded-lg hover:scale-105 transition">
+                @else
+                    <img src="{{ asset('images/default-placeholder.png') }}" class="w-full h-64 object-cover rounded-lg hover:scale-105 transition">
+                @endif
+
                     <h4 class="text-2xl font-bold mt-3 text-gray-900">{{ $product->name }}</h4>
                     <p class="text-red-500 font-bold mt-2 text-xl">{{ number_format($product->price, 0, ',', '.') }} VNĐ</p>
                     <p class="text-gray-600">Còn lại: {{ $product->sell }}</p>
@@ -146,20 +154,26 @@
         </div>
     </footer>
 
-    <script>
-        var swiper = new Swiper(".mySwiper", {
-            spaceBetween: 10,
-            slidesPerView: 1,
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-        });
-    </script>
+<script>
+    var swiper = new Swiper(".mySwiper", {
+        loop: true, // Lặp vô hạn
+        spaceBetween: 10,
+        slidesPerView: 1,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        autoplay: {
+            delay: 3000, // Tự động lướt ảnh sau 3s
+            disableOnInteraction: false,
+        },
+    });
+</script>
+
 </body>
 </html>
 <style>
@@ -184,5 +198,11 @@
 .rating-stars label:hover ~ label {
     color: gray; /* Sáng lên khi hover */
 }
+.swiper-slide img {
+    width: 470px; /* Chiều rộng đầy đủ */
+    height: 400px; /* Đặt chiều cao cố định */
+    object-fit: cover; /* Cắt ảnh để vừa khung */
+}
+
 
     </style>

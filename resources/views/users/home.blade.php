@@ -68,7 +68,7 @@
         <div class="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             @foreach ($bestProduct as $product)
                 <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition text-center">
-                    <img src="{{ $product->image }}" class="w-full h-64 object-cover rounded-lg hover:scale-105 transition">
+                    <img src="{{ asset( $product->firstImage->image_path ?? '') }}" class="w-full h-64 object-cover rounded-lg hover:scale-105 transition">
                     <h4 class="text-2xl font-bold mt-3 text-gray-900">{{ $product->name }}</h4>
                     <p class="text-red-500 font-bold mt-2 text-xl">{{ number_format($product->price, 0, ',', '.') }} VNĐ</p>
                     <p class="text-gray-600">Còn lại: {{ $product->sell }}</p>
@@ -84,13 +84,13 @@
         </div>
 
         <div class=" py-12">
-        <img src="{{ asset('image/banner1.png') }}">
+        <img src="{{ asset('image/km.png') }}">
         </div>
         <h3 class="text-2xl text-gray-800 mb-6 title relative pl-[20px]">SẢN PHẨM MỚI</h3>
         <div class="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         @foreach ($products as $product)
             <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition text-center">
-                <img src="{{ $product->image }}" class="w-full h-64 object-cover rounded-lg hover:scale-105 transition">
+                <img src="{{ asset( $product->firstImage->image_path ?? '') }}"" class="w-full h-64 object-cover rounded-lg hover:scale-105 transition">
                 <h4 class="text-2xl font-bold mt-3 text-gray-900">{{ $product->name }}</h4>
                 <p class="text-red-500 font-bold mt-2 text-xl">{{ number_format($product->price, 0, ',', '.') }} VNĐ</p>
                 <p class="text-gray-600">Còn lại: {{ $product->sell }}</p>

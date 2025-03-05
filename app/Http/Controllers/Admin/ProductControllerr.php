@@ -67,11 +67,6 @@ class ProductControllerr extends Controller
 
     return redirect()->route('admins.products.list')->with('success', 'Thêm sản phẩm thành công');
 }
-
-    
-
-
-    
     
 public function edit($id)
 {
@@ -106,8 +101,16 @@ public function update(Request $request, $id)
     // Xử lý upload ảnh mới mà không xóa ảnh cũ
     if ($request->hasFile('images')) {
         foreach ($request->file('images') as $image) {
-            $imagePath = $image->store('products', 'public');
+            do {
+                // Tạo tên file ngẫu nhiên bằng UUID
+                $fileName = uniqid() . '_' . time() . '.' . $image->getClientOriginalExtension();
+                $imagePath = 'image/' . $fileName;
+            } while (file_exists(public_path($imagePath))); // Kiểm tra xem file đã tồn tại chưa
 
+            // Lưu ảnh vào public/image/
+            $image->move(public_path('image'), $fileName);
+
+            // Lưu đường dẫn ảnh vào database
             Images::create([
                 'product_id' => $product->id,
                 'image_path' => $imagePath,
@@ -119,11 +122,12 @@ public function update(Request $request, $id)
 }
 
 
+
     public function delete($id)
     {
         $product = Product::findOrFail($id);
         $product->delete();
-        return redirect()->route('admins.products.list')->with('success', 'Xoa sản phẩm thành công');
+        return redirect()->back();
         
     }
     public function listproduct()
@@ -137,6 +141,7 @@ public function update(Request $request, $id)
     {   $products = Product::with(['provider', 'categories'])
         ->where('sell', '<', 5)
         ->paginate(10);
+        
 
         return view('admins.products.inventory', compact('products'));
     }
