@@ -150,7 +150,8 @@ class ProductController extends Controller
 
 
     public function pay(Request $request)
-    {   
+    {
+        
         $user = Auth::user();
         $cart = Cart::where('user_id', $user->id)->first();
     
@@ -180,7 +181,7 @@ class ProductController extends Controller
         $totalPrice = $filteredCartProducts->sum(function ($cartproduct) {
             return $cartproduct->price * $cartproduct->quantity;
         });
-    
+        
         return view('users.products.pay', [
             'cart' => $cart,
             'cartproducts' => $filteredCartProducts, // Chỉ truyền sản phẩm hợp lệ vào view
@@ -211,38 +212,33 @@ class ProductController extends Controller
 
     if ($existingOrder) {
        // Xóa tất cả sản phẩm trong đơn hàng cũ
-    OrderProduct::where('order_id', $existingOrder->id)->delete();
-    
-    // Xóa đơn hàng cũ
-    $existingOrder->delete();
+        OrderProduct::where('order_id', $existingOrder->id)->delete();
+        
+        // Xóa đơn hàng cũ
+        $existingOrder->delete();
 
-    // Tạo đơn hàng mới
-    $order = Order::create([
-        'name' => $user->name,
-        'address' => $user->address,
-        'phone' => $user->phone,
-        'user_id' => $user->id,
-        'status' => 0,
-        'price' => $totalPrice,
-    ]);
-    foreach ($cartproducts as $cartproduct) {
-            $orderProduct = OrderProduct::create([
+        // Tạo đơn hàng mới
+        $order = Order::create([
+            'name' => $user->name,
+            'address' => $user->address,
+            'phone' => $user->phone,
             'user_id' => $user->id,
-            'order_id' => $order->id,
-            'product_id' => $cartproduct->product_id,
-            'quantity' => $cartproduct->quantity,
-            'price' => $cartproduct->price,
-            'name_product' => $cartproduct->products->name,
+            'status' => 0,
+            'price' => $totalPrice,
         ]);
-    }
+        foreach ($cartproducts as $cartproduct) {
+                $orderProduct = OrderProduct::create([
+                'user_id' => $user->id,
+                'order_id' => $order->id,
+                'product_id' => $cartproduct->product_id,
+                'quantity' => $cartproduct->quantity,
+                'price' => $cartproduct->price,
+                'name_product' => $cartproduct->products->name,
+            ]);
+        }
        
 
     } else {
-        // Nếu không có đơn hàng nào đang chờ xác nhận, tạo đơn hàng mới
-        $totalPrice = $cartproducts->sum(function ($cartproduct) {
-            return ($cartproduct->quantity ?? 0) * ($cartproduct->price ?? 0);
-        });
-
         $order = Order::create([
             'name' => $user->name,
             'address' => $user->address,

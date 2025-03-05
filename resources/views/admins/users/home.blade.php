@@ -95,7 +95,7 @@
     var ctxRevenue = document.getElementById("revenueChart").getContext("2d");
 
     var allOrderData = @json($orderCounts);
-    var allRevenueData = @json($revenueCounts);
+    var allRevenueData = @json($revenueCounts );
     var allLabels = @json($daysOfWeek); // Đổi từ $orderDates sang $daysOfWeek
 
     var ordersChart = new Chart(ctxOrders, {

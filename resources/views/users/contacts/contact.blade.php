@@ -31,6 +31,11 @@
                         <i class="fa-solid fa-cart-shopping text-xl"></i>
                         <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 rounded-full">{{ $cartCount }}</span>
                     </a>
+                    <div class="relative">
+                    @if($user)
+                        <a href="{{ route('users.orders.index', ['id' => $user->id]) }}" class="bg-gray-300 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-400 transition">ĐƠN HÀNG</a>
+                        @endif
+                    </div>
                     @if(!$user)
                         <a href="{{ route('users.login') }}" class="bg-black text-white px-4 py-2 rounded-lg font-semibold">Đăng Nhập</a>
                     @else

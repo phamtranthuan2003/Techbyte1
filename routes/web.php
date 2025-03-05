@@ -136,6 +136,14 @@ use App\Http\Controllers\Admin\OrderController;
     Route::post('updatestatus/{id}', [ProductControllerr::class, 'updatestatus'])->name('updatestatus');
 });
 });
+use App\Http\Controllers\User\OrderControllerr;
+    Route::prefix('users')->name('users.')->group(function () {
+    Route::prefix('orders')->name('orders.')->group(function () {
+        Route::get('index/{id}', [OrderControllerr::class, 'index'])->middleware('auth')->name('index');
+        Route::get('/orderDetail/{id}', [OrderControllerr::class, 'orderDetail'])->name('orderDetail');
+});
+});
+
 
 
 use App\Http\Controllers\Admin\CategoryControllerr;

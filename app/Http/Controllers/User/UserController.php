@@ -120,6 +120,7 @@ class UserController extends Controller
     public function home(Request $request)
 {
         $user = Auth::user();
+        
         $cartCount = 0;
         $cartproducts = collect(); // Khởi tạo một collection rỗng để tránh lỗi
 

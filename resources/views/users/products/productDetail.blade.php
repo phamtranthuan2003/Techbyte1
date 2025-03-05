@@ -9,14 +9,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    
 </head>
 
 <body class="bg-gray-100">
     <!-- Header -->
-    <header class="fixed top-0 left-0 z-50 w-full shadow-lg bg-white">
+    <div class="fixed top-0 left-0 z-50 w-full shadow-lg bg-white">
         <div class="container mx-auto">
-            <div class="bg-gradient-to-r text-black p-4 w-full flex justify-between items-center">
+            <header class="bg-gradient-to-r text-black p-4 w-full flex justify-between items-center">
                 <a href="{{ route('users.home') }}">
                     <h1 class="text-3xl font-bold tracking-widest ml-4">ProsStudio Store</h1>
                 </a>
@@ -32,6 +31,11 @@
                         <i class="fa-solid fa-cart-shopping text-xl"></i>
                         <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 rounded-full">{{ $cartCount }}</span>
                     </a>
+                    <div class="relative">
+                    @if($user)
+                        <a href="{{ route('users.orders.index', ['id' => $user->id]) }}" class="bg-gray-300 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-400 transition">ĐƠN HÀNG</a>
+                        @endif
+                    </div>
                     @if(!$user)
                         <a href="{{ route('users.login') }}" class="bg-black text-white px-4 py-2 rounded-lg font-semibold">Đăng Nhập</a>
                     @else
@@ -41,14 +45,15 @@
                         </form>
                     @endif
                 </div>
-            </div>
+            </header>
         </div>
-    </header>
+    </div>
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-24 mt-16">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white p-8 rounded-lg shadow-lg">
             <!-- Product Image Slider -->
+             <div>
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
                     @foreach($products->images as $image)
@@ -58,8 +63,9 @@
                     @endforeach
                 </div>
                 <!-- Navigation Buttons -->
-                <div class="swiper-button-next"></div>
+                
                 <div class="swiper-pagination"></div>
+            </div>
             </div>
 
 
@@ -121,24 +127,23 @@
                 @endforeach
             </div>
 
-            <!-- Form đánh giá -->
-            <!-- Form đánh giá -->
-@if(auth()->check())
-    <form action="{{ route('users.products.reviewProduct', $products->id) }}" method="post" class="mt-6">
-        @csrf
-        <label class="block text-gray-700 font-semibold">Đánh giá của bạn:</label>
-        <div class="flex space-x-2 mt-2 rating-stars">
-            @for ($i = 1; $i <= 5; $i++)
-                <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" class="hidden">
-                <label for="star{{ $i }}" class="cursor-pointer">
-                    <i class="fas fa-star"></i>
-                </label>
-            @endfor
-        </div>
-        <textarea name="comment" required rows="3" placeholder="Viết đánh giá của bạn..." class="w-full mt-3 px-4 py-2 border border-gray-300 rounded-lg"></textarea>
-        <button type="submit" class="mt-4 w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-80 transition shadow-lg">Gửi đánh giá</button>
-    </form>
-@endif
+                    <!-- Form đánh giá -->
+        @if(auth()->check())
+            <form action="{{ route('users.products.reviewProduct', $products->id) }}" method="post" class="mt-6">
+                @csrf
+                <label class="block text-gray-700 font-semibold">Đánh giá của bạn:</label>
+                <div class="flex space-x-2 mt-2 rating-stars flex-row-reverse">
+                    @for ($i = 5; $i >= 1; $i--)
+                        <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" class="hidden">
+                        <label for="star{{ $i }}" class="cursor-pointer">
+                            <i class="fas fa-star"></i>
+                        </label>
+                    @endfor
+                </div>
+                <textarea name="comment" required rows="3" placeholder="Viết đánh giá của bạn..." class="w-full mt-3 px-4 py-2 border border-gray-300 rounded-lg"></textarea>
+                <button type="submit" class="mt-4 w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-80 transition shadow-lg">Gửi đánh giá</button>
+            </form>
+        @endif
         </div>
     </main>
 
@@ -178,30 +183,31 @@
 </html>
 <style>
  .rating-stars input[type="radio"] {
-    display: none; /* Ẩn các radio button */
+    display: none;
 }
 
 .rating-stars label {
     cursor: pointer;
     font-size: 2rem;
-    color: gold; /* Màu xám cho các sao chưa được chọn */
+    color: gray;
 }
 
 /* Màu vàng cho sao đã chọn và các sao bên phải sẽ sáng */
 .rating-stars input[type="radio"]:checked + label,
 .rating-stars input[type="radio"]:checked ~ label {
-    color: gray; /* Sao đã chọn và các sao bên phải sẽ sáng */
+    color: gold;
 }
 
 /* Hiệu ứng hover cho các sao */
-.rating-stars label:hover,
+.rating-stars label:hover + label,
 .rating-stars label:hover ~ label {
-    color: gray; /* Sáng lên khi hover */
+    color: gray;
 }
+
 .swiper-slide img {
-    width: 470px; /* Chiều rộng đầy đủ */
-    height: 400px; /* Đặt chiều cao cố định */
-    object-fit: cover; /* Cắt ảnh để vừa khung */
+    width: 704px;
+    height: 700px;
+    object-fit: cover;
 }
 
 
