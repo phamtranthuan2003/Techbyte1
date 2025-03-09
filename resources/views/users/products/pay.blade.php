@@ -93,11 +93,11 @@
                 <label for="payment_method" class="block text-sm font-semibold text-gray-700">💳 Phương thức thanh toán</label>
                 <select name="payment_method" id="payment_method"
                     class="w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none transition">
-                    <option value="cash">💵 Thanh toán khi nhận hàng (COD)</option>
-                    <option value="bank">🏦 Chuyển khoản ngân hàng</option>
-                    <option value="momo">📱 Ví MoMo</option>
-                    <option value="zalopay">📱 Ví ZaloPay</option>
-                    <option value="credit">💳 Thẻ tín dụng/Ghi nợ</option>
+                    <option value="0">💵 Thanh toán khi nhận hàng (COD)</option>
+                    <option value="1">🏦 Chuyển khoản ngân hàng</option>
+                    <option value="2">📱 Ví MoMo</option>
+                    <option value="3">📱 Ví ZaloPay</option>
+                    <option value="4">💳 Thẻ tín dụng/Ghi nợ</option>
                 </select>
             </div>
 

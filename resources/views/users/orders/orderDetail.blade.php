@@ -82,7 +82,7 @@
     </div>
 
     <div class="flex items-center justify-center h-screen p-4">
-        <div class="w-full max-w-6xl h-full bg-white p-8 rounded-lg shadow-lg overflow-auto">
+        <div class="w-full max-w-6xl h-full bg-white p-8 rounded-lg shadow-lg overflow-auto"><br><br>
             <h2 class="text-3xl font-bold text-gray-800 border-b pb-4 mb-6 text-center">📦 Chi tiết đơn hàng: #{{ $order->id }}</h2>
 
             <!-- Thông tin khách hàng -->

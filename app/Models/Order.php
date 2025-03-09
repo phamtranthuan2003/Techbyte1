@@ -15,6 +15,7 @@ class Order extends Model
         'phone',
         'user_id', 
         'price',
+        'paymentmethod',
         'status',
     ];
     public function orderProducts()

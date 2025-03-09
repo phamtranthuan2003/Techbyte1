@@ -49,6 +49,9 @@ Route::put('update/{id}', [ProductControllerr::class, 'update'])->name('update')
 
 Route::delete('delete/{id}', [ProductControllerr::class, 'delete'])->name('delete');
 
+Route::get('createcolor', [ProductControllerr::class, 'createcolor'])->name('createcolor');
+
+Route::get('createstorage', [ProductControllerr::class, 'createstorage'])->name('createstorage');
 
 });
 });
@@ -77,6 +80,9 @@ Route::prefix('users')->name('users.')->group(function () {
         Route::get('productDetail/{id}', [ProductController::class,'productDetail'])->name('productDetail');
 
         Route::post('reviewProduct/{id}', [ProductController::class, 'reviewProduct'])->name('reviewProduct');
+
+        Route::get('qrcode/{id}', [ProductController::class, 'qrcode'])->name('qrcode'); 
+  
     });
 });
 
@@ -187,7 +193,6 @@ Route::prefix('users')->name('users.')->group(function () {
     Route::get('create', [UserController::class, 'create'])->name('create');
     Route::post('store', [UserController::class, 'store'])->name('store');
 
-  
     Route::get('edit/{id}', [UserController::class, 'edit'])->name('edit');
     Route::post('update/{id}', [UserController::class, 'update'])->name('update');
 
@@ -209,6 +214,8 @@ Route::prefix('users')->name('users.')->group(function () {
     Route::get('home', [UserController::class, 'home'])->name('home'); 
 
     Route::get('introduce', [UserController::class, 'introduce'])->name('introduce'); 
+
+    
 });
 
 use App\Http\Controllers\Admin\AdminController;

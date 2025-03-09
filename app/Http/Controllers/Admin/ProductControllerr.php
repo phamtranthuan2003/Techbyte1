@@ -158,5 +158,13 @@ public function update(Request $request, $id)
     
         return redirect()->back()->with('success', 'Cập nhật trạng thái đơn hàng thành công!');
     }
+    public function createcolor()
+    {
+        return view('admins.products.color');
+    }
+    public function createstorage()
+    {
+        return view('admins.products.storage');
+    }
     
 }

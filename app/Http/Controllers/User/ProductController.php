@@ -224,6 +224,7 @@ class ProductController extends Controller
             'phone' => $user->phone,
             'user_id' => $user->id,
             'status' => 0,
+            'paymentmethod' => 0,
             'price' => $totalPrice,
         ]);
         foreach ($cartproducts as $cartproduct) {
@@ -245,6 +246,7 @@ class ProductController extends Controller
             'phone' => $user->phone,
             'user_id' => $user->id,
             'status' => 0,
+            'paymentmethod' => 0,
             'price' => $totalPrice,
         ]);
 
@@ -273,35 +275,47 @@ class ProductController extends Controller
         
         return redirect()->route('users.home');
     }
-    public function ordersucess(Request $request){
-
+    public function ordersucess(Request $request)
+    {
         $user = Auth::user();
         $cart = Cart::where('user_id', $user->id)->first();
         $order = Order::where('user_id', $user->id)->where('status', 0)->first();
-
-        $order->update([
-        'name'=>$request->name,
-        'address'=> $request->address,
-        'phone'=> $request->phone,
-        'user_id'=> $user->id ,
-        'status'=> '1',
-        'price'=> $request->total_price,
-     ]);
-     // Lấy danh sách sản phẩm trong đơn hàng
-    $orderProducts = OrderProduct::where('order_id', $order->id)->get();
-
-    // Giảm số lượng sản phẩm trong bảng Product
-    foreach ($orderProducts as $orderProduct) {
-        $product = Product::find($orderProduct->product_id);
-        if ($product) {
-            $product->decrement('sell', $orderProduct->quantity);
+    
+        $paymenmethood = $request->payment_method;
+    
+        if ($paymenmethood == '0') {
+            $order->update([
+                'name' => $request->name,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'user_id' => $user->id,
+                'status' => '1',
+                'paymentmethod' => $paymenmethood,
+                'price' => $request->total_price,
+            ]);
+        } else {
+            // Nếu phương thức thanh toán > 0, trả về JSON với link QR của order
+                return redirect()->route('users.products.qrcode', ['id' => $order->id]);
+         
         }
+    
+        // Lấy danh sách sản phẩm trong đơn hàng
+        $orderProducts = OrderProduct::where('order_id', $order->id)->get();
+    
+        // Giảm số lượng sản phẩm trong bảng Product
+        foreach ($orderProducts as $orderProduct) {
+            $product = Product::find($orderProduct->product_id);
+            if ($product) {
+                $product->decrement('sell', $orderProduct->quantity);
+            }
+        }
+    
+        // Xóa sản phẩm trong giỏ hàng
+        CartProduct::where('cart_id', $cart->id)->delete();
+    
+        return redirect()->route('users.home');
     }
-    CartProduct::where('cart_id', $cart->id)->delete();
-
-
-     return redirect()->route('users.home');
-    }
+    
     public function productDetail(Request $request, $id)
 {
         $products = Product::with('images')->where('id', $id)->first();
@@ -371,4 +385,14 @@ class ProductController extends Controller
 
         return back()->with('success', 'Đánh giá của bạn đã được thêm!');
     }
+    public function qrcode($id) {
+        $user = Auth::user();
+        $order = Order::with('orderProducts.product', 'user')->findOrFail($id);
+        $cart = Cart::where('user_id', $user->id)->first();
+        $cartproducts = CartProduct::with('products')
+                                    ->where('cart_id', $cart->id)
+                                    ->get();
+        $cartCount = CartProduct::where('cart_id', $cart->id)->count();
+        return view('users.qrcode', compact('user','order','cart','cartproducts'));
+     }
 }
