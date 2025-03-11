@@ -50,8 +50,10 @@ Route::put('update/{id}', [ProductControllerr::class, 'update'])->name('update')
 Route::delete('delete/{id}', [ProductControllerr::class, 'delete'])->name('delete');
 
 Route::get('createcolor', [ProductControllerr::class, 'createcolor'])->name('createcolor');
+Route::post('storecolor', [ProductControllerr::class, 'storecolor'])->name('storecolor');
 
-Route::get('createstorage', [ProductControllerr::class, 'createstorage'])->name('createstorage');
+Route::get('createcapacity', [ProductControllerr::class, 'createcapacity'])->name('createcapacity');
+Route::post('storecapacity', [ProductControllerr::class, 'storecapacity'])->name('storecapacity');
 
 });
 });

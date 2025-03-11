@@ -12,7 +12,7 @@
     <div class="w-full max-w-lg p-8 bg-white shadow-xl rounded-2xl">
         <h1 class="text-2xl font-bold text-center text-gray-700 mb-6">Thêm Dung Lượng</h1>
 
-        <form action="{{ route('admins.categories.store') }}" method="POST" class="space-y-4">
+        <form action="{{ route('admins.products.storecapacity') }}" method="POST" class="space-y-4">
             @csrf
 
             <!-- Tên danh mục -->

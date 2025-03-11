@@ -8,10 +8,11 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Provider;
 use App\Models\Order;
-use App\Models\Image;
+use App\Models\ProductCapacity;
 use App\Models\Category_Product;
 use App\Models\CategoryProduct;
 use App\Models\Images;
+use App\Models\ProductColor;
 
 class ProductControllerr extends Controller
 {
@@ -162,9 +163,20 @@ public function update(Request $request, $id)
     {
         return view('admins.products.color');
     }
-    public function createstorage()
+    public function storecolor(Request $request)
     {
-        return view('admins.products.storage');
+        $data = $request->all();
+        $color = ProductColor::create($data);
+    }
+    public function createcapacity()
+    {
+        return view('admins.products.capacity');
+    }
+    public function storecapacity(Request $request)
+    {
+       $data = $request->all();
+       $capacity = ProductCapacity::create($data);
+       
     }
     
 }

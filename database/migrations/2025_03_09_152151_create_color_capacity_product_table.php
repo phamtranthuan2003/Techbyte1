@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('color_capacity_product', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->foreignId('color_id')->constrained('colors')->onDelete('cascade');
-            $table->foreignId('capacity_id')->constrained('capacities')->onDelete('cascade');
+            $table->foreignId('color_id')->constrained('product_colors')->onDelete('cascade');
+            $table->foreignId('capacity_id')->constrained('product_capacities')->onDelete('cascade');
             $table->timestamps();
         });
     }

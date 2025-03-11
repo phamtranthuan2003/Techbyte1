@@ -27,6 +27,12 @@
                 <a href="{{ route('admins.products.create') }}">
                     <button class="add-btn">➕ Thêm sản phẩm</button>
                 </a>
+                <a href="{{ route('admins.products.createcapacity') }}">
+                    <button class="add-btn">➕ Thêm dung lượng</button>
+                </a>
+                <a href="{{ route('admins.products.createcolor') }}">
+                    <button class="add-btn">🎨 Thêm màu sắc</button>
+                </a>
             </div>
     
             <div class="inventory">
