@@ -11,6 +11,8 @@
                 <li><a href="{{ route('admins.products.list') }}">🛒 Quản lý sản phẩm</a></li>
                 <li><a href="{{ route('admins.categories.list') }}">🗂️ Danh mục</a></li>
                 <li><a href="{{ route('admins.providers.list') }}">🚚 Nhà Cung Cấp</a></li>
+                <li><a href="{{ route('admins.capacities.list') }}">Dung Lượng</a></li>
+                <li><a href="{{ route('admins.colors.list') }}">🎨  Màu Sắc</a></li>
                 <li><a href="{{ route('users.login') }}" onclick="logout()">🚪 Đăng xuất</a></li>
             </ul>
         </div>

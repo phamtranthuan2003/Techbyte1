@@ -221,6 +221,8 @@ Route::prefix('users')->name('users.')->group(function () {
 });
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CapacityController;
+use App\Http\Controllers\Admin\ColorController;
 
 Route::prefix('admins')->name('admins.')->group(function () {
   
@@ -229,3 +231,25 @@ Route::prefix('admins')->name('admins.')->group(function () {
     Route::post('logout', [AdminController::class, 'logout'])->name('logout');
 });
 
+Route::prefix('admins')->name('admins.')->group(function () {
+    Route::prefix('capacities')->name('capacities.')->group(function () {
+    Route::get('create', [CapacityController::class, 'create'])->name('create');
+
+    Route::get('list', [CapacityController::class, 'list'])->name('list');
+    Route::get('edit/{id}', [CapacityController::class, 'edit'])->name('edit');
+    Route::post('update/{id}', [CapacityController::class, 'update'])->name('update');
+    Route::delete('delete/{id}', [CapacityController::class, 'delete'])->name('delete');
+
+});
+});
+
+Route::prefix('admins')->name('admins.')->group(function () {
+    Route::prefix('colors')->name('colors.')->group(function () {
+    Route::get('create', [ColorController::class, 'create'])->name('create');
+
+    Route::get('list', [ColorController::class, 'list'])->name('list');
+    Route::get('edit/{id}', [ColorController::class, 'edit'])->name('edit');
+    Route::post('update/{id}', [ColorController::class, 'update'])->name('update');
+    Route::delete('delete/{id}', [ColorController::class, 'delete'])->name('delete');
+});
+});

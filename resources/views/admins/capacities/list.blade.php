@@ -17,65 +17,59 @@
             </ul>
         </div>
 
-        <div class="main-content">
-            <header>
-                <h1>👥 Danh sách người dùng</h1>
-                <div class="search-container">
-                    <input type="text" id="searchInput" placeholder="🔍 Tìm kiếm người dùng...">
-                </div>
-            </header>
 
-            <div class="add">
-                <a href="{{ route('users.create') }}">
-                    <button type="button">➕ Thêm người dùng</button>
-                </a>
-            </div>
-
-            <section class="user-list">
-                <table class="table-admin">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Họ Tên</th>
-                            <th>Ngày Sinh</th>
-                            <th>Giới Tính</th>
-                            <th>Địa Chỉ</th>
-                            <th>Số Điện Thoại</th>
-                            <th>Email</th>
-                            <th>Vai Trò</th>
-                            <th>Chức năng</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($users as $user)
-                            <tr>
-                                <td>{{ $user->id }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->birthday }}</td>
-                                <td>{{ $user->sex }}</td>
-                                <td>{{ $user->address }}</td>
-                                <td>{{ $user->phone }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->role }}</td>
-                                <td>
-                                    <a href="{{ route('users.edit', $user->id) }}">
-                                        <button type="button" class="edit-btn">✏️ Sửa</button>
-                                    </a>
-                                    <form action="{{ route('admins.users.deleteuser', $user->id) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="delete-btn" onclick="return confirm('Bạn chắc chắn muốn xóa người dùng này?');">🗑️ Xóa</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </section>
+<div class="main-content">
+    
+    <header>
+    <h1 class="dsnd"> Danh sách dung lượng</h1>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Tìm kiếm người dùng..." onkeyup="searchUser()">
         </div>
-    </div>
+    </header>
+    <div class="add">
+            <a href="{{ route('admins.colors.create') }}">
+                        <button type="button">➕ Thêm dung lượng</button>
+            </a>
+        </div>
+    <section>
+        <table class="table-admin">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên Danh Mục</th>
+                    <th>Giá</th>
+                    <th>Chức Năng</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($capacities as $capacity)
+                    <tr>
+                        <td>{{ $capacity->id }}</td>
+                        <td>{{ $capacity->name }}</td>
+                        <td>{{ $capacity->price }}</td>
+                        <td>
+                        <a href="{{ route('admins.capacities.edit', $capacity->id) }}">
+                                    <button class="edit-btn">✏️ Sửa</button>
+                        </a>
 
-    <script>
+                
+                <form action="{{ route('admins.capacities.delete', $capacity->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="delete-btn bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">🗑️ Xóa</button>
+                </form>
+                        
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </section>
+    </div>
+</div>
+<script>
         document.addEventListener("DOMContentLoaded", function () {
             const searchInput = document.getElementById("searchInput");
             const tableRows = document.querySelectorAll(".table-admin tbody tr");
@@ -99,8 +93,9 @@
         });
     </script>
 
-    <style>
-        .admin { display: flex; }
+</x-app-layout>
+<style>
+            .admin { display: flex; }
         .sidebar { width: 220px; background: #343a40; color: white; padding: 20px; }
         .menu li a { color: white; display: block; padding: 10px; }
         .main-content { flex: 1; padding: 20px; }
@@ -110,8 +105,7 @@
         .table-admin th, .table-admin td { padding: 10px; border: 1px solid #ddd; text-align: center; }
         .product-img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; }
         .add-btn, .edit-btn, .delete-btn { padding: 5px 10px; border: none; cursor: pointer; border-radius: 5px; }
-        .add-btn { background: #28a745; color: white; }
+        .add-btn { background: #28a745; color: white !important  }
         .edit-btn { background: #ffc107; color: black; }
         .delete-btn { background: #dc3545; color: white; }
-    </style>
-</x-app-layout>
+</style>

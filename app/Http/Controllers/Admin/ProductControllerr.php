@@ -13,18 +13,21 @@ use App\Models\Category_Product;
 use App\Models\CategoryProduct;
 use App\Models\Images;
 use App\Models\ProductColor;
+use ProductVariant;
 
 class ProductControllerr extends Controller
 {
     public function create()
     {
+        $colors = ProductColor::all();
+        $capacities = ProductCapacity::all();
         $categories = Category::all();
         $providers = Provider::all();
-        return view('admins.products.create', compact('providers', 'categories'));
+        return view('admins.products.create', compact('providers', 'categories','capacities','colors'));
     }
     
     public function store(Request $request)
-{
+{   dd($request->all());
     // dd(
     // // Validate dữ liệu
     // $request->validate([
@@ -65,6 +68,7 @@ class ProductControllerr extends Controller
         // Chèn nhiều ảnh vào database một lần
         Images::insert($imageData);
     }
+    $productvarian = ProductVariant::create();
 
     return redirect()->route('admins.products.list')->with('success', 'Thêm sản phẩm thành công');
 }
@@ -158,25 +162,6 @@ public function update(Request $request, $id)
         }
     
         return redirect()->back()->with('success', 'Cập nhật trạng thái đơn hàng thành công!');
-    }
-    public function createcolor()
-    {
-        return view('admins.products.color');
-    }
-    public function storecolor(Request $request)
-    {
-        $data = $request->all();
-        $color = ProductColor::create($data);
-    }
-    public function createcapacity()
-    {
-        return view('admins.products.capacity');
-    }
-    public function storecapacity(Request $request)
-    {
-       $data = $request->all();
-       $capacity = ProductCapacity::create($data);
-       
     }
     
 }

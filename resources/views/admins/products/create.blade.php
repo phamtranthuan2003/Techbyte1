@@ -53,6 +53,24 @@
                 @endforeach
             </select>
         </div>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700">Màu sắc</label>
+            <select name="category_id[]" multiple required
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-300 focus:outline-none">
+                @foreach ($colors as $color)
+                    <option value="{{ $color->id }}">{{ $color->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700">Dung lượng</label>
+            <select name="category_id[]" multiple required
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-300 focus:outline-none">
+                @foreach ($capacities as $capacity)
+                    <option value="{{ $capacity->id }}">{{ $capacity->name }}</option>
+                @endforeach
+            </select>
+        </div>
 
         <!-- Ảnh sản phẩm -->
         <div>
