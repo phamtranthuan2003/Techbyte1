@@ -6,17 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::table('colors', function (Blueprint $table) {
+        Schema::create('colors', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique(); // Tên màu (ví dụ: Red, Blue)
+            $table->string('name')->unique();
             $table->integer('price')->default(0);
             $table->timestamps();
         });
+ 
     }
 
     /**
@@ -24,8 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('colors', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('colors');
     }
 };
