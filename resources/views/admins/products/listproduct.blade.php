@@ -9,14 +9,16 @@
                 <li><a href="{{ route('admins.users.list') }}">👥 Quản lý người dùng</a></li>
                 <li><a href="{{ route('admins.orders.orderNotPlaced') }}">📦 Quản lý đơn hàng</a></li>
                 <li><a href="{{ route('admins.products.list') }}">🛒 Quản lý sản phẩm</a></li>
-                <li><a href="{{ route('admins.categories.list') }}">🗂️ Danh mục</a></li>
-                <li><a href="{{ route('admins.providers.list') }}">🚚 Nhà Cung Cấp</a></li>
-                <li><a href="{{ route('admins.capacities.list') }}">Dung Lượng</a></li>
+                <li><a href="{{ route('admins.categories.list') }}">🗂️ Quản lí danh mục</a></li>
+                <li><a href="{{ route('admins.providers.list') }}">🚚 Nhà cung cấp</a></li>
+                <li><a href="{{ route('admins.capacities.list') }}">🗄️ Quản lý dung lượng</a></li>
                 <li><a href="{{ route('admins.colors.list') }}">🎨  Màu Sắc</a></li>
+                <li><a href="{{ route('admins.colors.list') }}">🎨  Quản lí hình ảnh</a></li>
+                <li><a href="{{ route('admins.colors.list') }}">🎨  Quản lí bài viết</a></li>
                 <li><a href="{{ route('users.login') }}" onclick="logout()">🚪 Đăng xuất</a></li>
             </ul>
         </div>
-    
+
         <div class="main-content">
             <header>
                 <h1>🛍️ Quản lý sản phẩm</h1>
@@ -24,12 +26,12 @@
                     <input type="text" id="searchInput" placeholder="🔍 Tìm kiếm sản phẩm...">
                 </div>
             </header>
-    
+
             <div class="add">
                 <a href="{{ route('admins.products.create') }}">
                     <button class="add-btn">➕ Thêm sản phẩm</button>
             </div>
-    
+
             <div class="inventory">
                 <a href="{{ route('admins.products.inventory') }}">
                     <button class="inventory">Sản phẩm cần bổ sung</button>
@@ -83,7 +85,7 @@
                     </div>
         </div>
     </div>
-    
+
     <script>
         document.getElementById("searchInput").addEventListener("keyup", function () {
             let searchText = this.value.toLowerCase();

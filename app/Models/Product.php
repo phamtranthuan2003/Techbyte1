@@ -9,7 +9,7 @@ class Product extends Model
     protected $table = 'products';
 
 
-    
+
     protected $fillable = [
         'name',
         'price',
@@ -42,14 +42,14 @@ class Product extends Model
     public function firstImage()
     {
         return $this->hasOne(Images::class);
-        
+
     }
     public function storages() {
-        return $this->belongsToMany(ProductStorage::class);
+        return $this->belongsToMany(ProductCapacity::class);
     }
     public function colors() {
         return $this->belongsToMany(ProductColor::class);
     }
 }
-    
+
 

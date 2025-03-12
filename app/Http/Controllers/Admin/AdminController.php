@@ -53,11 +53,17 @@ class AdminController extends Controller
     foreach ($revenueData as $day => $revenue) {
         $revenueCounts[$day] = $revenue;
     }
+    // Lấy tổng số đơn hàng trong tuần
+    $totalOrdersWeek = Order::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count();
+
+    // Lấy tổng doanh thu trong tuần
+    $totalRevenueWeek = Order::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
+        ->sum('price');
 
     return view('admins.users.home', compact(
-        'totaluser', 'pendingOrders', 'totalProducts', 
-        'totalStocks', 'totalCategories', 'totalProviders', 
-        'orderCounts', 'revenueCounts', 'daysOfWeek'
+        'totaluser', 'pendingOrders', 'totalProducts',
+        'totalStocks', 'totalCategories', 'totalProviders',
+        'orderCounts', 'revenueCounts', 'daysOfWeek', 'totalOrdersWeek','totalRevenueWeek'
     ));
 }
 

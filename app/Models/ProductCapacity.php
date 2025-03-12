@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductCapacity extends Model {
     use HasFactory;
+    protected $table = 'product_capacities';
     protected $fillable = ['name','price'];
 
     public function product() {

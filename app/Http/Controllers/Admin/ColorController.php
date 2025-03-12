@@ -25,17 +25,17 @@ class ColorController extends Controller
     {
         $data = $request->all();
         $color = ProductColor::create($data);
-        return redirect()->route('admins.products.list');
-        
+        return redirect()->route('admins.colors.list');
+
     }
     public function list()
-    {   
+    {
         $colors = ProductColor::get();
         return view('admins.colors.list', compact('colors'));
     }
     public function edit($id)
     {
-   
+
         // Tìm sản phẩm cần chỉnh sửa
         $color = ProductColor::findOrFail($id);
 
@@ -44,7 +44,7 @@ class ColorController extends Controller
 
     public function update(Request $request, $id)
     {
-        
+
         // Tìm sản phẩm cần cập nhật
         $category = Category::findOrFail($id);
 
@@ -61,7 +61,7 @@ class ColorController extends Controller
         $color = ProductColor::findOrFail($id);
         $color->delete();
         return redirect()->route('admins.categories.list')->with('success', 'Xóa sản phẩm thành công');
-        
+
     }
 
 }

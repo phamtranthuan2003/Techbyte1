@@ -8,13 +8,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    
+
 <div class="w-full max-w-lg p-8 bg-white shadow-xl rounded-2xl">
     <h1 class="text-2xl font-bold text-center text-gray-700 mb-6">Thêm sản phẩm</h1>
-    
+
     <form action="{{ route('admins.products.store') }}" method="post" class="space-y-4" enctype="multipart/form-data">
         @csrf
-        
+
         <!-- Tên sản phẩm -->
         <div>
             <label for="name" class="block text-sm font-semibold text-gray-700">Tên sản phẩm</label>
@@ -55,7 +55,7 @@
         </div>
         <div>
             <label class="block text-sm font-semibold text-gray-700">Màu sắc</label>
-            <select name="category_id[]" multiple required
+            <select name="color_id[]" multiple required
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-300 focus:outline-none">
                 @foreach ($colors as $color)
                     <option value="{{ $color->id }}">{{ $color->name }}</option>
@@ -64,7 +64,7 @@
         </div>
         <div>
             <label class="block text-sm font-semibold text-gray-700">Dung lượng</label>
-            <select name="category_id[]" multiple required
+            <select name="capacity_id[]" multiple required
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-300 focus:outline-none">
                 @foreach ($capacities as $capacity)
                     <option value="{{ $capacity->id }}">{{ $capacity->name }}</option>

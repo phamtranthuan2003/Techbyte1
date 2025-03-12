@@ -49,12 +49,6 @@ Route::put('update/{id}', [ProductControllerr::class, 'update'])->name('update')
 
 Route::delete('delete/{id}', [ProductControllerr::class, 'delete'])->name('delete');
 
-Route::get('createcolor', [ProductControllerr::class, 'createcolor'])->name('createcolor');
-Route::post('storecolor', [ProductControllerr::class, 'storecolor'])->name('storecolor');
-
-Route::get('createcapacity', [ProductControllerr::class, 'createcapacity'])->name('createcapacity');
-Route::post('storecapacity', [ProductControllerr::class, 'storecapacity'])->name('storecapacity');
-
 });
 });
 
@@ -72,7 +66,7 @@ Route::prefix('users')->name('users.')->group(function () {
         Route::post('ordersucess', [ProductController::class, 'ordersucess'])->name('ordersucess');
 
         Route::post('addtocart', [ProductController::class, 'addtocart'])->name('addtocart');
-        
+
         Route::post('removeProduct/{id}', [ProductController::class,'removeProduct'])->name('removeProduct');
 
         Route::post('updateQuantity/{id}', [ProductController::class,'updateQuantity'])->name('updateQuantity');
@@ -83,8 +77,8 @@ Route::prefix('users')->name('users.')->group(function () {
 
         Route::post('reviewProduct/{id}', [ProductController::class, 'reviewProduct'])->name('reviewProduct');
 
-        Route::get('qrcode/{id}', [ProductController::class, 'qrcode'])->name('qrcode'); 
-  
+        Route::get('qrcode/{id}', [ProductController::class, 'qrcode'])->name('qrcode');
+
     });
 });
 
@@ -100,9 +94,9 @@ Route::prefix('providers')->name('providers.')->group(function () {
 
     Route::get('edit/{id}', [ProviderController::class, 'edit'])->name('edit');
 
-    
+
     Route::put('update/{id}', [ProviderController::class, 'update'])->name('update');
-   
+
 
     Route::get('list', [ProviderController::class, 'list'])->name('list');
 
@@ -138,7 +132,7 @@ use App\Http\Controllers\Admin\OrderController;
     Route::get('orderCancelled', [OrderController::class, 'orderCancelled'])->name('orderCancelled');
 
     Route::get('/orderDetail/{id}', [OrderController::class, 'orderDetail'])->name('orderDetail');
-    
+
     Route::post('/changestatus/{id}', [OrderController::class, 'changestatus'])->name('changestatus');
 
     Route::post('updatestatus/{id}', [ProductControllerr::class, 'updatestatus'])->name('updatestatus');
@@ -160,7 +154,7 @@ Route::prefix('categories')->name('categories.')->group(function () {
 
     Route::get('create', [CategoryControllerr::class, 'create'])->name('create');
 
-    
+
     Route::post('store', [CategoryControllerr::class, 'store'])->name('store');
 
     Route::get('list', [CategoryControllerr::class, 'listcategory'])->name('list');
@@ -213,11 +207,11 @@ Route::prefix('users')->name('users.')->group(function () {
     Route::get('confirmOTP', [UserController::class, 'confirmOTP'])->name('confirmOTP');
     Route::post('Otpsucces', [UserController::class, 'Otpsucces'])->name('Otpsucces');
 
-    Route::get('home', [UserController::class, 'home'])->name('home'); 
+    Route::get('home', [UserController::class, 'home'])->name('home');
 
-    Route::get('introduce', [UserController::class, 'introduce'])->name('introduce'); 
+    Route::get('introduce', [UserController::class, 'introduce'])->name('introduce');
 
-    
+
 });
 
 use App\Http\Controllers\Admin\AdminController;
@@ -225,7 +219,7 @@ use App\Http\Controllers\Admin\CapacityController;
 use App\Http\Controllers\Admin\ColorController;
 
 Route::prefix('admins')->name('admins.')->group(function () {
-  
+
     Route::get('home', [AdminController::class, 'home'])->name('home');
 
     Route::post('logout', [AdminController::class, 'logout'])->name('logout');
@@ -234,7 +228,7 @@ Route::prefix('admins')->name('admins.')->group(function () {
 Route::prefix('admins')->name('admins.')->group(function () {
     Route::prefix('capacities')->name('capacities.')->group(function () {
     Route::get('create', [CapacityController::class, 'create'])->name('create');
-
+    Route::post('store', [CapacityController::class, 'store'])->name('store');
     Route::get('list', [CapacityController::class, 'list'])->name('list');
     Route::get('edit/{id}', [CapacityController::class, 'edit'])->name('edit');
     Route::post('update/{id}', [CapacityController::class, 'update'])->name('update');
@@ -246,7 +240,7 @@ Route::prefix('admins')->name('admins.')->group(function () {
 Route::prefix('admins')->name('admins.')->group(function () {
     Route::prefix('colors')->name('colors.')->group(function () {
     Route::get('create', [ColorController::class, 'create'])->name('create');
-
+    Route::post('store', [ColorController::class, 'store'])->name('store');
     Route::get('list', [ColorController::class, 'list'])->name('list');
     Route::get('edit/{id}', [ColorController::class, 'edit'])->name('edit');
     Route::post('update/{id}', [ColorController::class, 'update'])->name('update');

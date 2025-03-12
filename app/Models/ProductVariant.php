@@ -1,16 +1,20 @@
 <?php
 
-use App\Models\Product;
-use Faker\Core\Color;
-use Illuminate\Container\Attributes\Storage;
+namespace App\Models;
+
 use Illuminate\Database\Eloquent\Model;
 
 class ProductVariant extends Model
 {
-    protected $fillable = ['product_id', 'color_id', 'storage_id', 'price'];
+    protected $table = 'color_capacity_product';
 
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
+
+    protected $fillable = [
+        'product_id',
+        'color_id',
+        'capacity_id'
+    ];
+    public function products(){
+    //
     }
 }

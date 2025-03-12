@@ -13,8 +13,7 @@ use App\Models\Category_Product;
 use App\Models\CategoryProduct;
 use App\Models\Images;
 use App\Models\ProductColor;
-use ProductVariant;
-
+use App\Models\ProductVariant;
 class ProductControllerr extends Controller
 {
     public function create()
@@ -25,9 +24,9 @@ class ProductControllerr extends Controller
         $providers = Provider::all();
         return view('admins.products.create', compact('providers', 'categories','capacities','colors'));
     }
-    
+
     public function store(Request $request)
-{   dd($request->all());
+{
     // dd(
     // // Validate dữ liệu
     // $request->validate([
@@ -40,7 +39,7 @@ class ProductControllerr extends Controller
     //     'provider_id' => 'required|exists:providers,id'
     // ]);
     $firstImagePath = null;
-  
+
 
     // Tạo sản phẩm, lưu ảnh đầu tiên vào cột `image`
     $product = Product::create(array_merge(
@@ -52,7 +51,7 @@ class ProductControllerr extends Controller
     if ($request->hasFile('images')) {
         $imageData = [];
         foreach ($request->file('images') as $image) {
-        
+
             $fileName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
             $imagePath = 'image/' . $fileName;
             $image->move(public_path('image'), $fileName);
@@ -68,11 +67,20 @@ class ProductControllerr extends Controller
         // Chèn nhiều ảnh vào database một lần
         Images::insert($imageData);
     }
-    $productvarian = ProductVariant::create();
+    foreach ($request->color_id as $color) {
+        foreach ($request->capacity_id as $capacity) {
+            ProductVariant::create([
+                'product_id' => $product->id,
+                'color_id' => $color,
+                'capacity_id' => $capacity,
+            ]);
+        }
+    }
+    $product->categories()->attach((array) $request->category_id);
 
     return redirect()->route('admins.products.list')->with('success', 'Thêm sản phẩm thành công');
 }
-    
+
 public function edit($id)
 {
     $product = Product::findOrFail($id);
@@ -133,10 +141,10 @@ public function update(Request $request, $id)
         $product = Product::findOrFail($id);
         $product->delete();
         return redirect()->back();
-        
+
     }
     public function listproduct()
-    {   
+    {
         $products = Product::with(['provider', 'categories'])
         ->where('sell', '>', 5)
         ->paginate(10);
@@ -146,22 +154,22 @@ public function update(Request $request, $id)
     {   $products = Product::with(['provider', 'categories'])
         ->where('sell', '<', 5)
         ->paginate(10);
-        
+
 
         return view('admins.products.inventory', compact('products'));
     }
     public function updatestatus($id)
     {
         $order = Order::findOrFail($id);
-    
+
         if ($order->status >= 4) {
             $order->delete(); // Xóa đơn hàng nếu status > 4
         } else {
             $order->status += 1;
             $order->save();
         }
-    
+
         return redirect()->back()->with('success', 'Cập nhật trạng thái đơn hàng thành công!');
     }
-    
+
 }

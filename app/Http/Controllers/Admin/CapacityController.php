@@ -25,16 +25,16 @@ class CapacityController extends Controller
     {
        $data = $request->all();
        $capacity = ProductCapacity::create($data);
-       return redirect()->route('admins.products.list');
+       return redirect()->route('admins.capacities.list');
     }
     public function list()
-    {   
+    {
         $capacities = ProductCapacity::get();
         return view('admins.capacities.list', compact('capacities'));
     }
     public function edit($id)
     {
-   
+
         // Tìm sản phẩm cần chỉnh sửa
         $capacity = ProductCapacity::findOrFail($id);
 
@@ -43,7 +43,7 @@ class CapacityController extends Controller
 
     public function update(Request $request, $id)
     {
-        
+
         // Tìm sản phẩm cần cập nhật
         $capacity = ProductCapacity::findOrFail($id);
 
@@ -60,6 +60,6 @@ class CapacityController extends Controller
         $capacity = ProductCapacity::findOrFail($id);
         $capacity->delete();
         return redirect()->route('admins.capacities.list')->with('success', 'Xóa sản phẩm thành công');
-        
+
     }
 }
