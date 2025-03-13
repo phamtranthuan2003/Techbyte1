@@ -19,23 +19,23 @@ class ProductController extends Controller
     {
         $user = Auth::user();
         $cartCount = 0; // Mặc định giỏ hàng trống
-    
+
         if ($user) { // Kiểm tra user có đăng nhập không
             $cart = Cart::where('user_id', $user->id)->first();
             if ($cart) {
                 $cartCount = CartProduct::where('cart_id', $cart->id)->count();
             }
         }
-    
+
         $categoryProduct = CategoryProduct::all();
         $categories = Category::all();
         $products = Product::with('firstImage')->where('role', 'hiện')->get();
-        
-    
-    
+
+
+
         return view('users.products.list', compact('products', 'categories', 'user', 'cartCount'));
     }
-    
+
 
     public function addToCart(Request $request)
     {
@@ -43,28 +43,28 @@ class ProductController extends Controller
         if(!$user){
             return redirect()->route('users.login');
         }else{
-        
+
             $product = Product::find($request->product_id);
-    
+
         if (!$product) {
             return redirect()->route('users.products.list');
         }
-    
-     
+
+
             $cart = Cart::where('user_id', $user->id)->first();
-    
+
         if (!$cart) {
             $cart = Cart::create([
                 'user_id' => $user->id,
                 'price' => 0,
             ]);
         }
-    
-      
+
+
             $cart_product = CartProduct::where('product_id', $product->id)
                                         ->where('cart_id', $cart->id)
                                         ->first();
-    
+
         if (!$cart_product) {
             CartProduct::create([
                 'cart_id' => $cart->id,
@@ -77,30 +77,30 @@ class ProductController extends Controller
             $cart_product->quantity += $request->quantity ?? 1;
             $cart_product->save();
         }
-    
-    
+
+
         return redirect()->route('users.products.list');
     }
 }
-    
+
     public function removeProduct($id)
-    {  
+    {
         $cartproduct = CartProduct::findOrFail($id);
         $cartproduct->delete();
         return redirect()->route('users.products.cart')->with('success', 'Xoa sản phẩm thành công');
     }
 
     public function cart()
-    { 
+    {
         $user = Auth::user();
         $products = Product::get();
         if (!$user) {
             return redirect()->route('users.login');
         }
-    
+
         // Tìm giỏ hàng của người dùng
         $cart = Cart::where('user_id', $user->id)->first();
-        
+
         // Nếu không có giỏ hàng, đặt giá trị mặc định
         if (!$cart) {
             return view('users.products.cart', [
@@ -109,41 +109,41 @@ class ProductController extends Controller
                 'cartproducts' => collect(),
                 'totalPrice' => 0,
             ]);
-            
+
         }
-    
+
         // Lấy danh sách sản phẩm trong giỏ hàng
         $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
 
         $filteredCartProducts = $cartproducts->filter(function ($cartproduct) {
             return $cartproduct->products && $cartproduct->products->sell != 0;
         });
-    
+
         // Tính tổng giá
         $totalPrice = $filteredCartProducts->sum(function ($cartproduct) {
             return $cartproduct->price * $cartproduct->quantity;
         });
-    
+
         return view('users.products.cart', compact('products', 'cart', 'cartproducts', 'totalPrice','user'));
     }
-    
+
 
     public function updateQuantity(Request $request, $id)
     {
-        
+
         // Tìm sản phẩm trong giỏ hàng bằng id
         $cartProduct = CartProduct::findOrFail($id);
-    
+
         // Kiểm tra xem hành động là tăng hay giảm và cập nhật số lượng
         if ($request->action == 'increase') {
             $cartProduct->quantity += 1;  // Tăng số lượng
         } elseif ($request->action == 'decrease' && $cartProduct->quantity > 1) {
             $cartProduct->quantity -= 1;  // Giảm số lượng nếu không phải 1
         }
-    
+
         // Lưu lại thay đổi
         $cartProduct->save();
-    
+
         // Chuyển hướng lại trang giỏ hàng
         return redirect()->route('users.products.cart');
     }
@@ -151,37 +151,37 @@ class ProductController extends Controller
 
     public function pay(Request $request)
     {
-        
+
         $user = Auth::user();
         $cart = Cart::where('user_id', $user->id)->first();
-    
+
         if (!$cart) {
             return redirect()->back()->with('error', 'Giỏ hàng của bạn đang trống!');
         }
-    
+
         $cartproducts = CartProduct::with('products')
                                     ->where('cart_id', $cart->id)
                                     ->get();
-    
+
         if ($cartproducts->isEmpty()) {
             return redirect()->back()->with('error', 'Giỏ hàng của bạn không có sản phẩm nào!');
         }
-    
+
         // Lọc sản phẩm có sell != 0
         $filteredCartProducts = $cartproducts->filter(function ($cartproduct) {
             return $cartproduct->products && $cartproduct->products->sell != 0;
         });
-    
+
         // Kiểm tra nếu không có sản phẩm hợp lệ sau khi lọc
         if ($filteredCartProducts->isEmpty()) {
             return redirect()->back()->with('error', 'Không có sản phẩm hợp lệ để thanh toán!');
         }
-    
+
         // Tính tổng giá từ danh sách sản phẩm hợp lệ
         $totalPrice = $filteredCartProducts->sum(function ($cartproduct) {
             return $cartproduct->price * $cartproduct->quantity;
         });
-        
+
         return view('users.products.pay', [
             'cart' => $cart,
             'cartproducts' => $filteredCartProducts, // Chỉ truyền sản phẩm hợp lệ vào view
@@ -189,7 +189,7 @@ class ProductController extends Controller
             'user' => $user
         ]);
     }
-       
+
     public function order()
 {
     $user = Auth::user();
@@ -202,18 +202,18 @@ class ProductController extends Controller
     $existingOrder = Order::where('user_id', $user->id)
                           ->where('status', 0)
                           ->first();
-    
+
     $cart = Cart::where('user_id', $user->id)->first();
     $cartproducts = CartProduct::with('products')->where('cart_id', $cart->id)->get();
     $totalPrice = $cartproducts->sum(function ($cartproducts) {
         return ($cartproducts->quantity ?? 0) * ($cartproducts->price ?? 0);
-    
+
     });
 
     if ($existingOrder) {
        // Xóa tất cả sản phẩm trong đơn hàng cũ
         OrderProduct::where('order_id', $existingOrder->id)->delete();
-        
+
         // Xóa đơn hàng cũ
         $existingOrder->delete();
 
@@ -237,7 +237,7 @@ class ProductController extends Controller
                 'name_product' => $cartproduct->products->name,
             ]);
         }
-       
+
 
     } else {
         $order = Order::create([
@@ -267,12 +267,12 @@ class ProductController extends Controller
     return redirect()->route('users.products.pay');
 }
 
-    
-    
-    
-    public function logout(){   
+
+
+
+    public function logout(){
         Auth::logout();
-        
+
         return redirect()->route('users.home');
     }
     public function ordersucess(Request $request)
@@ -280,9 +280,9 @@ class ProductController extends Controller
         $user = Auth::user();
         $cart = Cart::where('user_id', $user->id)->first();
         $order = Order::where('user_id', $user->id)->where('status', 0)->first();
-    
+
         $paymenmethood = $request->payment_method;
-    
+
         if ($paymenmethood == '0') {
             $order->update([
                 'name' => $request->name,
@@ -296,12 +296,12 @@ class ProductController extends Controller
         } else {
             // Nếu phương thức thanh toán > 0, trả về JSON với link QR của order
                 return redirect()->route('users.products.qrcode', ['id' => $order->id]);
-         
+
         }
-    
+
         // Lấy danh sách sản phẩm trong đơn hàng
         $orderProducts = OrderProduct::where('order_id', $order->id)->get();
-    
+
         // Giảm số lượng sản phẩm trong bảng Product
         foreach ($orderProducts as $orderProduct) {
             $product = Product::find($orderProduct->product_id);
@@ -309,16 +309,15 @@ class ProductController extends Controller
                 $product->decrement('sell', $orderProduct->quantity);
             }
         }
-    
+
         // Xóa sản phẩm trong giỏ hàng
         CartProduct::where('cart_id', $cart->id)->delete();
-    
+
         return redirect()->route('users.home');
     }
-    
+
     public function productDetail(Request $request, $id)
-{
-        $products = Product::with('images')->where('id', $id)->first();
+{       $products = Product::with(['images', 'colors', 'capacities'])->findOrFail($id);
         // Kiểm tra sản phẩm có tồn tại không
         if (!$products) {
             return redirect()->back()->with('error', 'Sản phẩm không tồn tại.');

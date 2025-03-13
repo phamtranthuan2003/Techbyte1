@@ -44,12 +44,17 @@ class Product extends Model
         return $this->hasOne(Images::class);
 
     }
-    public function storages() {
-        return $this->belongsToMany(ProductCapacity::class);
-    }
-    public function colors() {
-        return $this->belongsToMany(ProductColor::class);
-    }
+    public function colors()
+{
+    return $this->belongsToMany(ProductColor::class, 'color_capacity_product', 'product_id', 'color_id')->distinct();
+}
+
+public function capacities()
+{
+    return $this->belongsToMany(ProductCapacity::class, 'color_capacity_product', 'product_id', 'capacity_id')->distinct();
+}
+
+
 }
 
 

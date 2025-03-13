@@ -63,7 +63,7 @@
                     @endforeach
                 </div>
                 <!-- Navigation Buttons -->
-                
+
                 <div class="swiper-pagination"></div>
             </div>
             </div>
@@ -76,11 +76,40 @@
                 <p class="text-gray-600 mt-2">Còn lại: {{ $products->sell }}</p>
                 <p class="text-gray-600 mt-2">Sản xuất: {{ $products->provider->name }}</p>
                 <p class="text-gray-600 mt-2">Xuất xứ: {{ $products->provider->address }}</p>
+                <!-- Lựa chọn màu sắc -->
+                <div class="mt-4">
+                    <label class="text-gray-700 font-semibold">Chọn Màu:</label>
+                    <div class="flex space-x-2 mt-2">
+                        @foreach($products->colors as $color)
+                            <button class="border px-4 py-2 rounded-lg" style="background-color: {{ $color->hex_code }};">
+                                {{ $color->name }}
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
 
-                <form action="{{ route('users.products.addtocart') }}" method="post" class="mt-6">
-                    @csrf
-                    <button class="w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-80 transition shadow-lg">Thêm vào Giỏ</button>
-                </form>
+
+                <!-- Lựa chọn dung lượng -->
+                <div class="mt-4">
+                    <label class="text-gray-700 font-semibold">Chọn Dung Lượng:</label>
+                    <div class="flex space-x-2 mt-2">
+                        @foreach($products->capacities as $capacity)
+                            <button class="border px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300">
+                                {{ $capacity->name }} GB
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
+
+
+<!-- Form thêm vào giỏ hàng -->
+<form action="{{ route('users.products.addtocart') }}" method="post" class="mt-6">
+    @csrf
+    <input type="hidden" name="color_id" id="selected_color">
+    <input type="hidden" name="capacity_id" id="selected_capacity">
+    <button type="submit" class="w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-80 transition shadow-lg">Thêm vào Giỏ</button>
+</form>
+
             </div>
         </div>
 

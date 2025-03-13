@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -14,6 +14,8 @@ use App\Models\CategoryProduct;
 use App\Models\Images;
 use App\Models\ProductColor;
 use App\Models\ProductVariant;
+
+
 class ProductControllerr extends Controller
 {
     public function create()
@@ -91,6 +93,9 @@ public function edit($id)
     return view('admins.products.edit', compact('product', 'providers', 'categories', 'images'));
 }
 
+
+
+
 public function update(Request $request, $id)
 {
     $product = Product::findOrFail($id);
@@ -102,37 +107,80 @@ public function update(Request $request, $id)
         'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         'category_id' => 'required|array',
         'category_id.*' => 'exists:categories,id',
-        'provider_id' => 'required|exists:providers,id'
+        'provider_id' => 'required|exists:providers,id',
+        'image_order' => 'nullable|string'
     ]);
 
     // Cập nhật thông tin sản phẩm
-    $product->update($request->except(['category_id', 'images']));
+    $product->update($request->except(['category_id', 'images', 'deleted_images', 'image_order']));
 
     // Cập nhật danh mục sản phẩm
     $product->categories()->sync($request->category_id);
 
-    // Xử lý upload ảnh mới mà không xóa ảnh cũ
+    // Xóa ảnh nếu có deleted_images
+    if ($request->has('deleted_images')) {
+        $deletedImages = explode(',', $request->deleted_images);
+        foreach ($deletedImages as $imageId) {
+            $image = Images::find($imageId);
+            if ($image) {
+                $filePath = public_path($image->image_path);
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+                $image->delete();
+            }
+        }
+    }
+
+    // Lưu ảnh mới
+    $newImageIds = [];
     if ($request->hasFile('images')) {
         foreach ($request->file('images') as $image) {
-            do {
-                // Tạo tên file ngẫu nhiên bằng UUID
-                $fileName = uniqid() . '_' . time() . '.' . $image->getClientOriginalExtension();
-                $imagePath = 'image/' . $fileName;
-            } while (file_exists(public_path($imagePath))); // Kiểm tra xem file đã tồn tại chưa
+            $fileName = uniqid() . '_' . time() . '.' . $image->getClientOriginalExtension();
+            $imagePath = 'image/' . $fileName;
 
-            // Lưu ảnh vào public/image/
             $image->move(public_path('image'), $fileName);
 
-            // Lưu đường dẫn ảnh vào database
-            Images::create([
+            $newImage = Images::create([
                 'product_id' => $product->id,
                 'image_path' => $imagePath,
+                'sort_order' => 0 // Gán tạm sort_order = 0, lát sẽ cập nhật đúng thứ tự
             ]);
+
+            $newImageIds[] = $newImage->id;
         }
+    }
+
+    // Cập nhật thứ tự ảnh theo image_order gửi từ frontend
+    if ($request->has('image_order')) {
+        $imageOrder = explode(',', $request->image_order);
+
+        foreach ($imageOrder as $index => $imageId) {
+            Images::where('id', $imageId)->update(['sort_order' => $index]);
+        }
+    }
+
+    // Đảm bảo ảnh mới thêm vào cũng có thứ tự đúng
+    if (!empty($newImageIds)) {
+        $existingMaxSortOrder = Images::where('product_id', $product->id)->max('sort_order') ?? 0;
+        foreach ($newImageIds as $index => $imageId) {
+            Images::where('id', $imageId)->update(['sort_order' => $existingMaxSortOrder + $index + 1]);
+        }
+    }
+
+    // Cập nhật ảnh đại diện (thumbnail) là ảnh có `sort_order` nhỏ nhất
+    $firstImage = Images::where('product_id', $product->id)->orderBy('sort_order')->first();
+    if ($firstImage) {
+        $product->update(['thumbnail' => $firstImage->image_path]);
     }
 
     return redirect()->route('admins.products.list')->with('success', 'Cập nhật sản phẩm thành công');
 }
+
+
+
+
+
 
 
 

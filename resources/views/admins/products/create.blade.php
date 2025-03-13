@@ -95,10 +95,10 @@
             <label class="block text-sm font-semibold text-gray-700">Trạng thái</label>
             <div class="flex items-center space-x-6 mt-1">
                 <label class="flex items-center">
-                    <input type="radio" name="role" value="Hien" class="mr-2"> Hiện
+                    <input type="radio" name="role" value="Hien" checked class="mr-2"> Hiện
                 </label>
                 <label class="flex items-center">
-                    <input type="radio" name="role" value="An" checked class="mr-2"> Ẩn
+                    <input type="radio" name="role" value="An" class="mr-2"> Ẩn
                 </label>
             </div>
         </div>

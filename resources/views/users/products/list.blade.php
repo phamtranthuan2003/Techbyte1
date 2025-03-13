@@ -48,27 +48,27 @@
             </header>
         </div>
     </div>
-    
+
     <!-- Danh sách sản phẩm -->
     <div class="container mx-auto px-4 py-8 mt-20 flex-grow">
         <h2 class="text-2xl font-semibold text-gray-700 mb-4 text-center">Tất Cả Sản Phẩm</h2>
-        
+
         <div class="mb-6 text-center">
             <input type="text" id="search" placeholder="Tìm kiếm sản phẩm..." class="p-2 border rounded-lg" oninput="searchProducts()">
         </div>
-        
+
         <div class="flex justify-center space-x-4 mb-6">
             <a href="{{ route('users.products.list') }}" class="bg-black text-white px-4 py-2 rounded-lg">Tất cả</a>
             @foreach ($categories as $category)
                 <a href="{{ route('users.category', ['id' => $category->id]) }}" class="bg-black text-white px-4 py-2 rounded-lg">{{ $category->name }}</a>
             @endforeach
         </div>
-        
+
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id ="product-list">
             @foreach ($products as $product)
                 <div class="bg-white p-4 rounded-lg shadow-lg hover:shadow-2xl transition text-center">
                     <a href="{{ route('users.products.productDetail', ['id' => $product->id]) }}">
-                        <img src="{{ asset( $product->firstImage->image_path ?? '') }}" class="w-full h-64 object-cover rounded-lg hover:scale-105 transition">
+                        <img src="{{ asset($product->images->where('sort_order', 0)->first()->image_path ?? $product->images->first()->image_path ?? 'default-image.jpg') }}" class="w-full h-64 object-cover rounded-lg hover:scale-105 transition">
                     </a>
                     <h3 class="text-2xl font-bold mt-3 text-gray-900">{{ $product->name }}</h3>
                     <p class="text-red-500 font-bold mt-2 text-xl">{{ number_format($product->price, 0, ',', '.') }} VNĐ</p>
@@ -86,7 +86,7 @@
             @endforeach
         </div>
     </div><br><br>
-    
+
     <!-- Footer -->
     <footer class="bg-black text-[#999999] p-4 w-full mt-[35px]">
         <div class="container mx-auto flex flex-col md:flex-row justify-between items-center py-3">
