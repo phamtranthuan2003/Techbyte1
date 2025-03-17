@@ -68,7 +68,7 @@
             @foreach ($products as $product)
                 <div class="bg-white p-4 rounded-lg shadow-lg hover:shadow-2xl transition text-center">
                     <a href="{{ route('users.products.productDetail', ['id' => $product->id]) }}">
-                        <img src="{{ asset($product->images->where('sort_order', 0)->first()->image_path ?? $product->images->first()->image_path ?? 'default-image.jpg') }}" class="w-full h-64 object-cover rounded-lg hover:scale-105 transition">
+                        <img src="{{ asset($product->images->where('sort_order', 0)->first()->image_path ?? $product->images->first()->image_path ?? 'default-image.jpg') }}" class="w-full h-[19rem] object-cover rounded-lg hover:scale-105 transition">
                     </a>
                     <h3 class="text-2xl font-bold mt-3 text-gray-900">{{ $product->name }}</h3>
                     <p class="text-red-500 font-bold mt-2 text-xl">{{ number_format($product->price, 0, ',', '.') }} VNĐ</p>

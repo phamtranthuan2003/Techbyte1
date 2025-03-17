@@ -60,7 +60,7 @@ class ColorController extends Controller
     {
         $color = ProductColor::findOrFail($id);
         $color->delete();
-        return redirect()->route('admins.categories.list')->with('success', 'Xóa sản phẩm thành công');
+        return redirect()->route('admins.colors.list')->with('success', 'Xóa sản phẩm thành công');
 
     }
 

@@ -66,7 +66,7 @@
             <!-- Danh sách sản phẩm -->
             <div class="bg-gray-100 p-5 rounded-xl shadow-md">
                 <h2 class="text-lg font-semibold mb-3 text-gray-700">🛍 Sản Phẩm</h2>
-                @php 
+                @php
                     $filteredCartProducts = $cartproducts->filter(fn($cartproduct) => $cartproduct->products && $cartproduct->products->sell != 0);
                 @endphp
 
@@ -110,7 +110,7 @@
                 <!-- Mã giảm giá -->
                 <input type="text" id="discount-code" name="discount_code" placeholder="🎟 Nhập mã giảm giá"
                     class="w-full mt-4 px-5 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none transition">
-                
+
                 @csrf
                 <button class="mt-4 w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-75 transition shadow-lg">
                     🚀 Thanh Toán Ngay

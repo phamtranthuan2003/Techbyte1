@@ -118,18 +118,14 @@ public function update(Request $request, $id)
     $product->categories()->sync($request->category_id);
 
     // Xóa ảnh nếu có deleted_images
-    if ($request->has('deleted_images')) {
-        $deletedImages = explode(',', $request->deleted_images);
-        foreach ($deletedImages as $imageId) {
-            $image = Images::find($imageId);
-            if ($image) {
-                $filePath = public_path($image->image_path);
-                if (file_exists($filePath)) {
-                    unlink($filePath);
-                }
-                $image->delete();
+    if ($request->filled('deleted_images')) {
+        $deletedImages = array_filter(explode(',', $request->deleted_images), 'is_numeric');
+        Images::whereIn('id', $deletedImages)->each(function ($image) {
+            if (file_exists(public_path($image->image_path))) {
+                unlink(public_path($image->image_path));
             }
-        }
+            $image->delete();
+        });
     }
 
     // Lưu ảnh mới
@@ -138,23 +134,20 @@ public function update(Request $request, $id)
         foreach ($request->file('images') as $image) {
             $fileName = uniqid() . '_' . time() . '.' . $image->getClientOriginalExtension();
             $imagePath = 'image/' . $fileName;
-
             $image->move(public_path('image'), $fileName);
 
             $newImage = Images::create([
                 'product_id' => $product->id,
                 'image_path' => $imagePath,
-                'sort_order' => 0 // Gán tạm sort_order = 0, lát sẽ cập nhật đúng thứ tự
+                'sort_order' => 0,
             ]);
-
             $newImageIds[] = $newImage->id;
         }
     }
 
     // Cập nhật thứ tự ảnh theo image_order gửi từ frontend
-    if ($request->has('image_order')) {
-        $imageOrder = explode(',', $request->image_order);
-
+    if ($request->filled('image_order')) {
+        $imageOrder = array_filter(explode(',', $request->image_order), 'is_numeric');
         foreach ($imageOrder as $index => $imageId) {
             Images::where('id', $imageId)->update(['sort_order' => $index]);
         }
@@ -169,8 +162,7 @@ public function update(Request $request, $id)
     }
 
     // Cập nhật ảnh đại diện (thumbnail) là ảnh có `sort_order` nhỏ nhất
-    $firstImage = Images::where('product_id', $product->id)->orderBy('sort_order')->first();
-    if ($firstImage) {
+    if ($firstImage = Images::where('product_id', $product->id)->orderBy('sort_order')->first()) {
         $product->update(['thumbnail' => $firstImage->image_path]);
     }
 

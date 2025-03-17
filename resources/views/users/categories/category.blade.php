@@ -51,7 +51,7 @@
 
     <main class="container mx-auto px-4 py-8 mt-20 flex-grow">
         <h2 class="text-2xl font-semibold text-gray-700 mb-4 text-center">{{ $category->name }}</h2> <!-- Tăng khoảng cách dưới cho tên danh mục -->
-        
+
         <div class="flex justify-center mb-6">
             <input type="text" id="search" placeholder="Tìm kiếm sản phẩm..." class="p-2 border rounded-lg" oninput="searchProducts()"> <!-- Giảm kích thước ô tìm kiếm xuống 1/4 -->
         </div>
@@ -62,7 +62,7 @@
                 <a href="{{ route('users.category', ['id' => $category->id]) }}" class="bg-black text-white px-4 py-2 rounded-lg">{{ $category->name }}</a>
             @endforeach
         </div>
-        
+
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="product-list">
             @if($products->isEmpty())
                 <p class="text-center col-span-4">Không có sản phẩm nào thuộc danh mục này.</p>
