@@ -200,6 +200,8 @@ Route::prefix('users')->name('users.')->group(function () {
     Route::post('updatepassword/{id}', [UserController::class, 'updatepassword'])->name('updatepassword');
 
     Route::get('promotion', [UserController::class, 'promotion'])->name('promotion');
+    Route::post('claimpromotion/{id}', [UserController::class, 'claimpromotion'])->name('claimpromotion');
+
 
     Route::get('contact', [UserController::class, 'contact'])->name('contact');
     Route::post('feedback', [UserController::class, 'feedback'])->name('feedback');
@@ -217,6 +219,8 @@ Route::prefix('users')->name('users.')->group(function () {
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CapacityController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\PromotionController;
 
 Route::prefix('admins')->name('admins.')->group(function () {
 
@@ -246,4 +250,22 @@ Route::prefix('admins')->name('admins.')->group(function () {
     Route::post('update/{id}', [ColorController::class, 'update'])->name('update');
     Route::delete('delete/{id}', [ColorController::class, 'delete'])->name('delete');
 });
+});
+Route::prefix('admins')->name('admins.')->group(function () {
+    Route::prefix('promotions')->name('promotions.')->group(function () {
+        Route::get('create', [PromotionController::class, 'create'])->name('create');
+        Route::get('list', [PromotionController::class, 'list'])->name('list');
+        Route::post('store', [PromotionController::class, 'store'])->name('store');
+        Route::get('edit/{id}', [PromotionController::class, 'edit'])->name('edit');
+        Route::post('update/{id}', [PromotionController::class, 'update'])->name('update');
+        Route::delete('delete/{id}', [PromotionController::class, 'delete'])->name('delete');
+
+    });
+});
+Route::prefix('admins')->name('admins.')->group(function () {
+    Route::prefix('posts')->name('posts.')->group(function () {
+        Route::get('create', [PostController::class, 'create'])->name('create');
+        Route::get('list', [PostController::class, 'list'])->name('list');
+
+    });
 });

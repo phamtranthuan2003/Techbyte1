@@ -108,9 +108,16 @@
                 <input type="hidden" name="total_price" value="{{ $totalPrice }}">
 
                 <!-- Mã giảm giá -->
-                <input type="text" id="discount-code" name="discount_code" placeholder="🎟 Nhập mã giảm giá"
-                    class="w-full mt-4 px-5 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none transition">
-
+                <label for="promotion_id" class="block text-sm font-semibold text-gray-700">🎁 Chọn mã giảm giá</label>
+                {{-- <select name="promotion_id" id="promotion_id"
+                    class="w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none transition">
+                    <option value="">-- Chọn mã khuyến mãi --</option>
+                    @foreach ($userPromotions as $userPromotion)
+                        <option value="{{ $userPromotion->promotion->id }}">
+                            {{ $userPromotion->promotion->name }} - Giảm {{ $userPromotion->promotion->discount }}%
+                        </option>
+                    @endforeach
+                </select> --}}
                 @csrf
                 <button class="mt-4 w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-75 transition shadow-lg">
                     🚀 Thanh Toán Ngay

@@ -9,6 +9,7 @@ use App\Models\CartProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
+use App\Models\UserPromotion;
 use App\Models\Review;
 use App\Models\Category;
 use App\Models\CategoryProduct;
@@ -181,6 +182,12 @@ class ProductController extends Controller
         $totalPrice = $filteredCartProducts->sum(function ($cartproduct) {
             return $cartproduct->price * $cartproduct->quantity;
         });
+        // // Lấy danh sách khuyến mãi mà user có từ bảng `user_promotions`
+        // $userPromotions = UserPromotion::where('user_id', $user->id)
+        //     ->whereHas('promotion') // Đảm bảo có khuyến mãi hợp lệ
+        //     ->with('promotion') // Lấy thông tin từ bảng `promotions`
+        //     ->get()
+        //     ->pluck('promotion'); // Chỉ lấy danh sách khuyến mãi
 
         return view('users.products.pay', [
             'cart' => $cart,

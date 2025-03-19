@@ -9,24 +9,26 @@ use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\UserPromotion;
 use App\Jobs\SendEmail as NotificationsSendEmail;
 use Illuminate\Support\Facades\Auth;
 use App\Task;
+use App\Models\Promotion;
 class UserController extends Controller
 
 {
     public function create()
     {
-        
+
         return view('users.users.create');
     }
     public function store(Request $request)
     {
-        
+
         $data = $request->all();
         $user = User::create($data);
         $cart = Cart::where('user_id', $user->id)->first();
-    
+
         if (!$cart) {
             $cart = Cart::create([
                 'user_id' => $user->id,
@@ -50,15 +52,15 @@ class UserController extends Controller
 
         // gán dữ liệu gửi lên vào biến data
         $data = $request->all();
- 
-        
+
+
 
         // Update user
         $user->update($data);
 
         return redirect()->route('admins.users.list')->with('success', 'Cập nhật sản phẩm thành công');
     }
-    
+
     public function login(Request $request){
         $users = auth::user();
 
@@ -71,10 +73,10 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-    
+
         // Kiểm tra người dùng và mật khẩu
         $user = User::where('email', $request->email)->first();
-    
+
         if ($user &&($request->password == $user->password)) {
             // Đăng nhập người dùng
             Auth::login($user);
@@ -93,16 +95,16 @@ class UserController extends Controller
 
         return view('users.confirmEmail');
     }
-    public function resetpassword(Request $request){   
+    public function resetpassword(Request $request){
         // Lấy email từ request
             $email = $request->input('email');
-    
+
             // Kiểm tra email trong cơ sở dữ liệu
             $user = User::where('email', $email)->first();
-    
+
             if ($user) {
                 return view('users.forgotpassword', compact('user'));
-                
+
             } else {
                 // Email không trùng khớp
                 return back()->with('error', 'Email không tồn tại trong hệ thống!');
@@ -113,14 +115,14 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $data = $request->all();
 
-        
+
         $user->update($data);
         return redirect()->route('users.login');
     }
     public function home(Request $request)
 {
         $user = Auth::user();
-        
+
         $cartCount = 0;
         $cartproducts = collect(); // Khởi tạo một collection rỗng để tránh lỗi
 
@@ -173,7 +175,7 @@ public function promotion()
 {
     $user = Auth::user();
     $cartCount = 0; // Mặc định giỏ hàng trống nếu user chưa đăng nhập
-
+    $promotions = Promotion::with('users')->get();
     if ($user) { // Kiểm tra user có đăng nhập không
         $cart = Cart::where('user_id', $user->id)->first();
         if ($cart) {
@@ -181,7 +183,7 @@ public function promotion()
         }
     }
 
-    return view('users.promotions.promotion', compact('user', 'cartCount'));
+    return view('users.promotions.promotion', compact('user', 'cartCount','promotions'));
 }
 
     public function contact()
@@ -199,7 +201,7 @@ public function promotion()
     }
     public function feedback(Request $request)
     {   $data = $request->all();
-        
+
         try {
 
             dispatch(new NotificationsSendEmail($data));
@@ -210,6 +212,36 @@ public function promotion()
         }
         return redirect()->back();
     }
-    
-    
+    public function claimpromotion($id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('users.login')->with('error', 'Vui lòng đăng nhập để nhận khuyến mãi.');
+        }
+
+        $user = Auth::user();
+
+        // Kiểm tra khuyến mãi có tồn tại không
+        $promotion = Promotion::find($id);
+        if (!$promotion) {
+            return redirect()->back()->with('error', 'Khuyến mãi không tồn tại.');
+        }
+
+        // Kiểm tra xem user đã nhận khuyến mãi này chưa
+        $existing = UserPromotion::where('user_id', $user->id)
+                                 ->where('promotion_id', $promotion->id)
+                                 ->exists();
+        if ($existing) {
+            return redirect()->back()->with('error', 'Bạn đã nhận khuyến mãi này rồi.');
+        }
+
+        // Lưu vào bảng user_promotion
+        UserPromotion::create([
+            'user_id' => $user->id,
+            'promotion_id' => $promotion->id
+        ]);
+
+        return redirect()->back()->with('success', 'Bạn đã nhận khuyến mãi thành công!');
+    }
+
+
 }

@@ -1,24 +1,5 @@
 <x-app-layout>
     <div class="admin">
-        <div class="sidebar">
-            <div class="logo">
-                <h2>Admin Dashboard</h2>
-            </div>
-            <ul class="menu">
-                <li><a href="{{ route('admins.home') }}">🏠 Tổng quan</a></li>
-                <li><a href="{{ route('admins.users.list') }}">👥 Quản lý người dùng</a></li>
-                <li><a href="{{ route('admins.orders.orderNotPlaced') }}">📦 Quản lý đơn hàng</a></li>
-                <li><a href="{{ route('admins.products.list') }}">🛒 Quản lý sản phẩm</a></li>
-                <li><a href="{{ route('admins.categories.list') }}">🗂️ Quản lí danh mục</a></li>
-                <li><a href="{{ route('admins.providers.list') }}">🚚 Nhà cung cấp</a></li>
-                <li><a href="{{ route('admins.capacities.list') }}">🗄️ Quản lý dung lượng</a></li>
-                <li><a href="{{ route('admins.colors.list') }}">🎨  Màu Sắc</a></li>
-                <li><a href="{{ route('admins.colors.list') }}">🎨  Quản lí hình ảnh</a></li>
-                <li><a href="{{ route('admins.colors.list') }}">🎨  Quản lí bài viết</a></li>
-                <li><a href="{{ route('users.login') }}" onclick="logout()">🚪 Đăng xuất</a></li>
-            </ul>
-        </div>
-
     <div class="main-content">
         <header>
             <h1 class="header-title">📋 Quản lý đơn hàng</h1>

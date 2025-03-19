@@ -59,38 +59,34 @@
             <a href="{{ route('users.products.list') }}" class="mt-4 inline-block bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-yellow-600 transition">Khám Phá Ngay</a>
         </div>
     </section>
-
     <!-- Ưu đãi đặc biệt -->
-    <section class="container mx-auto px-6 py-16 text-center">
-        <h2 class="text-3xl font-bold text-gray-800">Ưu Đãi Đặc Biệt</h2>
-        <p class="text-gray-600 mt-2">Nhận ngay những khuyến mãi HOT nhất tại ProsStudio STORE</p>
+<section class="container mx-auto px-6 py-16 text-center">
+    <h2 class="text-3xl font-bold text-gray-800">Ưu Đãi Đặc Biệt</h2>
+    <p class="text-gray-600 mt-2">Nhận ngay những khuyến mãi HOT nhất tại ProsStudio STORE</p>
 
-        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Card 1 -->
-            <div class="bg-white shadow-lg rounded-lg p-6 text-center transform transition hover:scale-105">
-                <i class="fa-solid fa-tags text-red-500 text-4xl"></i>
-                <h3 class="text-xl font-semibold mt-4">Giảm Giá 50%</h3>
-                <p class="text-gray-600 mt-2">Giảm ngay 50% cho tất cả sản phẩm trong cửa hàng!</p>
-                <button class="mt-4 bg-black text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Nhận Ngay</button>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="bg-white shadow-lg rounded-lg p-6 text-center transform transition hover:scale-105">
-                <i class="fa-solid fa-truck text-green-500 text-4xl"></i>
-                <h3 class="text-xl font-semibold mt-4">Miễn Phí Vận Chuyển</h3>
-                <p class="text-gray-600 mt-2">Freeship với đơn hàng từ 500,000 VNĐ!</p>
-                <button class="mt-4 bg-black text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Nhận Ngay</button>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="bg-white shadow-lg rounded-lg p-6 text-center transform transition hover:scale-105">
-                <i class="fa-solid fa-gift text-yellow-500 text-4xl"></i>
-                <h3 class="text-xl font-semibold mt-4">Quà Tặng Hấp Dẫn</h3>
-                <p class="text-gray-600 mt-2">Mua hàng từ 1,000,000 VNĐ tặng ngay voucher giảm 100K!</p>
-                <button class="mt-4 bg-black text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Nhận Ngay</button>
-            </div>
+    <div class="mt-8 flex flex-wrap justify-center gap-8">
+        @foreach($promotions as $promotion)
+        <div class="bg-white shadow-lg rounded-lg p-6 text-center transform transition hover:scale-105 w-[300px]">
+            <i class="fa-solid fa-gift text-red-500 text-4xl"></i> <!-- Icon hộp quà -->
+            <h3 class="text-xl font-semibold mt-4">{{ $promotion->name }}</h3>
+            <p class="text-gray-600 mt-2">{{ $promotion->description }}</p>
+            <form action="{{ route('users.claimpromotion', $promotion->id) }}" method="post">
+                @csrf
+                @if(Auth::check() && App\Models\UserPromotion::where('user_id', Auth::id())->where('promotion_id', $promotion->id)->exists())
+                    <button type="button" class="mt-4 bg-gray-400 text-white px-4 py-2 rounded-lg cursor-not-allowed" disabled>
+                        Đã Nhận
+                    </button>
+                @else
+                    <button type="submit" class="mt-4 bg-black text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                        Nhận Ngay
+                    </button>
+                @endif
+            </form>
         </div>
-    </section>
+        @endforeach
+    </div>
+</section>
+
 
     <!-- Footer -->
     <footer class="bg-black text-[#999999] p-4 w-full mt-[40px]">

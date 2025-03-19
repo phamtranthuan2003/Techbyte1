@@ -2,7 +2,7 @@
     <div class="admin">
         <div class="main-content">
             <header>
-                <h1>👥 Danh sách người dùng</h1>
+                <h1>👥 Danh sách bài viết</h1>
                 <div class="search-container">
                     <input type="text" id="searchInput" placeholder="🔍 Tìm kiếm người dùng...">
                 </div>
@@ -10,7 +10,7 @@
 
             <div class="add">
                 <a href="{{ route('users.create') }}">
-                    <button type="button">➕ Thêm người dùng</button>
+                    <button type="button">➕ Thêm bài viết</button>
                 </a>
             </div>
 
@@ -19,27 +19,19 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Họ Tên</th>
-                            <th>Ngày Sinh</th>
-                            <th>Giới Tính</th>
-                            <th>Địa Chỉ</th>
-                            <th>Số Điện Thoại</th>
-                            <th>Email</th>
-                            <th>Vai Trò</th>
+                            <th>Mã khuyến mại</th>
+                            <th>Giảm giá</th>
+                            <th>Ngày hết hạn</th>
                             <th>Chức năng</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    {{-- <tbody>
                         @foreach ($users as $user)
                             <tr>
                                 <td>{{ $user->id }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->birthday }}</td>
-                                <td>{{ $user->sex }}</td>
-                                <td>{{ $user->address }}</td>
-                                <td>{{ $user->phone }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->role }}</td>
+                                <td>{{ $user->birthday }}</td>
                                 <td>
                                     <a href="{{ route('users.edit', $user->id) }}">
                                         <button type="button" class="edit-btn">✏️ Sửa</button>
@@ -52,7 +44,7 @@
                                 </td>
                             </tr>
                         @endforeach
-                    </tbody>
+                    </tbody> --}}
                 </table>
             </section>
         </div>

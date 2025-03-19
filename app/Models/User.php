@@ -23,11 +23,15 @@ class User extends Model implements Authenticatable
         'email',
         'password',
         'role',
-        
+
 
     ];
     public function products()
     {
         return $this->belongsToMany(Product::class);
+    }
+    public function promotions()
+    {
+        return $this->belongsToMany(Promotion::class, 'user_promotions', 'user_id', 'promotion_id');
     }
 }

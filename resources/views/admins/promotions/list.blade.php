@@ -2,15 +2,15 @@
     <div class="admin">
         <div class="main-content">
             <header>
-                <h1>👥 Danh sách người dùng</h1>
+                <h1>👥 Danh sách mã khuyến mại</h1>
                 <div class="search-container">
                     <input type="text" id="searchInput" placeholder="🔍 Tìm kiếm người dùng...">
                 </div>
             </header>
 
             <div class="add">
-                <a href="{{ route('users.create') }}">
-                    <button type="button">➕ Thêm người dùng</button>
+                <a href="{{ route('admins.promotions.create') }}">
+                    <button type="button">➕ Thêm mã khuyến mại</button>
                 </a>
             </div>
 
@@ -19,32 +19,26 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Họ Tên</th>
-                            <th>Ngày Sinh</th>
-                            <th>Giới Tính</th>
-                            <th>Địa Chỉ</th>
-                            <th>Số Điện Thoại</th>
-                            <th>Email</th>
-                            <th>Vai Trò</th>
+                            <th>Tên khuyến mại</th>
+                            <th>Mã khuyến mại</th>
+                            <th>Giảm giá</th>
+                            <th>Ngày hết hạn</th>
                             <th>Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as $user)
+                        @foreach ($promotions as $promotion)
                             <tr>
-                                <td>{{ $user->id }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->birthday }}</td>
-                                <td>{{ $user->sex }}</td>
-                                <td>{{ $user->address }}</td>
-                                <td>{{ $user->phone }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->role }}</td>
+                                <td>{{ $promotion->id }}</td>
+                                <td>{{ $promotion->name }}</td>
+                                <td>{{ $promotion->code }}</td>
+                                <td>{{ number_format($promotion->discount) }} VND</td>
+                                <td>{{ $promotion->expires_at }}</td>
                                 <td>
-                                    <a href="{{ route('users.edit', $user->id) }}">
+                                    <a href="{{ route('admins.promotions.edit', $promotion->id) }}">
                                         <button type="button" class="edit-btn">✏️ Sửa</button>
                                     </a>
-                                    <form action="{{ route('admins.users.deleteuser', $user->id) }}" method="POST" style="display:inline;">
+                                    <form action="{{ route('admins.promotions.delete', $promotion->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="delete-btn" onclick="return confirm('Bạn chắc chắn muốn xóa người dùng này?');">🗑️ Xóa</button>
