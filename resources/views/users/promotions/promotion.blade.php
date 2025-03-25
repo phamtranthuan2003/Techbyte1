@@ -67,7 +67,7 @@
     <div class="mt-8 flex flex-wrap justify-center gap-8">
         @foreach($promotions as $promotion)
         <div class="bg-white shadow-lg rounded-lg p-6 text-center transform transition hover:scale-105 w-[300px]">
-            <i class="fa-solid fa-gift text-red-500 text-4xl"></i> <!-- Icon hộp quà -->
+            <i class="fa-solid fa-gift text-red-500 text-4xl"></i>
             <h3 class="text-xl font-semibold mt-4">{{ $promotion->name }}</h3>
             <p class="text-gray-600 mt-2">{{ $promotion->description }}</p>
             <form action="{{ route('users.claimpromotion', $promotion->id) }}" method="post">

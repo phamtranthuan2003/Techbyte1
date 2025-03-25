@@ -104,20 +104,21 @@
             <!-- Tổng đơn hàng -->
             <div class="bg-gray-200 p-6 rounded-xl shadow-lg text-center">
                 <h3 class="text-lg font-bold text-gray-700">📦 Tổng Giỏ Hàng</h3>
-                <p class="text-3xl text-red-500 font-bold">{{ number_format($totalPrice, 0, ',', '.') }} VND</p>
-                <input type="hidden" name="total_price" value="{{ $totalPrice }}">
-
+    <p id="totalPrice" class="text-3xl text-red-500 font-bold">{{ number_format($totalPrice, 0, ',', '.') }} VND</p>
+    <input type="hidden" name="price" id="final_price" value="{{ $totalPrice }}">
                 <!-- Mã giảm giá -->
-                <label for="promotion_id" class="block text-sm font-semibold text-gray-700">🎁 Chọn mã giảm giá</label>
-                {{-- <select name="promotion_id" id="promotion_id"
+                <select name="promotion_id" id="promotion_id"
                     class="w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none transition">
                     <option value="">-- Chọn mã khuyến mãi --</option>
                     @foreach ($userPromotions as $userPromotion)
-                        <option value="{{ $userPromotion->promotion->id }}">
-                            {{ $userPromotion->promotion->name }} - Giảm {{ $userPromotion->promotion->discount }}%
-                        </option>
+                        @if ($userPromotion->promotion) {{-- Đảm bảo có promotion --}}
+                            <option value="{{ $userPromotion->promotion->id }}">
+                                {{ $userPromotion->promotion->name }} - Giảm {{ number_format($userPromotion->promotion->discount, 0, ',', '.') }} VND
+                            </option>
+                        @endif
                     @endforeach
-                </select> --}}
+                </select>
+
                 @csrf
                 <button class="mt-4 w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-75 transition shadow-lg">
                     🚀 Thanh Toán Ngay
@@ -145,3 +146,24 @@
     </body>
 </div>
 </html>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const totalPriceElement = document.querySelector("#totalPrice");
+        const promotionSelect = document.querySelector("#promotion_id");
+        const finalPriceInput = document.querySelector("#final_price"); // New hidden input
+        const baseTotal = {{ $totalPrice }}; // Get the base price from Laravel
+
+        function updateTotalPrice() {
+            const selectedOption = promotionSelect.options[promotionSelect.selectedIndex];
+            const discount = selectedOption.value ? parseInt(selectedOption.text.match(/\d+/g)[0]) : 0;
+            const newTotal = baseTotal - discount;
+
+            // Update displayed total
+            totalPriceElement.textContent = newTotal.toLocaleString("vi-VN") + " VND";
+            // Update the hidden input for final price
+            finalPriceInput.value = newTotal; // Store final price in hidden input
+        }
+
+        promotionSelect.addEventListener("change", updateTotalPrice);
+    });
+</script>

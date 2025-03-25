@@ -129,6 +129,8 @@ use App\Http\Controllers\Admin\OrderController;
 
     Route::get('orderComplete', [OrderController::class, 'orderComplete'])->name('orderComplete');
 
+    Route::get('orderBankTransfer', [OrderController::class, 'orderBankTransfer'])->name('orderBankTransfer');
+
     Route::get('orderCancelled', [OrderController::class, 'orderCancelled'])->name('orderCancelled');
 
     Route::get('/orderDetail/{id}', [OrderController::class, 'orderDetail'])->name('orderDetail');

@@ -150,6 +150,9 @@
                     <li>Khi chuyển khoản không làm mới trình duyệt.</li>
                 </ul>
             </div>
+            <a href="{{ route('users.home') }}">
+                <button type="button">Trang chủ</button>
+            </a>
         </div>
     </div>
 

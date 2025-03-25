@@ -238,6 +238,5 @@
     height: 700px;
     object-fit: cover;
 }
-
-
-    </style>
+</style>
+<scrip>

@@ -152,7 +152,6 @@ class ProductController extends Controller
 
     public function pay(Request $request)
     {
-
         $user = Auth::user();
         $cart = Cart::where('user_id', $user->id)->first();
 
@@ -182,18 +181,17 @@ class ProductController extends Controller
         $totalPrice = $filteredCartProducts->sum(function ($cartproduct) {
             return $cartproduct->price * $cartproduct->quantity;
         });
-        // // Lấy danh sách khuyến mãi mà user có từ bảng `user_promotions`
-        // $userPromotions = UserPromotion::where('user_id', $user->id)
-        //     ->whereHas('promotion') // Đảm bảo có khuyến mãi hợp lệ
-        //     ->with('promotion') // Lấy thông tin từ bảng `promotions`
-        //     ->get()
-        //     ->pluck('promotion'); // Chỉ lấy danh sách khuyến mãi
+        $userPromotions = UserPromotion::where('user_id', $user->id)
+            ->whereHas('promotion') // Đảm bảo chỉ lấy các promotion hợp lệ
+            ->with('promotion') // Lấy dữ liệu từ bảng promotions
+            ->get();
 
         return view('users.products.pay', [
             'cart' => $cart,
             'cartproducts' => $filteredCartProducts, // Chỉ truyền sản phẩm hợp lệ vào view
             'totalPrice' => $totalPrice,
-            'user' => $user
+            'user' => $user,
+            'userPromotions' => $userPromotions,
         ]);
     }
 
@@ -287,9 +285,7 @@ class ProductController extends Controller
         $user = Auth::user();
         $cart = Cart::where('user_id', $user->id)->first();
         $order = Order::where('user_id', $user->id)->where('status', 0)->first();
-
         $paymenmethood = $request->payment_method;
-
         if ($paymenmethood == '0') {
             $order->update([
                 'name' => $request->name,
@@ -298,7 +294,7 @@ class ProductController extends Controller
                 'user_id' => $user->id,
                 'status' => '1',
                 'paymentmethod' => $paymenmethood,
-                'price' => $request->total_price,
+                'price' => $request->price,
             ]);
         } else {
             // Nếu phương thức thanh toán > 0, trả về JSON với link QR của order

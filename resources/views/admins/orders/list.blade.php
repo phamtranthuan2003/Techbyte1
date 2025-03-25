@@ -34,6 +34,7 @@
                 <th>Tổng tiền đơn hàng</th>
                 <th>Địa Chỉ</th>
                 <th>Số Điện Thoại</th>
+                <th>Trạng Thái</th>
                 <th>Hình thức thanh toán</th>
                 <th>Chi tiết đơn hàng</th>
                 <th>update đơn hàng</th>
@@ -60,6 +61,19 @@
                 @else
                     Đã hủy
                 @endif
+                </td>
+                <td>
+                    @if ($order->paymentmethod == 0)
+                        Thanh toán khi nhận hàng
+                    @elseif($order->paymentmethod == 1)
+                        Thanh toán ngân hàng
+                    @elseif($order->paymentmethod == 2)
+                        Thanh toán qua momo
+                    @elseif($order->paymentmethod == 3)
+                        Thanh toán qua zalopay
+                    @else
+                        Thanh toán qua thẻ ghi nợ
+                    @endif
                 </td>
                 <td>
                     <a href="{{ route('admins.orders.orderDetail', ['id' => $order->id]) }}">

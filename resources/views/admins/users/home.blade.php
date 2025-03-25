@@ -5,9 +5,15 @@
             <h1>👋 Chào mừng, Admin!</h1>
             <p>Trang tổng quan hệ thống</p>
         </header>
+        <div class="filter-container">
+            <label for="filterDay">Chọn ngày:</label>
+            <input type="date" id="filterDay">
 
+            <button id="filterBtn">Lọc dữ liệu</button>
+        </div>
         <!-- Dashboard Overview -->
         <section class="dashboard-grid">
+
             <div class="dashboard-card">
                 <h3>👥 Người dùng</h3>
                 <p>Tổng số: <strong>{{ $totaluser ?? 0 }}</strong></p>
@@ -46,17 +52,9 @@
                 <h3>💰 Tổng doanh thu trong tuần</h3>
                 <p><strong>{{ number_format($totalRevenueWeek ?? 0, 0, ',', '.') }} VNĐ</strong></p>
             </div>
-        </section>
+        </section><br>
 
-        <div class="filter-container">
-    <label for="filterMonth">Chọn tháng:</label>
-    <input type="month" id="filterMonth">
 
-    <label for="filterDay">Chọn ngày:</label>
-    <input type="date" id="filterDay">
-
-    <button id="filterBtn">Lọc dữ liệu</button>
-</div>
 
         <!-- Biểu đồ đơn hàng trong tuần -->
         <section class="chart-container">
@@ -123,8 +121,9 @@
     .filter-container {
     display: flex;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     align-items: center;
+    padding: inherit;
 }
 
 .filter-container input, .filter-container button {
