@@ -285,6 +285,7 @@ class ProductController extends Controller
         $user = Auth::user();
         $cart = Cart::where('user_id', $user->id)->first();
         $order = Order::where('user_id', $user->id)->where('status', 0)->first();
+        $promotion = $request->promotion_id;
         $paymenmethood = $request->payment_method;
         if ($paymenmethood == '0') {
             $order->update([
@@ -315,6 +316,7 @@ class ProductController extends Controller
 
         // Xóa sản phẩm trong giỏ hàng
         CartProduct::where('cart_id', $cart->id)->delete();
+        UserPromotion::where('promotion_id', $promotion)->delete();
 
         return redirect()->route('users.home');
     }

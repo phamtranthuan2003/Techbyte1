@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    
+
     <div class="w-full max-w-lg p-8 bg-white shadow-xl rounded-2xl">
-        <h1 class="text-2xl font-bold text-center text-gray-700 mb-6">Sửa Màu Sắc</h1>
+        <h1 class="text-2xl font-bold text-center text-gray-700 mb-6">Sửa dung lượng</h1>
 
         <form action="{{ route('admins.capacities.update', ['id' => $capacity->id]) }}" method="post" class="space-y-4">
             @csrf
