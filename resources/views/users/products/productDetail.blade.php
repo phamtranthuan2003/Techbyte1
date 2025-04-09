@@ -94,7 +94,7 @@
                     <label class="text-gray-700 font-semibold">Chọn Dung Lượng:</label>
                     <div class="flex space-x-2 mt-2">
                         @foreach($products->capacities as $capacity)
-                            <button class="border px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300">
+                            <button id="capacity" class="border px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300" data-price="{{ $capacity->price }}">
                                 {{ $capacity->name }} GB
                             </button>
                         @endforeach
@@ -190,7 +190,7 @@
 
 <script>
     var swiper = new Swiper(".mySwiper", {
-        loop: true, // Lặp vô hạn
+        loop: true,
         spaceBetween: 10,
         slidesPerView: 1,
         navigation: {
@@ -205,6 +205,21 @@
             delay: 3000, // Tự động lướt ảnh sau 3s
             disableOnInteraction: false,
         },
+    });
+    const capacityButtons = document.querySelectorAll('#capacity');
+    const priceElement = document.querySelector('.text-2xl'); // Phần tử hiển thị giá sản phẩm
+
+    capacityButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Lấy giá của dung lượng được chọn
+            const price = button.getAttribute('data-price');
+
+            // Cập nhật giá sản phẩm
+            priceElement.innerText = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price) + ' VNĐ';
+
+            // Cập nhật giá vào trong form (ẩn input)
+            document.getElementById('selected_capacity').value = button.innerText.split(' ')[0]; // Chỉ lấy dung lượng
+        });
     });
 </script>
 

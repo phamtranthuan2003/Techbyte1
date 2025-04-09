@@ -271,10 +271,6 @@ class ProductController extends Controller
     // Chuyển hướng đến trang thanh toán
     return redirect()->route('users.products.pay');
 }
-
-
-
-
     public function logout(){
         Auth::logout();
 
