@@ -34,4 +34,8 @@ class User extends Model implements Authenticatable
     {
         return $this->belongsToMany(Promotion::class, 'user_promotions', 'user_id', 'promotion_id');
     }
+    public function reviews() {
+        return $this->hasMany(Review::class);
+    }
+
 }

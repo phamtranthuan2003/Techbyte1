@@ -13,8 +13,6 @@
 
     <form action="{{ route('users.update', $user->id) }}" method="post" class="space-y-4">
         @csrf
-        @method('PUT')
-
         <!-- Họ tên -->
         <div>
             <label for="name" class="block text-sm font-semibold text-gray-700">Họ tên</label>

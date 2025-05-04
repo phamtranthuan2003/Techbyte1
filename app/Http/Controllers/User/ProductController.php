@@ -80,7 +80,7 @@ class ProductController extends Controller
         }
 
 
-        return redirect()->route('users.products.list');
+        return redirect()->back();
     }
 }
 
@@ -318,7 +318,7 @@ class ProductController extends Controller
     }
 
     public function productDetail(Request $request, $id)
-{       $products = Product::with(['images', 'colors', 'capacities'])->findOrFail($id);
+{       $products = Product::with(['images', 'colors', 'capacities', 'reviews'])->findOrFail($id);
         // Kiểm tra sản phẩm có tồn tại không
         if (!$products) {
             return redirect()->back()->with('error', 'Sản phẩm không tồn tại.');

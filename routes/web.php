@@ -229,6 +229,8 @@ Route::prefix('admins')->name('admins.')->group(function () {
     Route::get('home', [AdminController::class, 'home'])->name('home');
 
     Route::post('logout', [AdminController::class, 'logout'])->name('logout');
+
+    Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 });
 
 Route::prefix('admins')->name('admins.')->group(function () {

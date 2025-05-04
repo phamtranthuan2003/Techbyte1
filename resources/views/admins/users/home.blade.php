@@ -5,12 +5,16 @@
             <h1>👋 Chào mừng, Admin!</h1>
             <p>Trang tổng quan hệ thống</p>
         </header>
-        <div class="filter-container">
-            <label for="filterDay">Chọn ngày:</label>
-            <input type="date" id="filterDay">
+        <form action="{{ route('admins.dashboard') }}" method="GET" class="filter-container">
+            <label for="startDate">Từ ngày:</label>
+            <input type="date" id="startDate" name="start_date" value="{{ request('start_date') }}">
 
-            <button id="filterBtn">Lọc dữ liệu</button>
-        </div>
+            <label for="endDate">Đến ngày:</label>
+            <input type="date" id="endDate" name="end_date" value="{{ request('end_date') }}">
+
+            <button type="submit">Lọc dữ liệu</button>
+
+        </form>
         <!-- Dashboard Overview -->
         <section class="dashboard-grid">
 

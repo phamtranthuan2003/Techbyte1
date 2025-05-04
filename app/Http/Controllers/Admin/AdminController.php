@@ -66,5 +66,32 @@ class AdminController extends Controller
         'orderCounts', 'revenueCounts', 'daysOfWeek', 'totalOrdersWeek','totalRevenueWeek'
     ));
 }
+public function dashboard(Request $request)
+{
+    $startDate = $request->input('start_date') ?? now()->startOfWeek()->toDateString();
+    $endDate = $request->input('end_date') ?? now()->endOfWeek()->toDateString();
+
+    $query = Order::whereBetween('created_at', [$startDate, $endDate]);
+
+    $totalOrdersInRange = $query->count();
+    $totalRevenueInRange = $query->sum('total_price');
+
+    // Dữ liệu khác
+    return view('admins.dashboard', [
+        'startDate' => $startDate,
+        'endDate' => $endDate,
+        'totalOrdersRange' => $totalOrdersInRange,
+        'totalRevenueRange' => $totalRevenueInRange,
+
+        // Các dữ liệu thống kê khác
+        'totaluser' => User::count(),
+        'pendingOrders' => Order::where('status', 'pending')->count(),
+        'totalProducts' => Product::count(),
+        'totalStocks' => Product::sum('stock'),
+        'totalCategories' => Category::count(),
+        'totalProviders' => Provider::count(),
+    ]);
+}
+
 
 }

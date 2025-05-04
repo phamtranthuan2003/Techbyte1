@@ -72,7 +72,9 @@
             <!-- Product Details -->
             <div>
                 <h2 class="text-3xl font-bold text-gray-900">{{ $products->name }}</h2>
-                <p class="text-red-500 font-bold text-2xl mt-2">{{ number_format($products->price, 0, ',', '.') }} VNĐ</p>
+                <p class="text-red-500 font-bold text-2xl mt-2 base-price" data-base-price="{{ $products->price }}">
+                    {{ number_format($products->price, 0, ',', '.') }} VNĐ
+                </p>
                 <p class="text-gray-600 mt-2">Còn lại: {{ $products->sell }}</p>
                 <p class="text-gray-600 mt-2">Sản xuất: {{ $products->provider->name }}</p>
                 <p class="text-gray-600 mt-2">Xuất xứ: {{ $products->provider->address }}</p>
@@ -81,7 +83,10 @@
                     <label class="text-gray-700 font-semibold">Chọn Màu:</label>
                     <div class="flex space-x-2 mt-2">
                         @foreach($products->colors as $color)
-                            <button class="border px-4 py-2 rounded-lg" style="background-color: {{ $color->hex_code }};">
+                            <button class="border px-4 py-2 rounded-lg color-option"
+                                style="background-color: {{ $color->hex_code }};"
+                                data-id="{{ $color->id }}"
+                                data-price="{{ $color->price }}">
                                 {{ $color->name }}
                             </button>
                         @endforeach
@@ -102,35 +107,35 @@
                 </div>
 
 
-<!-- Form thêm vào giỏ hàng -->
-<form action="{{ route('users.products.addtocart') }}" method="post" class="mt-6">
-    @csrf
-    <input type="hidden" name="color_id" id="selected_color">
-    <input type="hidden" name="capacity_id" id="selected_capacity">
-    <button type="submit" class="w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-80 transition shadow-lg">Thêm vào Giỏ</button>
-</form>
+            <!-- Form thêm vào giỏ hàng -->
+            <form action="{{ route('users.products.addtocart') }}" method="post" class="mt-6">
+                @csrf
+                <input type="hidden" name="color_id" id="selected_color">
+                <input type="hidden" name="capacity_id" id="selected_capacity">
+                <button type="submit" class="w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-80 transition shadow-lg">Thêm vào Giỏ</button>
+            </form>
 
+                </div>
             </div>
-        </div>
 
 
 
-        <h3 class="text-2xl text-gray-800 mb-6 title relative pl-[20px] mt-12">SẢN PHẨM BÁN CHẠY NHẤT</h3>
+        <h3 class="text-2xl text-gray-800 mb-6 title relative pl-[20px]">SẢN PHẨM BÁN CHẠY NHẤT</h3>
         <div class="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             @foreach ($bestProduct as $product)
                 <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition text-center">
-                @if ($product->images->isNotEmpty())
-                    <img src="{{ asset($product->images->first()->image_path) }}" class="w-full h-64 object-cover rounded-lg hover:scale-105 transition">
-                @else
-                    <img src="{{ asset('images/default-placeholder.png') }}" class="w-full h-64 object-cover rounded-lg hover:scale-105 transition">
-                @endif
-
+                    <a href="{{ route('users.products.productDetail', ['id' => $product->id]) }}">
+                        <img src="{{ asset($product->images->where('sort_order', 0)->first()->image_path ?? $product->images->first()->image_path ?? 'default-image.jpg') }}" class="w-full h-[19rem] object-cover rounded-lg hover:scale-105 transition">
+                    </a>
                     <h4 class="text-2xl font-bold mt-3 text-gray-900">{{ $product->name }}</h4>
                     <p class="text-red-500 font-bold mt-2 text-xl">{{ number_format($product->price, 0, ',', '.') }} VNĐ</p>
                     <p class="text-gray-600">Còn lại: {{ $product->sell }}</p>
+
                     <form action="{{ route('users.products.addtocart') }}" method="post">
                         @csrf
-                        <button type="submit" class="mt-4 w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-75 transition shadow-lg">Thêm vào Giỏ</button>
+                        <button type="submit" class="mt-4 w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-75 transition shadow-lg">
+                            Thêm vào Giỏ
+                        </button>
                     </form>
                 </div>
             @endforeach
@@ -156,21 +161,30 @@
                 @endforeach
             </div>
 
-                    <!-- Form đánh giá -->
-        @if(auth()->check())
+            <!-- Form đánh giá -->
+            @if(auth()->check())
             <form action="{{ route('users.products.reviewProduct', $products->id) }}" method="post" class="mt-6">
                 @csrf
                 <label class="block text-gray-700 font-semibold">Đánh giá của bạn:</label>
-                <div class="flex space-x-2 mt-2 rating-stars flex-row-reverse">
+
+                <!-- Rating -->
+                <div class="flex space-x-1 mt-2 rating-stars flex-row-reverse justify-end">
                     @for ($i = 5; $i >= 1; $i--)
                         <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" class="hidden">
-                        <label for="star{{ $i }}" class="cursor-pointer">
+                        <label for="star{{ $i }}" class="cursor-pointer text-2xl text-gray-400 hover:text-yellow-400">
                             <i class="fas fa-star"></i>
                         </label>
                     @endfor
                 </div>
-                <textarea name="comment" required rows="3" placeholder="Viết đánh giá của bạn..." class="w-full mt-3 px-4 py-2 border border-gray-300 rounded-lg"></textarea>
-                <button type="submit" class="mt-4 w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-80 transition shadow-lg">Gửi đánh giá</button>
+
+                <!-- Comment -->
+                <textarea name="comment" required rows="3" placeholder="Viết đánh giá của bạn..."
+                    class="w-full mt-3 px-4 py-2 border border-gray-300 rounded-lg"></textarea>
+
+                <button type="submit"
+                    class="mt-4 w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-80 transition shadow-lg">
+                    Gửi đánh giá
+                </button>
             </form>
         @endif
         </div>
@@ -207,18 +221,44 @@
         },
     });
     const capacityButtons = document.querySelectorAll('#capacity');
-    const priceElement = document.querySelector('.text-2xl'); // Phần tử hiển thị giá sản phẩm
+    const colorButtons = document.querySelectorAll('.color-option');
+    const priceElement = document.querySelector('.base-price');
+    const basePrice = parseInt(priceElement.getAttribute('data-base-price'));
 
+    let selectedCapacityPrice = 0;
+    let selectedColorPrice = 0;
+
+    function updatePrice() {
+        const finalPrice = basePrice + selectedCapacityPrice + selectedColorPrice;
+        priceElement.innerText = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).format(finalPrice) + ' VNĐ';
+    }
+
+    // Xử lý chọn dung lượng
     capacityButtons.forEach(button => {
         button.addEventListener('click', function () {
-            // Lấy giá của dung lượng được chọn
-            const price = button.getAttribute('data-price');
+            selectedCapacityPrice = parseInt(button.getAttribute('data-price')) || 0;
+            document.getElementById('selected_capacity').value = button.innerText.split(' ')[0];
+            updatePrice();
 
-            // Cập nhật giá sản phẩm
-            priceElement.innerText = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price) + ' VNĐ';
+            // Highlight button đang chọn
+            capacityButtons.forEach(btn => btn.classList.remove('bg-yellow-300'));
+            button.classList.add('bg-yellow-300');
+        });
+    });
 
-            // Cập nhật giá vào trong form (ẩn input)
-            document.getElementById('selected_capacity').value = button.innerText.split(' ')[0]; // Chỉ lấy dung lượng
+    // Xử lý chọn màu sắc
+    colorButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            selectedColorPrice = parseInt(button.getAttribute('data-price')) || 0;
+            document.getElementById('selected_color').value = button.getAttribute('data-id');
+            updatePrice();
+
+            // Highlight màu đang chọn
+            colorButtons.forEach(btn => btn.classList.remove('ring-4', 'ring-yellow-300'));
+            button.classList.add('ring-4', 'ring-yellow-300');
         });
     });
 </script>
@@ -254,4 +294,3 @@
     object-fit: cover;
 }
 </style>
-<scrip>
