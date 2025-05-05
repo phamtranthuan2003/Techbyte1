@@ -77,7 +77,7 @@
                         <p class="text-gray-600">Còn lại: {{ $product->sell }}</p>
                     </div>
                     <div class="mt-4">
-                        @if($product->sell == 0)
+                        @if($product->sell < 0)
                             <p class="text-red-500 font-semibold">Sản phẩm này hiện đang hết hàng</p>
                         @else
                             <form action="{{ route('users.products.addtocart') }}" method="post">
