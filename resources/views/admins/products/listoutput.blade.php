@@ -37,60 +37,25 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Tên</th>
-                        <th>Giá</th>
-                        <th>Ảnh</th>
+                        <th>Sản phẩm</th>
                         <th>Số lượng</th>
-                        <th>Nhà cung cấp</th>
-                        <th>Danh mục</th>
-                        <th>Xuất kho</th>
-                        <th>Chức năng</th>
+                        <th>Thời gian xuất</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($products as $product)
+                    @foreach($exports as $export)
                         <tr>
-                            <td>{{ $product->id }}</td>
-                            <td>{{ $product->name }}</td>
-                            <td>{{ number_format($product->price) }} VND</td>
-                            <td><img src="{{ $product->image }}" alt="Ảnh" class="product-img"></td>
-                            <td>{{ $product->sell }}</td>
-                            <td>{{ $product->provider ? $product->provider->name : 'N/A' }}</td>
-                            <td>
-                                @foreach ($product->categories as $category)
-                                    {{ $category->name }}<br>
-                                @endforeach
-                            </td>
-                            <td>
-                                <form action="{{route("admins.products.output" , ['id' => $product->id])}}" method="POST">
-                                @csrf
-                                    <div class="modal-content">
-                                    <div class="modal-body">
-                                        <input type="number" name="quantity" class="form-control" min="1" max="{{ $product->sell }}" required> <br><br>
-                                        <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exportModal{{ $product->id }}">
-                                            Xuất kho
-                                        </button>
-                                    </div>
-                                    </div>
-                                </form>
-                            </td>
-                            <td>
-                                <a href="{{ route('admins.products.edit', $product->id) }}">
-                                    <button class="edit-btn">✏️ Sửa</button>
-                                </a>
-                                <form action="{{ route('admins.products.delete', $product->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="delete-btn" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">🗑️ Xóa</button>
-                                </form>
-                            </td>
+                            <td>{{ $export->id }}</td>
+                            <td>{{ $export->product->name ?? 'N/A' }}</td>
+                            <td>{{ $export->quantity }}</td>
+                            <td>{{ \Carbon\Carbon::parse($export->exported_at)->format('d/m/Y H:i') }}</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-                    <div class="pagination-container">
+                    {{-- <div class="pagination-container">
                         {{ $products->links('pagination::bootstrap-4') }}
-                    </div>
+                    </div> --}}
         </div>
     </div>
 

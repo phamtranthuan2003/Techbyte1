@@ -17,4 +17,7 @@ class Provider extends Model
     public function products(){
         return $this->hasMany(Product::class, 'provider_id', 'id');
     }
+    public function ImputProduct(){
+        return $this->hasMany(Product::class, 'provider_id', 'id');
+    }
 }

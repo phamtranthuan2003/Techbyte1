@@ -13,7 +13,6 @@
             <input type="date" id="endDate" name="end_date" value="{{ request('end_date') }}">
 
             <button type="submit">Lọc dữ liệu</button>
-
         </form>
         <!-- Dashboard Overview -->
         <section class="dashboard-grid">
@@ -37,6 +36,16 @@
                 <h3>🏬 Tồn kho</h3>
                 <p>Số lượng: <strong>{{ $totalStocks ?? 0 }}</strong></p>
                 <a href="{{ route('admins.products.list') }}">Kiểm tra</a>
+            </div>
+            <div class="dashboard-card">
+                <h3>🏬 Hàng nhập</h3>
+                <p>Số lượng: <strong>{{ $totalInput ?? 0 }}</strong></p>
+                <a href="{{ route('admins.products.listImputProduct') }}">Kiểm tra</a>
+            </div>
+            <div class="dashboard-card">
+                <h3>🏬 Hàng xuất</h3>
+                <p>Số lượng: <strong>{{ $totalOutput ?? 0 }}</strong></p>
+                <a href="{{ route('admins.products.listoutput') }}">Kiểm tra</a>
             </div>
             <div class="dashboard-card">
                 <h3>🗂️ Danh mục</h3>

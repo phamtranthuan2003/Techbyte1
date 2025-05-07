@@ -9,6 +9,8 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\ImputProduct;
+use App\Models\ExportProduct;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Hash;
@@ -24,7 +26,8 @@ class AdminController extends Controller
     $totalStocks = Product::where('sell', '>', 0)->count();
     $totalCategories = Category::count();
     $totalProviders = Provider::count();
-
+    $totalInput = ImputProduct::count();
+    $totalOutput = ExportProduct::count();
     // Lấy dữ liệu đơn hàng theo ngày
     $ordersData = Order::selectRaw('WEEKDAY(created_at) as day, COUNT(*) as total')
         ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
@@ -39,7 +42,6 @@ class AdminController extends Controller
         ->pluck('revenue', 'day')
         ->toArray();
 
-    // Định nghĩa thứ tự ngày trong tuần (Thứ Hai = 0, Chủ Nhật = 6)
     $daysOfWeek = ['Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy', 'Chủ Nhật'];
 
     // Tạo mảng dữ liệu đầy đủ (mặc định là 0)
@@ -63,7 +65,7 @@ class AdminController extends Controller
     return view('admins.users.home', compact(
         'totaluser', 'pendingOrders', 'totalProducts',
         'totalStocks', 'totalCategories', 'totalProviders',
-        'orderCounts', 'revenueCounts', 'daysOfWeek', 'totalOrdersWeek','totalRevenueWeek'
+        'orderCounts', 'revenueCounts', 'daysOfWeek', 'totalOrdersWeek','totalRevenueWeek', 'totalInput' , 'totalOutput'
     ));
 }
 public function dashboard(Request $request)

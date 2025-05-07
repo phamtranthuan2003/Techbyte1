@@ -49,6 +49,24 @@ Route::put('update/{id}', [ProductControllerr::class, 'update'])->name('update')
 
 Route::delete('delete/{id}', [ProductControllerr::class, 'delete'])->name('delete');
 
+Route::get('input', [ProductControllerr::class, 'input'])->name('input');
+
+Route::post('inputSuccess', [ProductControllerr::class, 'inputSuccess'])->name('inputSuccess');
+
+Route::get('listImputProduct', [ProductControllerr::class, 'listImputProduct'])->name('listImputProduct');
+
+Route::get('editimput/{id}', [ProductControllerr::class, 'editimput'])->name('editimput');
+
+
+Route::put('updateimput/{id}', [ProductControllerr::class, 'updateimput'])->name('updateimput');
+
+
+Route::delete('deleteimput/{id}', [ProductControllerr::class, 'deleteimput'])->name('deleteimput');
+
+Route::post('output/{id}', [ProductControllerr::class, 'output'])->name('output');
+
+Route::get('listoutput', [ProductControllerr::class, 'listoutput'])->name('listoutput');
+
 });
 });
 

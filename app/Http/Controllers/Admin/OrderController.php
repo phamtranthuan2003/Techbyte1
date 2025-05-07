@@ -65,7 +65,7 @@ class OrderController extends Controller
             'orderCancelled' =>Order::where('status', 4)->count(),
         ];
 
-        return view('admins.orders.orderNotPlaced',compact('orders',    'counts'));
+        return view('admins.orders.orderNotPlaced',compact('orders','counts'));
     }
     public function orderComplete()
     {

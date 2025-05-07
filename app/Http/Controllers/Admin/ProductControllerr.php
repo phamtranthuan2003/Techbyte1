@@ -14,8 +14,8 @@ use App\Models\CategoryProduct;
 use App\Models\Images;
 use App\Models\ProductColor;
 use App\Models\ProductVariant;
-
-
+use App\Models\ImputProduct;
+use App\Models\ExportProduct;
 class ProductControllerr extends Controller
 {
     public function create()
@@ -29,17 +29,6 @@ class ProductControllerr extends Controller
 
     public function store(Request $request)
 {
-    // dd(
-    // // Validate dữ liệu
-    // $request->validate([
-    //     'name' => 'required|string|max:255',
-    //     'price' => 'required|numeric|min:0',
-    //     'images' => 'required|array',
-    //     'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-    //     'category_id' => 'required|array',
-    //     'category_id.*' => 'exists:categories,id',
-    //     'provider_id' => 'required|exists:providers,id'
-    // ]);
     $firstImagePath = null;
 
 
@@ -167,15 +156,7 @@ public function update(Request $request, $id)
     }
 
     return redirect()->route('admins.products.list')->with('success', 'Cập nhật sản phẩm thành công');
-}
-
-
-
-
-
-
-
-
+    }
     public function delete($id)
     {
         $product = Product::findOrFail($id);
@@ -194,8 +175,6 @@ public function update(Request $request, $id)
     {   $products = Product::with(['provider', 'categories'])
         ->where('sell', '<', 5)
         ->paginate(10);
-
-
         return view('admins.products.inventory', compact('products'));
     }
     public function updatestatus($id)
@@ -211,5 +190,65 @@ public function update(Request $request, $id)
 
         return redirect()->back()->with('success', 'Cập nhật trạng thái đơn hàng thành công!');
     }
+    public function input()
+    {
+        $providers = Provider::all();
+        return view('admins.products.imput', compact('providers'));
+    }
+    public function inputSuccess(Request $request)
+    {
+        $data = $request->all();
+        ImputProduct::create($data);
+        return redirect()->route('admins.products.list');
+    }
+    public function listImputProduct()
+    {
+        $products = ImputProduct::get();
+        return view('admins.products.listImputProduct', compact('products'));
+    }
+    public function editimput($id)
+    {
+        $product = ImputProduct::findOrFail($id);
+        $providers = Provider::all();
+        return view('admins.products.editImput', compact('product','providers'));
+    }
 
+    public function updateimput(Request $request, $id)
+    {
+        $product = ImputProduct::findOrFail($id);
+        $validatedData = $request->all();
+        $product->update($validatedData);
+        return redirect()->route('admins.products.listImputProduct')->with('success', 'Cập nhật sản phẩm thành công');
+    }
+    public function deleteimput($id)
+    {
+        $products = ImputProduct::findOrFail($id);
+        $products->delete();
+        return redirect()->route('admins.products.listImputProduct')->with('success','');
+        
+    }
+    public function output (Request $request, $id)
+    {
+        $request->validate([
+            'quantity' => 'required|integer|min:1',
+        ]);
+        $product = Product::findOrFail($id);
+        if ($request->quantity > $product->sell) {
+            return back()->with('error', 'Số lượng xuất vượt quá tồn kho!');
+        }
+        $product->sell -= $request->quantity;
+        $product->save();
+        ExportProduct::create([
+            'product_id' => $product->id,
+            'quantity' => $request->quantity,
+            'exported_at' => now(),
+        ]);
+        return back()->with('success', 'Xuất kho thành công!');
+        }
+        public function listoutput()
+        {
+            $exports = ExportProduct::with('product')->latest()->paginate(10);
+            return view('admins.products.listoutput', compact('exports'));
+        }
+    
 }
