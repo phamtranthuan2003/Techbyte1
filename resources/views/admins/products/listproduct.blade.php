@@ -18,6 +18,11 @@
                     <button class="add-btn">➕ Thêm Nhập kho</button>
                 </a>
             </div>
+            <div class="add">
+                <form action="/export-products" method="GET">
+                    <button type="submit">Xuất danh sách hàng tồn kho</button>
+                </form>
+            </div>
 
             <div class="inventory">
                 <a href="{{ route('admins.products.list') }}">
@@ -33,6 +38,7 @@
                     <button class="listExports">Danh sách xuất kho</button>
                 </a>
             </div>
+            
             <table class="table-admin">
                 <thead>
                     <tr>

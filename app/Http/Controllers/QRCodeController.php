@@ -2,27 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Writer\PngWriter;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 class QRCodeController extends Controller
 {
-    public function generateQRCode(Request $request)
+    public function index()
     {
-        $data = $request->input('data');  // Nhận dữ liệu từ yêu cầu
+        return view('qrcode.index');
+    }
 
-        // Tạo mã QR
-        $qrCode = new QrCode($data);  // Khởi tạo mã QR với dữ liệu
+    public function create()
+    {
+        $result = Builder::create()
+            ->writer(new PngWriter())
+            ->data('')
+            ->size(300)
+            ->margin(20)
+            ->build();
 
-        // Tạo QR code thành chuỗi hình ảnh PNG
-        $writer = new PngWriter();
-        $result = $writer->write($qrCode);
+        // Lưu file QR vào thư mục public/qrcodes
+        $filePath = public_path('qrcodes/qrcode.png');
+        File::ensureDirectoryExists(dirname($filePath));
+        file_put_contents($filePath, $result->getString());
 
-        // Trả về mã QR dưới dạng base64
-        return response()->json([
-            'qr_code' => 'data:image/png;base64,' . base64_encode($result->getString())
-        ]);
+        return redirect()->route('qrcode.index')->with('success', 'QR code đã được tạo!');
     }
 }

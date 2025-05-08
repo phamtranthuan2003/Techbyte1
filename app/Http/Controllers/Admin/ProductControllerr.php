@@ -15,7 +15,8 @@ use App\Models\Images;
 use App\Models\ProductColor;
 use App\Models\ProductVariant;
 use App\Models\ImputProduct;
-use App\Models\ExportProduct;
+use App\Models\OutputProduct;
+use Symfony\Component\Console\Output\Output;
 class ProductControllerr extends Controller
 {
     public function create()
@@ -238,7 +239,7 @@ public function update(Request $request, $id)
         }
         $product->sell -= $request->quantity;
         $product->save();
-        ExportProduct::create([
+            OutputProduct::create([
             'product_id' => $product->id,
             'quantity' => $request->quantity,
             'exported_at' => now(),
@@ -247,8 +248,11 @@ public function update(Request $request, $id)
         }
         public function listoutput()
         {
-            $exports = ExportProduct::with('product')->latest()->paginate(10);
-            return view('admins.products.listoutput', compact('exports'));
+            $outputs = OutputProduct::with('product')->latest()->paginate(10);
+            return view('admins.products.listoutput', compact('outputs'));
         }
-    
+        public function export()
+        {
+           
+        }
 }

@@ -6,7 +6,8 @@ use Inertia\Inertia;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\ProductControllerr;
 use App\Http\Controllers\User\ProductController;
-
+use App\Imports\ProductImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
@@ -241,6 +242,8 @@ use App\Http\Controllers\Admin\CapacityController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\PromotionController;
+use App\Http\Controllers\ExportProductController;
+use App\Models\ExportProduct;
 
 Route::prefix('admins')->name('admins.')->group(function () {
 
@@ -291,3 +294,6 @@ Route::prefix('admins')->name('admins.')->group(function () {
 
     });
 });
+        Route::get('/export', 'ExportProductController@export');
+        Route::get('/export-products', [ExportProductController::class, 'export']);
+        

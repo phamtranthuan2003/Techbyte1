@@ -17,6 +17,9 @@
         <a href="{{ route('admins.products.input') }}">
             <button class="add-btn">➕ Thêm Nhập kho</button>
         </a>
+        <a href="">
+            <button class="add-btn">➕  Quét mã </button>
+        </a>
     </div>
 
     <div class="inventory">

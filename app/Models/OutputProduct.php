@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ExportProduct extends Model
+class OutputProduct extends Model
 {
     protected $table = 'output_products';
 

@@ -43,19 +43,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($exports as $export)
+                    @foreach($outputs as $output)
                         <tr>
-                            <td>{{ $export->id }}</td>
-                            <td>{{ $export->product->name ?? 'N/A' }}</td>
-                            <td>{{ $export->quantity }}</td>
-                            <td>{{ \Carbon\Carbon::parse($export->exported_at)->format('d/m/Y H:i') }}</td>
+                            <td>{{ $output->id }}</td>
+                            <td>{{ $output->product->name ?? 'N/A' }}</td>
+                            <td>{{ $output->quantity }}</td>
+                            <td>{{ \Carbon\Carbon::parse($output->exported_at)->format('d/m/Y H:i') }}</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-                    {{-- <div class="pagination-container">
-                        {{ $products->links('pagination::bootstrap-4') }}
-                    </div> --}}
         </div>
     </div>
 
