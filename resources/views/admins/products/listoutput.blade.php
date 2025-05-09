@@ -21,10 +21,10 @@
 
             <div class="inventory">
                 <a href="{{ route('admins.products.list') }}">
-                    <button class="inventory"> Sản phẩm hiện có</button>
+                    <button class="inventory"> Sản phẩm hiện có ({{$totalmCount}})</button>
                 </a>
                 <a href="{{ route('admins.products.inventory') }}">
-                    <button class="inventory">Sản phẩm cần bổ sung</button>
+                    <button class="inventory">Sản phẩm cần bổ sung ({{$totalCount}})</button>
                 </a>
                 <a href="{{ route('admins.products.listImputProduct') }}">
                     <button class="listImputProduct">Danh sách nhập kho</button>

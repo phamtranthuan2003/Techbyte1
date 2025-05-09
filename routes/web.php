@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\AdminMiddleware; // Ensure you import your middleware
+use App\Http\Controllers\Admin\UserControllerr;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,7 +32,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 
 
-Route::prefix('admins')->name('admins.')->group(function () {
+Route::prefix('admins')->name('admins.')->middleware(AdminMiddleware::class)->group(function () {
 Route::prefix('products')->name('products.')->group(function () {
 Route::get('list', [ProductControllerr::class, 'listproduct'])->name('list');
 Route::get('inventory', [ProductControllerr::class, 'inventory'])->name('inventory');
@@ -102,7 +104,7 @@ Route::prefix('users')->name('users.')->group(function () {
 });
 
 use App\Http\Controllers\Admin\ProviderController;
-Route::prefix('admins')->name('admins.')->group(function () {
+Route::prefix('admins')->name('admins.')->middleware(AdminMiddleware::class)->group(function () {
 Route::prefix('providers')->name('providers.')->group(function () {
 
     Route::get('create', [ProviderController::class, 'create'])->name('create');
@@ -123,20 +125,15 @@ Route::prefix('providers')->name('providers.')->group(function () {
 });
 });
 
-
-use App\Http\Controllers\Admin\UserControllerr;
-    Route::prefix('admins')->name('admins.')->group(function () {
+Route::prefix('admins')->name('admins.')->middleware(AdminMiddleware::class)->group(function () {
     Route::prefix('users')->name('users.')->group(function () {
-
-
-    Route::get('list', [UserControllerr::class, 'list'])->name('list');
-
-    Route::delete('deleteuser/{id}', [UserControllerr::class, 'deleteuser'])->name('deleteuser');
-});
+        Route::get('list', [UserControllerr::class, 'list'])->name('list');
+        Route::delete('deleteuser/{id}', [UserControllerr::class, 'deleteuser'])->name('deleteuser');
+    });
 });
 
 use App\Http\Controllers\Admin\OrderController;
-    Route::prefix('admins')->name('admins.')->group(function () {
+    Route::prefix('admins')->name('admins.')->middleware(AdminMiddleware::class)->group(function () {
     Route::prefix('orders')->name('orders.')->group(function () {
 
 
@@ -170,7 +167,7 @@ use App\Http\Controllers\User\OrderControllerr;
 
 
 use App\Http\Controllers\Admin\CategoryControllerr;
-Route::prefix('admins')->name('admins.')->group(function () {
+Route::prefix('admins')->name('admins.')->middleware(AdminMiddleware::class)->group(function () {
 Route::prefix('categories')->name('categories.')->group(function () {
 
     Route::get('create', [CategoryControllerr::class, 'create'])->name('create');
@@ -245,7 +242,7 @@ use App\Http\Controllers\Admin\PromotionController;
 use App\Http\Controllers\ExportProductController;
 use App\Models\ExportProduct;
 
-Route::prefix('admins')->name('admins.')->group(function () {
+Route::prefix('admins')->name('admins.')->middleware(AdminMiddleware::class)->group(function () {
 
     Route::get('home', [AdminController::class, 'home'])->name('home');
 
@@ -254,7 +251,7 @@ Route::prefix('admins')->name('admins.')->group(function () {
     Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 });
 
-Route::prefix('admins')->name('admins.')->group(function () {
+Route::prefix('admins')->name('admins.')->middleware(AdminMiddleware::class)->group(function () {
     Route::prefix('capacities')->name('capacities.')->group(function () {
     Route::get('create', [CapacityController::class, 'create'])->name('create');
     Route::post('store', [CapacityController::class, 'store'])->name('store');
@@ -266,7 +263,7 @@ Route::prefix('admins')->name('admins.')->group(function () {
 });
 });
 
-Route::prefix('admins')->name('admins.')->group(function () {
+Route::prefix('admins')->name('admins.')->middleware(AdminMiddleware::class)->group(function () {
     Route::prefix('colors')->name('colors.')->group(function () {
     Route::get('create', [ColorController::class, 'create'])->name('create');
     Route::post('store', [ColorController::class, 'store'])->name('store');
@@ -276,7 +273,7 @@ Route::prefix('admins')->name('admins.')->group(function () {
     Route::delete('delete/{id}', [ColorController::class, 'delete'])->name('delete');
 });
 });
-Route::prefix('admins')->name('admins.')->group(function () {
+Route::prefix('admins')->name('admins.')->middleware(AdminMiddleware::class)->group(function () {
     Route::prefix('promotions')->name('promotions.')->group(function () {
         Route::get('create', [PromotionController::class, 'create'])->name('create');
         Route::get('list', [PromotionController::class, 'list'])->name('list');
@@ -287,7 +284,7 @@ Route::prefix('admins')->name('admins.')->group(function () {
 
     });
 });
-Route::prefix('admins')->name('admins.')->group(function () {
+Route::prefix('admins')->name('admins.')->middleware(AdminMiddleware::class)->group(function () {
     Route::prefix('posts')->name('posts.')->group(function () {
         Route::get('create', [PostController::class, 'create'])->name('create');
         Route::get('list', [PostController::class, 'list'])->name('list');

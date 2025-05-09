@@ -53,8 +53,12 @@ public function capacities()
 {
     return $this->belongsToMany(ProductCapacity::class, 'color_capacity_product', 'product_id', 'capacity_id')->distinct();
 }
-
-
+protected static function booted()
+{
+    static::creating(function ($product) {
+        $lastId = Product::max('id') + 1;
+        $product->product_code = 'PROD-' . str_pad($lastId, 6, '0', STR_PAD_LEFT);
+    });
 }
 
-
+}

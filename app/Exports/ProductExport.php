@@ -29,6 +29,7 @@ class ProductExport implements FromCollection, WithHeadings
             'Sell',
             'Created At',
             'Updated At',
+            'product_code',
         ];
     }
 }

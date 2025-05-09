@@ -167,16 +167,27 @@ public function update(Request $request, $id)
     }
     public function listproduct()
     {
-        $products = Product::with(['provider', 'categories'])
-        ->where('sell', '>', 5)
-        ->paginate(10);
-        return view('admins.products.listproduct', compact('products'));
+        $query = Product::with(['provider', 'categories'])
+                ->where('sell', '<', 5);
+        $querym = Product::with(['provider', 'categories'])
+        ->where('sell', '>', 5);
+        $products = $querym->paginate(10);
+        $totalCount = $query->getQuery()->count();
+        $totalmCount = $querym->getQuery()->count();
+        return view('admins.products.listproduct', compact('products', 'totalCount', 'totalmCount'));
     }
     public function inventory()
-    {   $products = Product::with(['provider', 'categories'])
-        ->where('sell', '<', 5)
-        ->paginate(10);
-        return view('admins.products.inventory', compact('products'));
+    {
+        $query = Product::with(['provider', 'categories'])
+                ->where('sell', '<', 5);
+        $querym = Product::with(['provider', 'categories'])
+        ->where('sell', '>', 5);
+        $products = $query->paginate(10);
+        $totalCount = $query->getQuery()->count();
+        $totalmCount = $querym->getQuery()->count();
+
+
+        return view('admins.products.inventory', compact('products', 'totalCount', 'totalmCount'));
     }
     public function updatestatus($id)
     {
@@ -204,8 +215,15 @@ public function update(Request $request, $id)
     }
     public function listImputProduct()
     {
-        $products = ImputProduct::get();
-        return view('admins.products.listImputProduct', compact('products'));
+        $Imputproducts = ImputProduct::get();
+        $query = Product::with(['provider', 'categories'])
+                ->where('sell', '<', 5);
+        $querym = Product::with(['provider', 'categories'])
+        ->where('sell', '>', 5);
+        $products = $querym->paginate(10);
+        $totalCount = $query->getQuery()->count();
+        $totalmCount = $querym->getQuery()->count();
+        return view('admins.products.listImputProduct', compact('products', 'Imputproducts', 'totalCount', 'totalmCount'));
     }
     public function editimput($id)
     {
@@ -249,7 +267,14 @@ public function update(Request $request, $id)
         public function listoutput()
         {
             $outputs = OutputProduct::with('product')->latest()->paginate(10);
-            return view('admins.products.listoutput', compact('outputs'));
+            $query = Product::with(['provider', 'categories'])
+                ->where('sell', '<', 5);
+            $querym = Product::with(['provider', 'categories'])
+            ->where('sell', '>', 5);
+            $products = $querym->paginate(10);
+            $totalCount = $query->getQuery()->count();
+            $totalmCount = $querym->getQuery()->count();
+                return view('admins.products.listoutput', compact('outputs', 'products', 'totalCount', 'totalmCount'));
         }
         public function export()
         {

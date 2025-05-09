@@ -75,7 +75,10 @@
                         <h3 class="text-2xl font-bold text-gray-900">{{ $product->name }}</h3>
                         <p class="text-red-500 font-bold mt-2 text-xl">{{ number_format($product->price, 0, ',', '.') }} VNĐ</p>
                         <p class="text-gray-600">Còn lại: {{ $product->sell }}</p>
+
                     </div>
+                    {!! DNS1D::getBarcodeHTML($product->product_code, 'C128') !!}
+                    {{dump($product->product_code)}}
                     <div class="mt-4">
                         @if($product->sell < 0)
                             <p class="text-red-500 font-semibold">Sản phẩm này hiện đang hết hàng</p>
