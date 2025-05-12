@@ -38,9 +38,10 @@
                 <th>Hình thức thanh toán</th>
                 <th>Chi tiết đơn hàng</th>
                 <th>update đơn hàng</th>
-
+                <th>In hóa đon</th>
+            </tr>
         </thead>
-        <tbody>
+        <div>
         @foreach ($orders as $order)
             <tr>
                 <td>{{$order->id }}</td>
@@ -89,38 +90,40 @@
                         </button>
                     </form>
                 </td>
-                </button>
+                <td>
+                    <form action="{{ route('admins.orders.printInvoice', ['id' => $order->id]) }}" method="GET">
+                        @csrf
+                        <button type="submit" class="print-invoice">In hóa đơn</button>
+                    </form>
                 </td>
             </tr>
         @endforeach
 
 
-        </tbody>
+        </div>
     </table>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const searchInput = document.getElementById("searchInput");
-            const tableRows = document.querySelectorAll(".table-admin tbody tr");
+</x-app-layout>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("searchInput");
+        const tableRows = document.querySelectorAll(".table-admin tbody tr");
 
-            searchInput.addEventListener("keyup", function () {
-                const searchText = searchInput.value.toLowerCase();
+        searchInput.addEventListener("keyup", function () {
+            const searchText = searchInput.value.toLowerCase();
 
-                tableRows.forEach(row => {
-                    const cells = row.querySelectorAll("td");
-                    let found = false;
+            tableRows.forEach(row => {
+                const cells = row.querySelectorAll("td");
+                let found = false;
 
-                    cells.forEach(cell => {
-                        if (cell.textContent.toLowerCase().includes(searchText)) {
-                            found = true;
-                        }
-                    });
-
-                    row.style.display = found ? "" : "none";
+                cells.forEach(cell => {
+                    if (cell.textContent.toLowerCase().includes(searchText)) {
+                        found = true;
+                    }
                 });
+
+                row.style.display = found ? "" : "none";
             });
         });
-    </script>
-
-</x-app-layout>
-
+    });
+</script>
 

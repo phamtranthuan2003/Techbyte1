@@ -23,7 +23,18 @@
                     <button type="submit">Xuất danh sách hàng tồn kho</button>
                 </form>
             </div>
+            <div>
+                <span>Có {{ $oldproducts->count() }} sản phẩm chậm luân chuyển
+                    <a href="#" onclick="toggleDetails()">Chi tiết</a>
+                </span>
 
+                {{-- Danh sách chi tiết (ẩn/hiện nếu muốn) --}}
+                <ul id="old-products-detail" style="display: none; margin-top: 10px;">
+                    @foreach ($oldproducts as $product)
+                        <li>{{ $product->name }} - Còn lại: {{ $product->sell }} sản phẩm - Chậm luân chuyển {{ $product->days_since_created }} ngày</li>
+                    @endforeach
+                </ul>
+            </div>
             <div class="inventory">
                 <a href="{{ route('admins.products.list') }}">
                     <button class="inventory"> Sản phẩm hiện có ({{$totalmCount}})</button>
@@ -108,6 +119,10 @@
                 row.style.display = found ? "" : "none";
             });
         });
+         function toggleDetails() {
+        const detail = document.getElementById('old-products-detail');
+        detail.style.display = detail.style.display === 'none' ? 'block' : 'none';
+        }
     </script>
     <style>
         .inventory {

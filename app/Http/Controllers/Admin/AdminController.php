@@ -70,30 +70,13 @@ class AdminController extends Controller
         ));
     }
     public function dashboard(Request $request)
-    {
-        $startDate = $request->input('start_date') ?? now()->startOfWeek()->toDateString();
-        $endDate = $request->input('end_date') ?? now()->endOfWeek()->toDateString();
-
-        $query = Order::whereBetween('created_at', [$startDate, $endDate]);
-
-        $totalOrdersInRange = $query->count();
-        $totalRevenueInRange = $query->sum('total_price');
-
-        // Dữ liệu khác
-        return view('admins.dashboard', [
-            'startDate' => $startDate,
-            'endDate' => $endDate,
-            'totalOrdersRange' => $totalOrdersInRange,
-            'totalRevenueRange' => $totalRevenueInRange,
-
-            // Các dữ liệu thống kê khác
-            'totaluser' => User::count(),
-            'pendingOrders' => Order::where('status', 'pending')->count(),
-            'totalProducts' => Product::count(),
-            'totalStocks' => Product::sum('stock'),
-            'totalCategories' => Category::count(),
-            'totalProviders' => Provider::count(),
-        ]);
+    {   
+        $startdate = $request->input('start_date');
+        $enddate = $request->input('end_date');
+        $order = Order::whereBetween('created_at', [$startdate, $enddate])->get();
+        $totalOrders = Order::whereBetween('created_at', [$startdate, $enddate])->count();
+        $totalRevenue = Order::whereBetween('created_at', [$startdate, $enddate])->sum('price');
+        return view('admins.users.home');
     }
     public function logout(Request $request)
     {

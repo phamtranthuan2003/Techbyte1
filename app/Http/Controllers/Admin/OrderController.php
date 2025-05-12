@@ -93,4 +93,8 @@ class OrderController extends Controller
 
         return view('admins.orders.orderCancelled', compact('orders', 'counts'));
     }
+    public function printInvoice()
+    {
+        dd(1);
+    }
 }

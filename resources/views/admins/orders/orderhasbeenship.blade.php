@@ -37,7 +37,8 @@
                 <th>Số Điện Thoại</th>
                 <th>Hình thức thanh toán</th>
                 <th>Chi tiết đơn hàng</th>
-                <th>update đơn hàng</th>
+                <th>Update đơn hàng</th>
+                <th>In hóa đon</th>
 
         </thead>
         <tbody>
@@ -74,6 +75,12 @@
                         <button type="submit" class="updatestatus">
                             <i class="fas fa-arrow-right"></i>
                         </button>
+                    </form>
+                </td>
+                <td>
+                    <form action="{{ route('admins.orders.printInvoice', ['id' => $order->id]) }}" method="GET">
+                        @csrf
+                        <button type="submit" class="print-invoice">In hóa đơn</button>
                     </form>
                 </td>
             </tr>

@@ -7,10 +7,10 @@
         </header>
         <form action="{{ route('admins.dashboard') }}" method="GET" class="filter-container">
             <label for="startDate">Từ ngày:</label>
-            <input type="date" id="startDate" name="start_date" value="{{ request('start_date') }}">
+            <input type="date" id="startDate" name="start_date" value="{{ request('start_date') }}" required>
 
             <label for="endDate">Đến ngày:</label>
-            <input type="date" id="endDate" name="end_date" value="{{ request('end_date') }}">
+            <input type="date" id="endDate" name="end_date" value="{{ request('end_date') }}" required>
 
             <button type="submit">Lọc dữ liệu</button>
         </form>

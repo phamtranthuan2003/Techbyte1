@@ -17,6 +17,7 @@ use App\Models\ProductVariant;
 use App\Models\ImputProduct;
 use App\Models\OutputProduct;
 use Symfony\Component\Console\Output\Output;
+use Carbon\Carbon;
 class ProductControllerr extends Controller
 {
     public function create()
@@ -167,14 +168,24 @@ public function update(Request $request, $id)
     }
     public function listproduct()
     {
+       $oneMonthAgo = Carbon::now()->subMonth();
+
         $query = Product::with(['provider', 'categories'])
-                ->where('sell', '<', 5);
+                        ->where('sell', '<', 5);
+
         $querym = Product::with(['provider', 'categories'])
-        ->where('sell', '>', 5);
+                        ->where('sell', '>', 5);
         $products = $querym->paginate(10);
-        $totalCount = $query->getQuery()->count();
+        $totalCount = $query->count();
         $totalmCount = $querym->getQuery()->count();
-        return view('admins.products.listproduct', compact('products', 'totalCount', 'totalmCount'));
+        $oldproducts = Product::select('name', 'sell', 'created_at')
+                            ->where('created_at', '<', $oneMonthAgo)
+                            ->get()
+                            ->map(function ($product) {
+        $product->days_since_created = round($product->created_at->diffInDays(now()));
+        return $product;
+    });
+        return view('admins.products.listproduct', compact('products', 'totalCount', 'totalmCount','oldproducts'));
     }
     public function inventory()
     {

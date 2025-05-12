@@ -154,6 +154,8 @@ use App\Http\Controllers\Admin\OrderController;
     Route::post('/changestatus/{id}', [OrderController::class, 'changestatus'])->name('changestatus');
 
     Route::post('updatestatus/{id}', [ProductControllerr::class, 'updatestatus'])->name('updatestatus');
+
+    Route::get('printInvoice/{id}', [OrderController::class, 'printInvoice'])->name('printInvoice');
 });
 });
 use App\Http\Controllers\User\OrderControllerr;

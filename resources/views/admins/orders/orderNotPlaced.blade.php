@@ -37,6 +37,7 @@
                         <th>Số Điện Thoại</th>
                         <th>Trạng thái</th>
                         <th>Chức năng</th>
+                        <th>In hóa đon</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,6 +69,12 @@
                                     @csrf
                                     <input type="hidden" name="status" value="{{ $order->status + 1 }}">
                                     <button type="submit" class="delete-btn">🗑 Xóa</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form action="{{ route('admins.orders.printInvoice', ['id' => $order->id]) }}" method="GET">
+                                    @csrf
+                                    <button type="submit" class="print-invoice">In hóa đơn</button>
                                 </form>
                             </td>
                         </tr>
