@@ -81,6 +81,6 @@ class AdminController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect()->route('users.login')->with('success', 'Đăng xuất thành công'); 
+        return redirect()->route('users.login');
     }
 }
