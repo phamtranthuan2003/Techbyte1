@@ -77,8 +77,7 @@
                         <p class="text-gray-600">Còn lại: {{ $product->sell }}</p>
 
                     </div>
-                    {!! DNS1D::getBarcodeHTML($product->product_code, 'C128') !!}
-                    {{dump($product->product_code)}}
+                    {{-- {!! DNS1D::getBarcodeHTML($product->product_code, 'C128') !!} --}}
                     <div class="mt-4">
                         @if($product->sell < 0)
                             <p class="text-red-500 font-semibold">Sản phẩm này hiện đang hết hàng</p>

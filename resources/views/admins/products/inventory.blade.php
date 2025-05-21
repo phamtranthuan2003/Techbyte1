@@ -13,11 +13,11 @@
                     <button class="add-btn">➕ Thêm sản phẩm</button>
                 </a>
             </div>
-            <div class="add">
+            {{-- <div class="add">
                 <a href="{{ route('admins.products.input') }}">
                     <button class="add-btn">➕ Thêm Nhập kho</button>
                 </a>
-            </div>
+            </div> --}}
             <div class="inventory">
                 <a href="{{ route('admins.products.list') }}">
                     <button class="inventory"> Sản phẩm hiện có ({{$totalmCount}})</button>

@@ -56,7 +56,7 @@
         <h2 class="text-2xl font-semibold text-center mb-6">Thông Tin Liên Hệ</h2>
         <div class="grid md:grid-cols-2 gap-6">
             <div>
-                <p><i class="fa-solid fa-phone text-red-600"></i> <strong>Số điện thoại:</strong> 0876 386 369</p>
+                <p><i class="fa-solid fa-phone text-red-600"></i> <strong>Số điện thoại:</strong> 086 259 2507</p>
                 <p><i class="fa-solid fa-envelope text-blue-600"></i> <strong>Email:</strong> phamtranthuan2003@gmail.com</p>
                 <p><i class="fa-solid fa-map-marker-alt text-green-600"></i> <strong>Địa chỉ:</strong> Đại Học Tài Nguyên Và Môi Trường Hà Nội</p>
             </div>

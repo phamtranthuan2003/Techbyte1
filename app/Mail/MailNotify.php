@@ -38,5 +38,4 @@ class MailNotify extends Mailable
                 ->view('mails.mail-notify')
                 ->with(['data' => $this->data]);
     }
-
 }

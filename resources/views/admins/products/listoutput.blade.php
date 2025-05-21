@@ -13,11 +13,11 @@
                     <button class="add-btn">➕ Thêm sản phẩm</button>
                 </a>
             </div>
-            <div class="add">
+            {{-- <div class="add">
                 <a href="{{ route('admins.products.input') }}">
                     <button class="add-btn">➕ Thêm Nhập kho</button>
                 </a>
-            </div>
+            </div> --}}
 
             <div class="inventory">
                 <a href="{{ route('admins.products.list') }}">
@@ -40,6 +40,7 @@
                         <th>Sản phẩm</th>
                         <th>Số lượng</th>
                         <th>Thời gian xuất</th>
+                        {{-- <th>In hóa đơn</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -49,6 +50,11 @@
                             <td>{{ $output->product->name ?? 'N/A' }}</td>
                             <td>{{ $output->quantity }}</td>
                             <td>{{ \Carbon\Carbon::parse($output->exported_at)->format('d/m/Y H:i') }}</td>
+                            {{-- <td>
+                                <a href="" target="_blank">
+                                    <button class="export-invoice-btn">In hóa đơn</button>
+                                </a>
+                            </td> --}}
                         </tr>
                     @endforeach
                 </tbody>

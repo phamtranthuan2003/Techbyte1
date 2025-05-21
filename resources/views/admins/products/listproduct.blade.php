@@ -13,11 +13,11 @@
                     <button class="add-btn">➕ Thêm sản phẩm</button>
                 </a>
             </div>
-            <div class="add">
+            {{-- <div class="add">
                 <a href="{{ route('admins.products.input') }}">
                     <button class="add-btn">➕ Thêm Nhập kho</button>
                 </a>
-            </div>
+            </div> --}}
             <div class="add">
                 <form action="/export-products" method="GET">
                     <button type="submit">Xuất danh sách hàng tồn kho</button>

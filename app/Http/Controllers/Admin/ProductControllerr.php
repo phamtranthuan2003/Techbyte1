@@ -167,8 +167,8 @@ public function update(Request $request, $id)
 
     }
     public function listproduct()
-    {
-       $oneMonthAgo = Carbon::now()->subMonth();
+{
+  $oneMonthAgo = Carbon::now()->subMonth();
 
         $query = Product::with(['provider', 'categories'])
                         ->where('sell', '<', 5);

@@ -35,10 +35,11 @@
                 <li><a href="{{ route('admins.promotions.list') }}">  Quản lí khuyễn mãi</a></li>
                 {{-- <li><a href="{{ route('admins.posts.list') }}">  Quản lí bài viết</a></li> --}}
                 <li>
-                    <form action="{{ route('admins.logout') }}" method="post">
-                        @csrf
-                        <button type="submit" class="underline text-black px-4 py-2 rounded-lg">🚪 Đăng xuất</button>
+                    <form id="logout-form" action="{{ route('admins.logout') }}" method="POST">
+                    @csrf
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="menu-item">🚪 Đăng xuất</a>
                     </form>
+
                 </li>
             </ul>
         </div>
@@ -48,6 +49,5 @@
             <footer>
             </footer>
         @livewireScripts
-
     </body>
 </html>
